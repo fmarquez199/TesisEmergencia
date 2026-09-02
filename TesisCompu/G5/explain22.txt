@@ -1,0 +1,988 @@
+SET
+                                                                                                                QUERY PLAN                                                                                                                 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=761.64..762.14 rows=200 width=72) (actual time=541.575..541.576 rows=7 loops=1)
+   Sort Key: remote_scan.cntrycode
+   Sort Method: quicksort  Memory: 25kB
+   ->  HashAggregate  (cost=750.00..754.00 rows=200 width=72) (actual time=541.508..541.513 rows=7 loops=1)
+         Group Key: remote_scan.cntrycode
+         Batches: 1  Memory Usage: 40kB
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=72) (actual time=541.399..541.417 rows=224 loops=1)
+               ->  Distributed Subplan 1_1
+                     Subplan Duration: 294.46 ms
+                     Intermediate Data Size: 24 bytes
+                     Result destination: Send to 2 nodes
+                     ->  Aggregate  (cost=500.00..500.02 rows=1 width=32) (actual time=153.114..153.115 rows=1 loops=1)
+                           ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=40) (actual time=153.073..153.078 rows=32 loops=1)
+                                 Task Count: 32
+                                 Tuple data received from nodes: 704 bytes
+                                 Tasks Shown: All
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1190.40..1190.41 rows=1 width=40) (actual time=104.622..104.622 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102164 customer  (cost=0.00..1186.66 rows=749 width=6) (actual time=0.049..102.991 rows=6042 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17602
+                                           Planning Time: 0.250 ms
+                                           Execution Time: 104.673 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1171.85..1171.86 rows=1 width=40) (actual time=102.497..102.498 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102166 customer  (cost=0.00..1168.15 rows=739 width=6) (actual time=0.054..100.919 rows=5892 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17390
+                                           Planning Time: 0.151 ms
+                                           Execution Time: 102.536 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1186.20..1186.21 rows=1 width=40) (actual time=100.395..100.395 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102150 customer  (cost=0.00..1182.45 rows=750 width=6) (actual time=0.063..98.793 rows=5916 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17644
+                                           Planning Time: 0.146 ms
+                                           Execution Time: 100.429 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1181.44..1181.45 rows=1 width=40) (actual time=92.436..92.437 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102152 customer  (cost=0.00..1177.69 rows=748 width=6) (actual time=0.046..84.816 rows=5878 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17577
+                                           Planning Time: 0.155 ms
+                                           Execution Time: 92.473 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1167.06..1167.07 rows=1 width=40) (actual time=91.372..91.373 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102163 customer  (cost=0.00..1163.37 rows=736 width=6) (actual time=0.018..89.952 rows=5786 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17352
+                                           Planning Time: 0.081 ms
+                                           Execution Time: 91.396 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1181.33..1181.34 rows=1 width=40) (actual time=89.470..89.471 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102142 customer  (cost=0.00..1177.59 rows=748 width=6) (actual time=0.068..84.673 rows=5913 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17538
+                                           Planning Time: 0.233 ms
+                                           Execution Time: 89.523 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1183.19..1183.20 rows=1 width=40) (actual time=89.164..89.164 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102155 customer  (cost=0.00..1179.45 rows=746 width=6) (actual time=0.022..81.680 rows=5988 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17496
+                                           Planning Time: 0.082 ms
+                                           Execution Time: 89.188 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1181.96..1181.97 rows=1 width=40) (actual time=88.866..88.866 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102160 customer  (cost=0.00..1178.22 rows=747 width=6) (actual time=0.035..84.066 rows=5940 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17535
+                                           Planning Time: 0.218 ms
+                                           Execution Time: 88.919 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1185.26..1185.27 rows=1 width=40) (actual time=87.942..87.943 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102144 customer  (cost=0.00..1181.51 rows=750 width=6) (actual time=0.061..80.191 rows=6052 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17472
+                                           Planning Time: 0.183 ms
+                                           Execution Time: 87.990 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1167.70..1167.71 rows=1 width=40) (actual time=86.717..86.718 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102168 customer  (cost=0.00..1164.00 rows=740 width=6) (actual time=0.047..81.933 rows=5906 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17294
+                                           Planning Time: 0.220 ms
+                                           Execution Time: 86.770 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1179.64..1179.65 rows=1 width=40) (actual time=86.312..86.313 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102167 customer  (cost=0.00..1175.91 rows=747 width=6) (actual time=0.019..84.886 rows=5887 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17538
+                                           Planning Time: 0.081 ms
+                                           Execution Time: 86.335 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1190.50..1190.51 rows=1 width=40) (actual time=82.328..82.329 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102154 customer  (cost=0.00..1186.74 rows=752 width=6) (actual time=0.039..80.687 rows=6123 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17486
+                                           Planning Time: 0.152 ms
+                                           Execution Time: 82.367 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1181.29..1181.30 rows=1 width=40) (actual time=75.171..75.172 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102169 customer  (cost=0.00..1177.56 rows=745 width=6) (actual time=0.017..73.694 rows=5915 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17535
+                                           Planning Time: 0.082 ms
+                                           Execution Time: 75.196 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1183.06..1183.07 rows=1 width=40) (actual time=67.475..67.476 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102141 customer  (cost=0.00..1179.32 rows=747 width=6) (actual time=0.052..65.977 rows=6074 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17405
+                                           Planning Time: 0.090 ms
+                                           Execution Time: 67.514 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1179.37..1179.38 rows=1 width=40) (actual time=55.053..55.054 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102146 customer  (cost=0.00..1175.64 rows=744 width=6) (actual time=0.012..53.581 rows=5978 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17437
+                                           Planning Time: 0.098 ms
+                                           Execution Time: 55.079 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1171.96..1171.97 rows=1 width=40) (actual time=54.238..54.239 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102153 customer  (cost=0.00..1168.26 rows=740 width=6) (actual time=0.018..52.763 rows=6063 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17223
+                                           Planning Time: 0.091 ms
+                                           Execution Time: 54.266 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1159.78..1159.79 rows=1 width=40) (actual time=45.278..45.279 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102145 customer  (cost=0.00..1156.12 rows=732 width=6) (actual time=0.008..40.803 rows=5891 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17123
+                                           Planning Time: 0.095 ms
+                                           Execution Time: 45.306 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1189.21..1189.22 rows=1 width=40) (actual time=44.610..44.611 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102140 customer  (cost=0.00..1185.45 rows=751 width=6) (actual time=0.068..42.588 rows=5966 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17632
+                                           Planning Time: 0.180 ms
+                                           Execution Time: 44.658 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1179.03..1179.04 rows=1 width=40) (actual time=38.219..38.219 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102165 customer  (cost=0.00..1175.30 rows=745 width=6) (actual time=0.021..36.824 rows=5927 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17475
+                                           Planning Time: 0.091 ms
+                                           Execution Time: 38.244 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1178.86..1178.87 rows=1 width=40) (actual time=36.391..36.392 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102149 customer  (cost=0.00..1175.14 rows=742 width=6) (actual time=0.010..34.939 rows=5896 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17500
+                                           Planning Time: 0.096 ms
+                                           Execution Time: 36.416 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1194.10..1194.11 rows=1 width=40) (actual time=32.435..32.436 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102139 customer  (cost=0.00..1190.31 rows=757 width=6) (actual time=0.055..30.939 rows=6058 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17649
+                                           Planning Time: 0.143 ms
+                                           Execution Time: 32.473 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1181.11..1181.12 rows=1 width=40) (actual time=31.893..31.894 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102151 customer  (cost=0.00..1177.38 rows=746 width=6) (actual time=0.014..30.392 rows=6006 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17437
+                                           Planning Time: 0.082 ms
+                                           Execution Time: 31.915 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1183.51..1183.52 rows=1 width=40) (actual time=31.256..31.257 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102143 customer  (cost=0.00..1179.77 rows=747 width=6) (actual time=0.029..29.792 rows=5931 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17565
+                                           Planning Time: 0.091 ms
+                                           Execution Time: 31.290 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1173.94..1173.95 rows=1 width=40) (actual time=30.593..30.594 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102148 customer  (cost=0.00..1170.23 rows=742 width=6) (actual time=0.014..27.017 rows=5947 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17338
+                                           Planning Time: 0.098 ms
+                                           Execution Time: 30.618 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1179.68..1179.69 rows=1 width=40) (actual time=30.430..30.431 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102159 customer  (cost=0.00..1175.96 rows=744 width=6) (actual time=0.008..29.065 rows=5784 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17643
+                                           Planning Time: 0.091 ms
+                                           Execution Time: 30.456 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1182.64..1182.65 rows=1 width=40) (actual time=28.293..28.293 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102147 customer  (cost=0.00..1178.90 rows=748 width=6) (actual time=0.013..26.823 rows=6064 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17437
+                                           Planning Time: 0.092 ms
+                                           Execution Time: 28.317 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1186.68..1186.69 rows=1 width=40) (actual time=28.015..28.015 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102170 customer  (cost=0.00..1182.92 rows=751 width=6) (actual time=0.024..26.826 rows=5933 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17645
+                                           Planning Time: 0.077 ms
+                                           Execution Time: 28.037 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1179.31..1179.32 rows=1 width=40) (actual time=27.776..27.777 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102156 customer  (cost=0.00..1175.59 rows=743 width=6) (actual time=0.008..26.380 rows=6011 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17402
+                                           Planning Time: 0.081 ms
+                                           Execution Time: 27.799 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1183.20..1183.21 rows=1 width=40) (actual time=26.490..26.491 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102157 customer  (cost=0.00..1179.45 rows=748 width=6) (actual time=0.015..25.096 rows=5896 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17588
+                                           Planning Time: 0.088 ms
+                                           Execution Time: 26.514 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1180.77..1180.78 rows=1 width=40) (actual time=19.958..19.959 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102162 customer  (cost=0.00..1177.04 rows=747 width=6) (actual time=0.007..18.921 rows=6047 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17383
+                                           Planning Time: 0.090 ms
+                                           Execution Time: 19.981 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.58 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1180.80..1180.81 rows=1 width=40) (actual time=13.351..13.352 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102158 customer  (cost=0.00..1177.06 rows=747 width=6) (actual time=0.012..12.643 rows=5888 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17543
+                                           Planning Time: 0.077 ms
+                                           Execution Time: 13.374 ms
+                                 ->  Task
+                                       Tuple data received from node: 22 bytes
+                                       Node: host=192.168.1.19 port=5432 dbname=tpch
+                                       ->  Aggregate  (cost=1185.08..1185.09 rows=1 width=40) (actual time=13.257..13.257 rows=1 loops=1)
+                                             ->  Seq Scan on customer_102161 customer  (cost=0.00..1181.35 rows=746 width=6) (actual time=0.013..12.546 rows=6021 loops=1)
+                                                   Filter: ((c_acctbal > 0.00) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 17497
+                                           Planning Time: 0.069 ms
+                                           Execution Time: 13.275 ms
+                     Planning Time: 0.000 ms
+                     Execution Time: 153.172 ms
+               Task Count: 32
+               Tuple data received from nodes: 5374 bytes
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9576.67..9579.53 rows=104 width=72) (actual time=337.766..338.178 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.105..0.105 rows=1 loops=1)
+                           ->  Sort  (cost=9576.67..9576.93 rows=104 width=38) (actual time=337.679..337.777 rows=1004 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 64kB
+                                 ->  Hash Right Anti Join  (cost=1181.43..9573.18 rows=104 width=38) (actual time=336.302..337.106 rows=1004 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102110 on orders_by_customer_102110 orders_by_customer  (cost=0.42..6166.70 rows=233102 width=4) (actual time=0.109..120.730 rows=233102 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1177.59..1177.59 rows=274 width=26) (actual time=103.844..103.845 rows=2934 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 204kB
+                                             ->  Seq Scan on customer_102142 customer  (cost=0.00..1177.59 rows=274 width=26) (actual time=0.128..102.398 rows=2934 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20517
+                         Planning Time: 6.243 ms
+                         Execution Time: 338.332 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9433.57..9436.46 rows=105 width=72) (actual time=328.966..329.372 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.168..0.169 rows=1 loops=1)
+                           ->  Sort  (cost=9433.57..9433.83 rows=105 width=38) (actual time=328.888..328.981 rows=971 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 62kB
+                                 ->  Hash Right Anti Join  (cost=1181.54..9430.04 rows=105 width=38) (actual time=327.593..328.350 rows=971 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102120 on orders_by_customer_102120 orders_by_customer  (cost=0.42..6052.63 rows=230992 width=4) (actual time=0.092..112.742 rows=230992 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1177.69..1177.69 rows=274 width=26) (actual time=94.934..94.934 rows=2950 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 205kB
+                                             ->  Seq Scan on customer_102152 customer  (cost=0.00..1177.69 rows=274 width=26) (actual time=0.191..84.432 rows=2950 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20505
+                         Planning Time: 2.664 ms
+                         Execution Time: 329.511 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9578.18..9581.01 rows=103 width=72) (actual time=325.431..325.839 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.116..0.117 rows=1 loops=1)
+                           ->  Sort  (cost=9578.17..9578.43 rows=103 width=38) (actual time=325.360..325.453 rows=993 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1185.35..9574.73 rows=103 width=38) (actual time=324.043..324.809 rows=993 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102112 on orders_by_customer_102112 orders_by_customer  (cost=0.42..6145.43 rows=234471 width=4) (actual time=0.108..123.048 rows=234471 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1181.51..1181.51 rows=274 width=26) (actual time=83.375..83.376 rows=2965 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 206kB
+                                             ->  Seq Scan on customer_102144 customer  (cost=0.00..1181.51 rows=274 width=26) (actual time=0.148..81.838 rows=2965 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20559
+                         Planning Time: 8.869 ms
+                         Execution Time: 325.986 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9569.52..9572.40 rows=105 width=72) (actual time=320.404..320.802 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.130..0.131 rows=1 loops=1)
+                           ->  Sort  (cost=9569.51..9569.77 rows=105 width=38) (actual time=320.335..320.426 rows=989 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1182.06..9565.99 rows=105 width=38) (actual time=319.022..319.781 rows=989 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102128 on orders_by_customer_102128 orders_by_customer  (cost=0.42..6177.11 rows=232517 width=4) (actual time=0.093..141.919 rows=232517 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1178.22..1178.22 rows=274 width=26) (actual time=90.445..90.445 rows=2938 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 205kB
+                                             ->  Seq Scan on customer_102160 customer  (cost=0.00..1178.22 rows=274 width=26) (actual time=0.145..88.937 rows=2938 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20537
+                         Planning Time: 8.440 ms
+                         Execution Time: 320.934 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9739.00..9741.83 rows=103 width=72) (actual time=304.329..304.763 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.106..0.107 rows=1 loops=1)
+                           ->  Sort  (cost=9738.99..9739.25 rows=103 width=38) (actual time=304.260..304.364 rows=1041 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 89kB
+                                 ->  Hash Right Anti Join  (cost=1190.59..9735.55 rows=103 width=38) (actual time=302.839..303.651 rows=1041 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102122 on orders_by_customer_102122 orders_by_customer  (cost=0.42..6279.75 rows=236228 width=4) (actual time=0.111..138.276 rows=236228 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1186.74..1186.74 rows=275 width=26) (actual time=85.498..85.498 rows=3015 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 209kB
+                                             ->  Seq Scan on customer_102154 customer  (cost=0.00..1186.74 rows=275 width=26) (actual time=0.135..83.998 rows=3015 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20594
+                         Planning Time: 10.870 ms
+                         Execution Time: 304.954 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9424.09..9426.90 rows=102 width=72) (actual time=287.941..288.363 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.152..0.153 rows=1 loops=1)
+                           ->  Sort  (cost=9424.09..9424.34 rows=102 width=38) (actual time=287.872..287.968 rows=980 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1167.81..9420.68 rows=102 width=38) (actual time=286.500..287.297 rows=980 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102136 on orders_by_customer_102136 orders_by_customer  (cost=0.42..6036.05 rows=231821 width=4) (actual time=0.122..113.311 rows=231821 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1164.00..1164.00 rows=271 width=26) (actual time=76.432..76.433 rows=2919 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 204kB
+                                             ->  Seq Scan on customer_102168 customer  (cost=0.00..1164.00 rows=271 width=26) (actual time=0.168..74.960 rows=2919 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20281
+                         Planning Time: 6.523 ms
+                         Execution Time: 288.517 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9727.84..9730.70 rows=104 width=72) (actual time=278.292..278.489 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.097..0.098 rows=1 loops=1)
+                           ->  Sort  (cost=9727.83..9728.09 rows=104 width=38) (actual time=278.248..278.299 rows=1029 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 89kB
+                                 ->  Hash Right Anti Join  (cost=1194.19..9724.35 rows=104 width=38) (actual time=277.373..277.891 rows=1029 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102107 on orders_by_customer_102107 orders_by_customer  (cost=0.42..6257.67 rows=237153 width=4) (actual time=0.117..105.847 rows=237153 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1190.31..1190.31 rows=277 width=26) (actual time=85.574..85.575 rows=3073 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 213kB
+                                             ->  Seq Scan on customer_102139 customer  (cost=0.00..1190.31 rows=277 width=26) (actual time=0.122..84.328 rows=3073 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20634
+                         Planning Time: 13.216 ms
+                         Execution Time: 278.582 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9589.36..9592.16 rows=102 width=72) (actual time=274.466..274.879 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.095..0.096 rows=1 loops=1)
+                           ->  Sort  (cost=9589.35..9589.61 rows=102 width=38) (actual time=274.404..274.496 rows=977 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1183.30..9585.95 rows=102 width=38) (actual time=273.038..273.852 rows=977 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102123 on orders_by_customer_102123 orders_by_customer  (cost=0.42..6136.91 rows=235374 width=4) (actual time=0.106..132.432 rows=235374 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1179.45..1179.45 rows=274 width=26) (actual time=43.597..43.598 rows=2928 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 204kB
+                                             ->  Seq Scan on customer_102155 customer  (cost=0.00..1179.45 rows=274 width=26) (actual time=0.106..39.453 rows=2928 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20556
+                         Planning Time: 4.577 ms
+                         Execution Time: 274.988 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9582.34..9585.14 rows=102 width=72) (actual time=273.708..274.110 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.089..0.090 rows=1 loops=1)
+                           ->  Sort  (cost=9582.33..9582.59 rows=102 width=38) (actual time=273.633..273.727 rows=982 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1183.62..9578.93 rows=102 width=38) (actual time=272.307..273.070 rows=982 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102111 on orders_by_customer_102111 orders_by_customer  (cost=0.42..6131.89 rows=235348 width=4) (actual time=0.092..149.881 rows=235348 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1179.77..1179.77 rows=274 width=26) (actual time=47.297..47.298 rows=3006 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 209kB
+                                             ->  Seq Scan on customer_102143 customer  (cost=0.00..1179.77 rows=274 width=26) (actual time=0.116..46.103 rows=3006 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20490
+                         Planning Time: 3.414 ms
+                         Execution Time: 274.271 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9574.11..9576.95 rows=103 width=72) (actual time=272.841..273.243 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.096..0.096 rows=1 loops=1)
+                           ->  Sort  (cost=9574.11..9574.37 rows=103 width=38) (actual time=272.771..272.866 rows=986 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1179.74..9570.67 rows=103 width=38) (actual time=271.385..272.166 rows=986 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102135 on orders_by_customer_102135 orders_by_customer  (cost=0.42..6154.68 rows=234121 width=4) (actual time=0.109..120.207 rows=234121 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1175.91..1175.91 rows=273 width=26) (actual time=73.924..73.925 rows=2962 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 206kB
+                                             ->  Seq Scan on customer_102167 customer  (cost=0.00..1175.91 rows=273 width=26) (actual time=0.105..63.769 rows=2962 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20463
+                         Planning Time: 4.959 ms
+                         Execution Time: 273.351 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9584.22..9586.97 rows=100 width=72) (actual time=272.099..272.502 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.127..0.128 rows=1 loops=1)
+                           ->  Sort  (cost=9584.22..9584.47 rows=100 width=38) (actual time=272.029..272.122 rows=950 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 62kB
+                                 ->  Hash Right Anti Join  (cost=1171.97..9580.90 rows=100 width=38) (actual time=270.692..271.465 rows=950 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102134 on orders_by_customer_102134 orders_by_customer  (cost=0.42..6137.20 rows=235085 width=4) (actual time=0.142..117.206 rows=235085 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1168.15..1168.15 rows=272 width=26) (actual time=73.335..73.335 rows=2961 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 206kB
+                                             ->  Seq Scan on customer_102166 customer  (cost=0.00..1168.15 rows=272 width=26) (actual time=0.151..71.832 rows=2961 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20321
+                         Planning Time: 4.449 ms
+                         Execution Time: 272.641 ms
+               ->  Task
+                     Tuple data received from node: 166 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9733.20..9736.00 rows=102 width=72) (actual time=254.918..255.285 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.115..0.116 rows=1 loops=1)
+                           ->  Sort  (cost=9733.19..9733.45 rows=102 width=38) (actual time=254.841..254.928 rows=923 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 60kB
+                                 ->  Hash Right Anti Join  (cost=1189.31..9729.79 rows=102 width=38) (actual time=253.547..254.259 rows=923 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102108 on orders_by_customer_102108 orders_by_customer  (cost=0.42..6245.15 rows=238142 width=4) (actual time=0.110..110.738 rows=238142 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1185.45..1185.45 rows=275 width=26) (actual time=58.685..58.686 rows=2857 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 200kB
+                                             ->  Seq Scan on customer_102140 customer  (cost=0.00..1185.45 rows=275 width=26) (actual time=0.140..57.176 rows=2857 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20741
+                         Planning Time: 4.572 ms
+                         Execution Time: 255.414 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9581.28..9584.11 rows=103 width=72) (actual time=250.568..250.964 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.141..0.142 rows=1 loops=1)
+                           ->  Sort  (cost=9581.27..9581.53 rows=103 width=38) (actual time=250.493..250.586 rows=987 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1186.31..9577.83 rows=103 width=38) (actual time=249.138..249.932 rows=987 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102118 on orders_by_customer_102118 orders_by_customer  (cost=0.42..6151.66 rows=233877 width=4) (actual time=0.127..130.767 rows=233877 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1182.45..1182.45 rows=275 width=26) (actual time=52.420..52.421 rows=2917 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 203kB
+                                             ->  Seq Scan on customer_102150 customer  (cost=0.00..1182.45 rows=275 width=26) (actual time=0.166..51.002 rows=2917 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20643
+                         Planning Time: 2.838 ms
+                         Execution Time: 251.096 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9593.07..9595.84 rows=101 width=72) (actual time=244.682..245.099 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.099..0.100 rows=1 loops=1)
+                           ->  Sort  (cost=9593.06..9593.31 rows=101 width=38) (actual time=244.598..244.696 rows=1015 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 64kB
+                                 ->  Hash Right Anti Join  (cost=1181.41..9589.70 rows=101 width=38) (actual time=240.175..243.991 rows=1015 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102137 on orders_by_customer_102137 orders_by_customer  (cost=0.42..6141.89 rows=234894 width=4) (actual time=0.092..110.450 rows=234894 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1177.56..1177.56 rows=274 width=26) (actual time=38.258..38.259 rows=2963 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 206kB
+                                             ->  Seq Scan on customer_102169 customer  (cost=0.00..1177.56 rows=274 width=26) (actual time=0.137..37.113 rows=2963 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20487
+                         Planning Time: 10.428 ms
+                         Execution Time: 245.220 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9599.08..9601.78 rows=98 width=72) (actual time=237.791..238.176 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.099..0.100 rows=1 loops=1)
+                           ->  Sort  (cost=9599.08..9599.32 rows=98 width=38) (actual time=237.703..237.802 rows=991 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1167.17..9595.84 rows=98 width=38) (actual time=236.397..237.134 rows=991 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102131 on orders_by_customer_102131 orders_by_customer  (cost=0.42..6166.36 rows=233079 width=4) (actual time=0.089..108.020 rows=233079 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1163.37..1163.37 rows=270 width=26) (actual time=73.855..73.856 rows=2858 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 200kB
+                                             ->  Seq Scan on customer_102163 customer  (cost=0.00..1163.37 rows=270 width=26) (actual time=0.112..63.661 rows=2858 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20280
+                         Planning Time: 8.312 ms
+                         Execution Time: 238.293 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9574.66..9577.49 rows=103 width=72) (actual time=213.240..219.699 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.105..0.106 rows=1 loops=1)
+                           ->  Sort  (cost=9574.66..9574.91 rows=103 width=38) (actual time=213.166..219.287 rows=1043 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 89kB
+                                 ->  Hash Right Anti Join  (cost=1183.17..9571.21 rows=103 width=38) (actual time=211.769..212.581 rows=1043 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102109 on orders_by_customer_102109 orders_by_customer  (cost=0.42..6138.21 rows=234957 width=4) (actual time=0.104..105.725 rows=234957 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1179.32..1179.32 rows=274 width=26) (actual time=19.946..19.947 rows=3040 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 211kB
+                                             ->  Seq Scan on customer_102141 customer  (cost=0.00..1179.32 rows=274 width=26) (actual time=0.133..18.754 rows=3040 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20439
+                         Planning Time: 2.966 ms
+                         Execution Time: 219.875 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9575.64..9578.42 rows=101 width=72) (actual time=200.422..200.826 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.109..0.110 rows=1 loops=1)
+                           ->  Sort  (cost=9575.64..9575.89 rows=101 width=38) (actual time=200.349..200.442 rows=986 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1172.08..9572.27 rows=101 width=38) (actual time=199.031..199.789 rows=986 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102121 on orders_by_customer_102121 orders_by_customer  (cost=0.42..6148.89 rows=233845 width=4) (actual time=9.111..78.799 rows=233845 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1168.26..1168.26 rows=272 width=26) (actual time=73.972..73.973 rows=3007 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 209kB
+                                             ->  Seq Scan on customer_102153 customer  (cost=0.00..1168.26 rows=272 width=26) (actual time=0.134..72.733 rows=3007 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20279
+                         Planning Time: 2.743 ms
+                         Execution Time: 200.948 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9720.24..9723.08 rows=103 width=72) (actual time=174.535..174.978 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.195..0.196 rows=1 loops=1)
+                           ->  Sort  (cost=9720.24..9720.50 rows=103 width=38) (actual time=174.460..174.560 rows=1063 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 90kB
+                                 ->  Hash Right Anti Join  (cost=1190.53..9716.79 rows=103 width=38) (actual time=172.961..173.814 rows=1063 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102132 on orders_by_customer_102132 orders_by_customer  (cost=0.42..6245.16 rows=238143 width=4) (actual time=0.135..85.154 rows=238143 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1186.66..1186.66 rows=276 width=26) (actual time=26.459..26.460 rows=2994 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 208kB
+                                             ->  Seq Scan on customer_102164 customer  (cost=0.00..1186.66 rows=276 width=26) (actual time=0.212..24.948 rows=2994 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20650
+                         Planning Time: 2.631 ms
+                         Execution Time: 175.207 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9580.94..9583.75 rows=102 width=72) (actual time=129.021..129.448 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.058..0.059 rows=1 loops=1)
+                           ->  Sort  (cost=9580.94..9581.19 rows=102 width=38) (actual time=128.950..129.048 rows=1024 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 88kB
+                                 ->  Hash Right Anti Join  (cost=1179.13..9577.53 rows=102 width=38) (actual time=127.621..128.408 rows=1024 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102133 on orders_by_customer_102133 orders_by_customer  (cost=0.42..6161.81 rows=233434 width=4) (actual time=0.115..53.616 rows=233434 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1175.30..1175.30 rows=273 width=26) (actual time=34.121..34.122 rows=2998 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 208kB
+                                             ->  Seq Scan on customer_102165 customer  (cost=0.00..1175.30 rows=273 width=26) (actual time=0.072..32.921 rows=2998 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20404
+                         Planning Time: 3.594 ms
+                         Execution Time: 129.569 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9583.27..9586.10 rows=103 width=72) (actual time=123.863..124.054 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.057..0.058 rows=1 loops=1)
+                           ->  Sort  (cost=9583.26..9583.52 rows=103 width=38) (actual time=123.827..123.874 rows=960 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 62kB
+                                 ->  Hash Right Anti Join  (cost=1182.75..9579.82 rows=103 width=38) (actual time=123.191..123.556 rows=960 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102115 on orders_by_customer_102115 orders_by_customer  (cost=0.42..6168.00 rows=232879 width=4) (actual time=0.108..47.611 rows=232879 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1178.90..1178.90 rows=274 width=26) (actual time=40.974..40.975 rows=3022 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 210kB
+                                             ->  Seq Scan on customer_102147 customer  (cost=0.00..1178.90 rows=274 width=26) (actual time=0.088..36.741 rows=3022 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20479
+                         Planning Time: 4.853 ms
+                         Execution Time: 124.151 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9586.20..9588.97 rows=101 width=72) (actual time=119.698..120.124 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.058..0.059 rows=1 loops=1)
+                           ->  Sort  (cost=9586.19..9586.44 rows=101 width=38) (actual time=119.622..119.719 rows=1028 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 89kB
+                                 ->  Hash Right Anti Join  (cost=1179.48..9582.83 rows=101 width=38) (actual time=118.277..119.075 rows=1028 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102114 on orders_by_customer_102114 orders_by_customer  (cost=0.42..6158.30 rows=233508 width=4) (actual time=0.102..53.790 rows=233508 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1175.64..1175.64 rows=273 width=26) (actual time=25.117..25.118 rows=2997 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 208kB
+                                             ->  Seq Scan on customer_102146 customer  (cost=0.00..1175.64 rows=273 width=26) (actual time=0.086..23.956 rows=2997 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20418
+                         Planning Time: 4.305 ms
+                         Execution Time: 120.235 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9608.80..9611.55 rows=100 width=72) (actual time=115.027..115.439 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.063..0.064 rows=1 loops=1)
+                           ->  Sort  (cost=9608.79..9609.04 rows=100 width=38) (actual time=114.947..115.044 rows=991 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1179.42..9605.47 rows=100 width=38) (actual time=113.626..114.428 rows=991 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102124 on orders_by_customer_102124 orders_by_customer  (cost=0.42..6172.14 rows=233194 width=4) (actual time=0.099..51.852 rows=233194 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1175.59..1175.59 rows=273 width=26) (actual time=23.553..23.553 rows=2994 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 208kB
+                                             ->  Seq Scan on customer_102156 customer  (cost=0.00..1175.59 rows=273 width=26) (actual time=0.084..22.328 rows=2994 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20419
+                         Planning Time: 1.656 ms
+                         Execution Time: 115.541 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9580.24..9583.07 rows=103 width=72) (actual time=114.905..115.307 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.068..0.069 rows=1 loops=1)
+                           ->  Sort  (cost=9580.23..9580.49 rows=103 width=38) (actual time=114.825..114.920 rows=988 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1186.78..9576.79 rows=103 width=38) (actual time=113.544..114.311 rows=988 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102138 on orders_by_customer_102138 orders_by_customer  (cost=0.42..6135.78 rows=235495 width=4) (actual time=0.083..50.782 rows=235495 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1182.92..1182.92 rows=275 width=26) (actual time=26.086..26.087 rows=2985 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 207kB
+                                             ->  Seq Scan on customer_102170 customer  (cost=0.00..1182.92 rows=275 width=26) (actual time=0.100..24.904 rows=2985 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20593
+                         Planning Time: 2.110 ms
+                         Execution Time: 115.418 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9578.78..9581.58 rows=102 width=72) (actual time=114.768..115.171 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.055..0.056 rows=1 loops=1)
+                           ->  Sort  (cost=9578.77..9579.03 rows=102 width=38) (actual time=114.687..114.781 rows=974 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 62kB
+                                 ->  Hash Right Anti Join  (cost=1174.05..9575.37 rows=102 width=38) (actual time=113.429..114.191 rows=974 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102116 on orders_by_customer_102116 orders_by_customer  (cost=0.42..6179.40 rows=232167 width=4) (actual time=0.102..54.364 rows=232167 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1170.23..1170.23 rows=272 width=26) (actual time=19.302..19.303 rows=2983 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 207kB
+                                             ->  Seq Scan on customer_102148 customer  (cost=0.00..1170.23 rows=272 width=26) (actual time=0.078..18.250 rows=2983 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20302
+                         Planning Time: 1.489 ms
+                         Execution Time: 115.273 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9434.42..9437.25 rows=103 width=72) (actual time=113.455..113.864 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.041..0.042 rows=1 loops=1)
+                           ->  Sort  (cost=9434.41..9434.67 rows=103 width=38) (actual time=113.379..113.476 rows=1001 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 64kB
+                                 ->  Hash Right Anti Join  (cost=1178.98..9430.97 rows=103 width=38) (actual time=112.070..112.861 rows=1001 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102117 on orders_by_customer_102117 orders_by_customer  (cost=0.42..6037.20 rows=231898 width=4) (actual time=0.127..54.396 rows=231898 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1175.14..1175.14 rows=273 width=26) (actual time=18.324..18.325 rows=3007 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 209kB
+                                             ->  Seq Scan on customer_102149 customer  (cost=0.00..1175.14 rows=273 width=26) (actual time=0.061..17.317 rows=3007 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20389
+                         Planning Time: 2.504 ms
+                         Execution Time: 113.970 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9746.29..9749.01 rows=99 width=72) (actual time=113.336..113.734 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.116..0.117 rows=1 loops=1)
+                           ->  Sort  (cost=9746.29..9746.53 rows=99 width=38) (actual time=113.269..113.361 rows=997 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 63kB
+                                 ->  Hash Right Anti Join  (cost=1181.22..9743.00 rows=99 width=38) (actual time=111.908..112.673 rows=997 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102119 on orders_by_customer_102119 orders_by_customer  (cost=0.42..6260.25 rows=236473 width=4) (actual time=0.091..53.230 rows=236473 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1177.38..1177.38 rows=274 width=26) (actual time=19.846..19.847 rows=3015 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 209kB
+                                             ->  Seq Scan on customer_102151 customer  (cost=0.00..1177.38 rows=274 width=26) (actual time=0.142..18.654 rows=3015 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20428
+                         Planning Time: 2.574 ms
+                         Execution Time: 113.865 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9437.58..9440.33 rows=100 width=72) (actual time=112.061..112.260 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.054..0.055 rows=1 loops=1)
+                           ->  Sort  (cost=9437.58..9437.83 rows=100 width=38) (actual time=112.021..112.072 rows=1028 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 89kB
+                                 ->  Hash Right Anti Join  (cost=1159.89..9434.25 rows=100 width=38) (actual time=111.308..111.696 rows=1028 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102113 on orders_by_customer_102113 orders_by_customer  (cost=0.42..6075.75 rows=228888 width=4) (actual time=0.290..51.131 rows=228888 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1156.12..1156.12 rows=268 width=26) (actual time=23.332..23.332 rows=2959 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 206kB
+                                             ->  Seq Scan on customer_102145 customer  (cost=0.00..1156.12 rows=268 width=26) (actual time=0.075..22.252 rows=2959 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20055
+                         Planning Time: 1.359 ms
+                         Execution Time: 112.348 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9590.98..9593.76 rows=101 width=72) (actual time=83.940..84.137 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.055..0.055 rows=1 loops=1)
+                           ->  Sort  (cost=9590.97..9591.23 rows=101 width=38) (actual time=83.899..83.949 rows=1022 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 64kB
+                                 ->  Hash Right Anti Join  (cost=1180.87..9587.61 rows=101 width=38) (actual time=83.202..83.593 rows=1022 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102130 on orders_by_customer_102130 orders_by_customer  (cost=0.42..6150.28 rows=234134 width=4) (actual time=0.110..34.559 rows=234134 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1177.04..1177.04 rows=273 width=26) (actual time=23.084..23.084 rows=3065 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 212kB
+                                             ->  Seq Scan on customer_102162 customer  (cost=0.00..1177.04 rows=273 width=26) (actual time=0.078..21.890 rows=3065 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20365
+                         Planning Time: 2.654 ms
+                         Execution Time: 84.225 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9586.17..9588.97 rows=102 width=72) (actual time=81.913..82.100 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.051..0.052 rows=1 loops=1)
+                           ->  Sort  (cost=9586.16..9586.42 rows=102 width=38) (actual time=81.871..81.919 rows=964 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 62kB
+                                 ->  Hash Right Anti Join  (cost=1179.79..9582.76 rows=102 width=38) (actual time=81.218..81.598 rows=964 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102127 on orders_by_customer_102127 orders_by_customer  (cost=0.42..6152.34 rows=234314 width=4) (actual time=0.113..35.187 rows=234314 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1175.96..1175.96 rows=273 width=26) (actual time=19.595..19.596 rows=2874 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 201kB
+                                             ->  Seq Scan on customer_102159 customer  (cost=0.00..1175.96 rows=273 width=26) (actual time=0.071..18.517 rows=2874 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20553
+                         Planning Time: 1.786 ms
+                         Execution Time: 82.179 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9727.50..9730.31 rows=102 width=72) (actual time=81.709..81.889 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.047..0.048 rows=1 loops=1)
+                           ->  Sort  (cost=9727.50..9727.75 rows=102 width=38) (actual time=81.671..81.717 rows=932 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 61kB
+                                 ->  Hash Right Anti Join  (cost=1183.30..9724.10 rows=102 width=38) (actual time=81.048..81.406 rows=932 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102125 on orders_by_customer_102125 orders_by_customer  (cost=0.42..6257.90 rows=237215 width=4) (actual time=0.090..33.175 rows=237215 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1179.45..1179.45 rows=274 width=26) (actual time=23.349..23.350 rows=2903 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 203kB
+                                             ->  Seq Scan on customer_102157 customer  (cost=0.00..1179.45 rows=274 width=26) (actual time=0.076..22.342 rows=2903 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20581
+                         Planning Time: 1.691 ms
+                         Execution Time: 82.001 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9738.62..9741.39 rows=101 width=72) (actual time=66.493..66.694 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.053..0.054 rows=1 loops=1)
+                           ->  Sort  (cost=9738.61..9738.86 rows=101 width=38) (actual time=66.451..66.504 rows=1020 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 64kB
+                                 ->  Hash Right Anti Join  (cost=1180.90..9735.25 rows=101 width=38) (actual time=65.773..66.159 rows=1020 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102126 on orders_by_customer_102126 orders_by_customer  (cost=0.42..6273.16 rows=236603 width=4) (actual time=0.081..29.693 rows=236603 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1177.06..1177.06 rows=273 width=26) (actual time=14.055..14.056 rows=3004 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 209kB
+                                             ->  Seq Scan on customer_102158 customer  (cost=0.00..1177.06 rows=273 width=26) (actual time=0.079..13.269 rows=3004 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20427
+                         Planning Time: 1.533 ms
+                         Execution Time: 66.783 ms
+               ->  Task
+                     Tuple data received from node: 168 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=9727.24..9730.05 rows=102 width=72) (actual time=66.362..66.559 rows=7 loops=1)
+                           Group Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                           InitPlan 1 (returns $0)
+                             ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.045..0.046 rows=1 loops=1)
+                           ->  Sort  (cost=9727.24..9727.49 rows=102 width=38) (actual time=66.320..66.370 rows=1011 loops=1)
+                                 Sort Key: (SUBSTRING(customer.c_phone FROM 1 FOR 2))
+                                 Sort Method: quicksort  Memory: 64kB
+                                 ->  Hash Right Anti Join  (cost=1185.19..9723.83 rows=102 width=38) (actual time=65.662..66.045 rows=1011 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Index Only Scan using orders_by_customer_pkey_102129 on orders_by_customer_102129 orders_by_customer  (cost=0.42..6264.60 rows=236649 width=4) (actual time=0.096..31.086 rows=236649 loops=1)
+                                             Heap Fetches: 0
+                                       ->  Hash  (cost=1181.35..1181.35 rows=274 width=26) (actual time=12.302..12.303 rows=3010 loops=1)
+                                             Buckets: 4096 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 209kB
+                                             ->  Seq Scan on customer_102161 customer  (cost=0.00..1181.35 rows=274 width=26) (actual time=0.069..11.574 rows=3010 loops=1)
+                                                   Filter: ((c_acctbal > $0) AND (SUBSTRING(c_phone FROM 1 FOR 2) = ANY ('{13,31,23,29,30,18,17}'::text[])))
+                                                   Rows Removed by Filter: 20508
+                         Planning Time: 2.501 ms
+                         Execution Time: 66.642 ms
+ Planning Time: 6.167 ms
+ Execution Time: 836.176 ms
+(983 rows)
+

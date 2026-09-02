@@ -1,0 +1,234 @@
+SET
+                                                                                             QUERY PLAN                                                                                              
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate (actual rows=1 loops=1)
+   ->  Custom Scan (Citus Adaptive) (actual rows=32 loops=1)
+         Task Count: 32
+         Tuple data received from nodes: 448 bytes
+         Tasks Shown: All
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102026 on lineitem_102026 lineitem (actual rows=17694 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102034 on lineitem_102034 lineitem (actual rows=18099 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102036 on lineitem_102036 lineitem (actual rows=17974 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102032 on lineitem_102032 lineitem (actual rows=17739 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102030 on lineitem_102030 lineitem (actual rows=17575 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102028 on lineitem_102028 lineitem (actual rows=17713 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102038 on lineitem_102038 lineitem (actual rows=17810 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102040 on lineitem_102040 lineitem (actual rows=17941 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102024 on lineitem_102024 lineitem (actual rows=17614 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102027 on lineitem_102027 lineitem (actual rows=17812 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102042 on lineitem_102042 lineitem (actual rows=17910 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102022 on lineitem_102022 lineitem (actual rows=18159 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102031 on lineitem_102031 lineitem (actual rows=17627 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102029 on lineitem_102029 lineitem (actual rows=17883 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102033 on lineitem_102033 lineitem (actual rows=17946 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102021 on lineitem_102021 lineitem (actual rows=17748 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102020 on lineitem_102020 lineitem (actual rows=18048 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102025 on lineitem_102025 lineitem (actual rows=17656 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102037 on lineitem_102037 lineitem (actual rows=17431 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102035 on lineitem_102035 lineitem (actual rows=17688 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102017 on lineitem_102017 lineitem (actual rows=18234 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102019 on lineitem_102019 lineitem (actual rows=17876 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102018 on lineitem_102018 lineitem (actual rows=18113 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102041 on lineitem_102041 lineitem (actual rows=17644 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102016 on lineitem_102016 lineitem (actual rows=17926 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102014 on lineitem_102014 lineitem (actual rows=17899 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102023 on lineitem_102023 lineitem (actual rows=17676 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102015 on lineitem_102015 lineitem (actual rows=17957 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102013 on lineitem_102013 lineitem (actual rows=17549 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102011 on lineitem_102011 lineitem (actual rows=17536 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102012 on lineitem_102012 lineitem (actual rows=17927 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  Aggregate (actual rows=1 loops=1)
+                     ->  Index Only Scan using q06i1_102039 on lineitem_102039 lineitem (actual rows=17595 loops=1)
+                           Index Cond: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_discount >= 0.05) AND (l_discount <= 0.07) AND (l_quantity < '24'::numeric))
+                           Heap Fetches: 0
+(229 rows)
+

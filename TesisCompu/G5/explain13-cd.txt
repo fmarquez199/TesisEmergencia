@@ -1,0 +1,657 @@
+SET
+                                                                                                   QUERY PLAN                                                                                                   
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=511.14..511.64 rows=200 width=16) (actual time=2106.646..2106.650 rows=42 loops=1)
+   Sort Key: (COALESCE((pg_catalog.sum(remote_scan.custdist))::bigint, '0'::bigint)) DESC, remote_scan.c_count DESC
+   Sort Method: quicksort  Memory: 26kB
+   ->  HashAggregate  (cost=500.00..503.50 rows=200 width=16) (actual time=2106.593..2106.610 rows=42 loops=1)
+         Group Key: remote_scan.c_count
+         Batches: 1  Memory Usage: 40kB
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=16) (actual time=2106.206..2106.304 rows=1229 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 19 kB
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 624 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10403.96..10405.96 rows=200 width=16) (actual time=1780.104..1780.115 rows=39 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9817.88..10052.31 rows=23443 width=12) (actual time=1769.303..1775.123 rows=23443 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=908.97..8647.46 rows=234084 width=8) (actual time=68.922..1689.063 rows=241559 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102119 orders_by_customer  (cost=0.00..7123.91 rows=234084 width=8) (actual time=7.044..1539.942 rows=233869 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2604
+                                       ->  Hash  (cost=615.93..615.93 rows=23443 width=4) (actual time=61.688..61.689 rows=23443 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1081kB
+                                             ->  Index Only Scan using customer_pkey_102151 on customer_102151 customer  (cost=0.29..615.93 rows=23443 width=4) (actual time=11.615..42.280 rows=23443 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 17.951 ms
+                         Execution Time: 1781.272 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10443.08..10445.08 rows=200 width=16) (actual time=1778.207..1778.218 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9855.98..10090.82 rows=23484 width=12) (actual time=1761.729..1767.331 rows=23484 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=914.10..8670.02 rows=237191 width=8) (actual time=53.963..1682.177 rows=242304 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102125 orders_by_customer  (cost=0.00..7133.19 rows=237191 width=8) (actual time=6.490..1546.870 rows=234578 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2637
+                                       ->  Hash  (cost=620.55..620.55 rows=23484 width=4) (actual time=47.262..47.263 rows=23484 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1082kB
+                                             ->  Index Only Scan using q05i3_102157 on customer_102157 customer  (cost=0.29..620.55 rows=23484 width=4) (actual time=4.083..39.606 rows=23484 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 20.576 ms
+                         Execution Time: 1779.297 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10433.47..10435.47 rows=200 width=16) (actual time=1764.620..1764.631 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9845.52..10080.70 rows=23518 width=12) (actual time=1753.889..1759.663 rows=23518 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=915.03..8662.40 rows=236625 width=8) (actual time=64.082..1663.607 rows=241913 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102129 orders_by_customer  (cost=0.00..7126.11 rows=236625 width=8) (actual time=10.048..1513.343 rows=234105 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2544
+                                       ->  Hash  (cost=621.06..621.06 rows=23518 width=4) (actual time=53.847..53.848 rows=23518 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1083kB
+                                             ->  Index Only Scan using q05i3_102161 on customer_102161 customer  (cost=0.29..621.06 rows=23518 width=4) (actual time=6.176..49.659 rows=23518 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 21.728 ms
+                         Execution Time: 1765.592 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10324.08..10326.08 rows=200 width=16) (actual time=1750.987..1750.998 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9736.98..9971.82 rows=23484 width=12) (actual time=1740.875..1746.360 rows=23484 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=914.10..8572.00 rows=232996 width=8) (actual time=47.998..1654.777 rows=240638 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102123 orders_by_customer  (cost=0.00..7046.18 rows=232996 width=8) (actual time=4.810..1523.688 rows=232854 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2520
+                                       ->  Hash  (cost=620.55..620.55 rows=23484 width=4) (actual time=42.992..42.993 rows=23484 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1082kB
+                                             ->  Index Only Scan using q05i3_102155 on customer_102155 customer  (cost=0.29..620.55 rows=23484 width=4) (actual time=1.421..35.971 rows=23484 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 7.391 ms
+                         Execution Time: 1752.067 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10295.84..10297.84 rows=200 width=16) (actual time=1750.083..1750.094 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9710.16..9944.43 rows=23427 width=12) (actual time=1737.174..1743.068 rows=23427 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=908.53..8550.43 rows=231947 width=8) (actual time=50.314..1649.909 rows=239664 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102127 orders_by_customer  (cost=0.00..7032.93 rows=231947 width=8) (actual time=8.487..1522.091 rows=231791 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2523
+                                       ->  Hash  (cost=615.69..615.69 rows=23427 width=4) (actual time=41.649..41.650 rows=23427 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1080kB
+                                             ->  Index Only Scan using customer_pkey_102159 on customer_102159 customer  (cost=0.29..615.69 rows=23427 width=4) (actual time=4.896..36.155 rows=23427 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 16.853 ms
+                         Execution Time: 1751.205 ms
+               ->  Task
+                     Tuple data received from node: 640 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10255.91..10257.91 rows=200 width=16) (actual time=1750.218..1750.225 rows=40 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9677.46..9908.84 rows=23138 width=12) (actual time=1739.863..1745.392 rows=23138 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=900.58..8523.83 rows=230725 width=8) (actual time=73.139..1654.777 rows=238179 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102131 orders_by_customer  (cost=0.00..7017.49 rows=230725 width=8) (actual time=9.688..1505.964 rows=230571 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2508
+                                       ->  Hash  (cost=611.36..611.36 rows=23138 width=4) (actual time=63.262..63.263 rows=23138 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1070kB
+                                             ->  Index Only Scan using q05i3_102163 on customer_102163 customer  (cost=0.29..611.36 rows=23138 width=4) (actual time=7.964..59.086 rows=23138 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 31.386 ms
+                         Execution Time: 1751.138 ms
+               ->  Task
+                     Tuple data received from node: 592 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10291.86..10293.86 rows=200 width=16) (actual time=1737.257..1737.267 rows=37 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9706.24..9940.49 rows=23425 width=12) (actual time=1726.677..1732.414 rows=23425 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=908.48..8547.46 rows=231756 width=8) (actual time=70.442..1644.930 rows=239493 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102135 orders_by_customer  (cost=0.00..7030.51 rows=231756 width=8) (actual time=9.877..1497.542 rows=231665 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2456
+                                       ->  Hash  (cost=615.66..615.66 rows=23425 width=4) (actual time=60.371..60.372 rows=23425 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1080kB
+                                             ->  Index Only Scan using q05i3_102167 on customer_102167 customer  (cost=0.29..615.66 rows=23425 width=4) (actual time=6.666..56.389 rows=23425 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 26.693 ms
+                         Execution Time: 1738.313 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10276.88..10278.88 rows=200 width=16) (actual time=1735.269..1735.280 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9691.83..9925.85 rows=23402 width=12) (actual time=1724.968..1730.491 rows=23402 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=907.84..8536.45 rows=231076 width=8) (actual time=74.163..1644.694 rows=238621 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102133 orders_by_customer  (cost=0.00..7021.93 rows=231076 width=8) (actual time=9.949..1482.066 rows=230793 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2641
+                                       ->  Hash  (cost=615.32..615.32 rows=23402 width=4) (actual time=64.061..64.062 rows=23402 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1079kB
+                                             ->  Index Only Scan using q05i3_102165 on customer_102165 customer  (cost=0.29..615.32 rows=23402 width=4) (actual time=8.648..59.225 rows=23402 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 34.867 ms
+                         Execution Time: 1736.241 ms
+               ->  Task
+                     Tuple data received from node: 624 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10261.02..10263.02 rows=200 width=16) (actual time=1733.990..1734.000 rows=39 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9678.87..9911.73 rows=23286 width=12) (actual time=1724.970..1729.897 rows=23286 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=904.65..8533.27 rows=229121 width=8) (actual time=47.689..1638.085 rows=239009 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102121 orders_by_customer  (cost=0.00..7027.06 rows=229121 width=8) (actual time=1.745..1504.912 rows=231314 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2531
+                                       ->  Hash  (cost=613.58..613.58 rows=23286 width=4) (actual time=45.732..45.733 rows=23286 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1075kB
+                                             ->  Index Only Scan using q05i3_102153 on customer_102153 customer  (cost=0.29..613.58 rows=23286 width=4) (actual time=1.739..29.935 rows=23286 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 10.441 ms
+                         Execution Time: 1735.079 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10079.75..10081.75 rows=200 width=16) (actual time=1712.167..1712.181 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9504.40..9734.54 rows=23014 width=12) (actual time=1691.068..1702.743 rows=23014 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=893.17..8383.08 rows=224264 width=8) (actual time=38.442..1609.406 rows=234172 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102113 orders_by_customer  (cost=0.00..6901.10 rows=224264 width=8) (actual time=3.099..1480.088 rows=226455 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2433
+                                       ->  Hash  (cost=605.50..605.50 rows=23014 width=4) (actual time=35.147..35.151 rows=23014 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1066kB
+                                             ->  Index Only Scan using q05i3_102145 on customer_102145 customer  (cost=0.29..605.50 rows=23014 width=4) (actual time=1.594..15.951 rows=23014 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 19.501 ms
+                         Execution Time: 1713.241 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10163.91..10165.91 rows=200 width=16) (actual time=1706.392..1706.402 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9579.01..9812.97 rows=23396 width=12) (actual time=1691.533..1700.202 rows=23396 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=907.68..8442.95 rows=227213 width=8) (actual time=31.374..1598.995 rows=237219 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102117 orders_by_customer  (cost=0.00..6938.73 rows=227213 width=8) (actual time=5.415..1471.297 rows=229331 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2567
+                                       ->  Hash  (cost=615.23..615.23 rows=23396 width=4) (actual time=25.747..25.748 rows=23396 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1079kB
+                                             ->  Index Only Scan using q05i3_102149 on customer_102149 customer  (cost=0.29..615.23 rows=23396 width=4) (actual time=1.144..12.691 rows=23396 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 13.408 ms
+                         Execution Time: 1707.546 ms
+               ->  Task
+                     Tuple data received from node: 624 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10308.67..10310.67 rows=200 width=16) (actual time=1695.940..1695.946 rows=39 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9722.42..9956.92 rows=23450 width=12) (actual time=1690.060..1693.311 rows=23450 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=909.16..8559.82 rows=232521 width=8) (actual time=94.544..1605.180 rows=240256 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102137 orders_by_customer  (cost=0.00..7040.18 rows=232521 width=8) (actual time=11.793..1429.749 rows=232420 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2474
+                                       ->  Hash  (cost=616.04..616.04 rows=23450 width=4) (actual time=82.581..82.581 rows=23450 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1081kB
+                                             ->  Index Only Scan using customer_pkey_102169 on customer_102169 customer  (cost=0.29..616.04 rows=23450 width=4) (actual time=19.548..78.057 rows=23450 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 55.503 ms
+                         Execution Time: 1696.760 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10239.08..10241.08 rows=200 width=16) (actual time=1685.287..1685.298 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9651.56..9886.57 rows=23501 width=12) (actual time=1675.523..1680.817 rows=23501 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=914.57..8522.45 rows=225822 width=8) (actual time=21.256..1587.023 rows=238273 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102115 orders_by_customer  (cost=0.00..7014.99 rows=225822 width=8) (actual time=1.889..1467.004 rows=230377 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2502
+                                       ->  Hash  (cost=620.80..620.80 rows=23501 width=4) (actual time=19.160..19.161 rows=23501 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1083kB
+                                             ->  Index Only Scan using q05i3_102147 on customer_102147 customer  (cost=0.29..620.80 rows=23501 width=4) (actual time=1.487..12.258 rows=23501 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 18.020 ms
+                         Execution Time: 1686.384 ms
+               ->  Task
+                     Tuple data received from node: 640 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10297.36..10299.36 rows=200 width=16) (actual time=1665.271..1665.281 rows=40 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9710.38..9945.17 rows=23479 width=12) (actual time=1654.376..1659.827 rows=23479 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=913.96..8559.33 rows=230210 width=8) (actual time=57.134..1567.281 rows=240184 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102109 orders_by_customer  (cost=0.00..7040.96 rows=230210 width=8) (actual time=6.112..1408.320 rows=232378 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2579
+                                       ->  Hash  (cost=620.47..620.47 rows=23479 width=4) (actual time=50.204..50.205 rows=23479 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1082kB
+                                             ->  Index Only Scan using q05i3_102141 on customer_102141 customer  (cost=0.29..620.47 rows=23479 width=4) (actual time=0.689..24.184 rows=23479 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 9.779 ms
+                         Execution Time: 1668.324 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10263.05..10265.05 rows=200 width=16) (actual time=1640.465..1640.476 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9680.92..9913.77 rows=23285 width=12) (actual time=1606.971..1622.716 rows=23285 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=904.62..8520.20 rows=232144 width=8) (actual time=49.507..1494.657 rows=237410 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102116 orders_by_customer  (cost=0.00..7006.09 rows=232144 width=8) (actual time=4.110..1324.462 rows=229617 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2550
+                                       ->  Hash  (cost=613.56..613.56 rows=23285 width=4) (actual time=45.082..45.082 rows=23285 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1075kB
+                                             ->  Index Only Scan using q05i3_102148 on customer_102148 customer  (cost=0.29..613.56 rows=23285 width=4) (actual time=1.713..24.832 rows=23285 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 17.907 ms
+                         Execution Time: 1641.907 ms
+               ->  Task
+                     Tuple data received from node: 640 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10342.13..10344.13 rows=200 width=16) (actual time=1633.588..1633.599 rows=40 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9754.73..9989.69 rows=23496 width=12) (actual time=1623.810..1629.174 rows=23496 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=914.43..8578.11 rows=235324 width=8) (actual time=47.096..1531.450 rows=240497 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102111 orders_by_customer  (cost=0.00..7045.85 rows=235324 width=8) (actual time=2.481..1391.115 rows=232744 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2604
+                                       ->  Hash  (cost=620.73..620.73 rows=23496 width=4) (actual time=43.848..43.849 rows=23496 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1083kB
+                                             ->  Index Only Scan using q05i3_102143 on customer_102143 customer  (cost=0.29..620.73 rows=23496 width=4) (actual time=2.564..22.306 rows=23496 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 13.253 ms
+                         Execution Time: 1638.540 ms
+               ->  Task
+                     Tuple data received from node: 624 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10298.06..10300.06 rows=200 width=16) (actual time=1628.949..1628.959 rows=39 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9709.06..9944.66 rows=23560 width=12) (actual time=1606.183..1621.051 rows=23560 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=916.19..8551.49 rows=231515 width=8) (actual time=49.569..1485.892 rows=239322 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102118 orders_by_customer  (cost=0.00..7027.46 rows=231515 width=8) (actual time=6.946..1314.219 rows=231406 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2471
+                                       ->  Hash  (cost=621.69..621.69 rows=23560 width=4) (actual time=42.369..42.369 rows=23560 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1085kB
+                                             ->  Index Only Scan using q05i3_102150 on customer_102150 customer  (cost=0.29..621.69 rows=23560 width=4) (actual time=0.264..18.164 rows=23560 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 21.244 ms
+                         Execution Time: 1630.096 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10254.85..10256.85 rows=200 width=16) (actual time=1626.070..1626.081 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9668.57..9903.08 rows=23451 width=12) (actual time=1608.873..1621.214 rows=23451 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=909.19..8526.61 rows=228393 width=8) (actual time=74.178..1500.446 rows=238529 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102110 orders_by_customer  (cost=0.00..7017.77 rows=228393 width=8) (actual time=2.650..1275.520 rows=230577 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2525
+                                       ->  Hash  (cost=616.05..616.05 rows=23451 width=4) (actual time=70.609..70.609 rows=23451 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1081kB
+                                             ->  Index Only Scan using customer_pkey_102142 on customer_102142 customer  (cost=0.29..616.05 rows=23451 width=4) (actual time=2.860..33.307 rows=23451 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 16.647 ms
+                         Execution Time: 1629.653 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10166.71..10168.71 rows=200 width=16) (actual time=1624.851..1624.862 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9580.34..9814.89 rows=23455 width=12) (actual time=1585.177..1611.894 rows=23455 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=909.30..8437.04 rows=228659 width=8) (actual time=44.504..1471.333 rows=236348 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102120 orders_by_customer  (cost=0.00..6927.40 rows=228659 width=8) (actual time=2.060..1299.663 rows=228400 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2592
+                                       ->  Hash  (cost=616.11..616.11 rows=23455 width=4) (actual time=42.264..42.265 rows=23455 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1081kB
+                                             ->  Index Only Scan using customer_pkey_102152 on customer_102152 customer  (cost=0.29..616.11 rows=23455 width=4) (actual time=0.348..26.849 rows=23455 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 15.440 ms
+                         Execution Time: 1625.888 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10290.02..10292.02 rows=200 width=16) (actual time=1621.111..1621.122 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9701.92..9937.16 rows=23524 width=12) (actual time=1609.656..1615.706 rows=23524 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=915.20..8553.25 rows=229734 width=8) (actual time=66.301..1497.078 rows=239873 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102112 orders_by_customer  (cost=0.00..7034.89 rows=229734 width=8) (actual time=0.526..1319.990 rows=231921 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2550
+                                       ->  Hash  (cost=621.15..621.15 rows=23524 width=4) (actual time=64.886..64.887 rows=23524 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1084kB
+                                             ->  Index Only Scan using q05i3_102144 on customer_102144 customer  (cost=0.29..621.15 rows=23524 width=4) (actual time=1.506..29.262 rows=23524 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 20.267 ms
+                         Execution Time: 1625.116 ms
+               ->  Task
+                     Tuple data received from node: 624 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10435.46..10437.46 rows=200 width=16) (actual time=1616.561..1616.572 rows=39 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9842.78..10079.85 rows=23707 width=12) (actual time=1605.262..1611.835 rows=23707 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=920.23..8668.99 rows=234758 width=8) (actual time=55.490..1493.620 rows=242614 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102107 orders_by_customer  (cost=0.00..7132.41 rows=234758 width=8) (actual time=0.430..1325.474 rows=234682 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2471
+                                       ->  Hash  (cost=623.89..623.89 rows=23707 width=4) (actual time=53.497..53.498 rows=23707 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1090kB
+                                             ->  Index Only Scan using q05i3_102139 on customer_102139 customer  (cost=0.29..623.89 rows=23707 width=4) (actual time=0.734..25.298 rows=23707 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 14.650 ms
+                         Execution Time: 1622.125 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10411.77..10413.77 rows=200 width=16) (actual time=1616.754..1616.764 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9821.54..10057.63 rows=23609 width=12) (actual time=1606.135..1611.840 rows=23609 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=917.54..8652.33 rows=233842 width=8) (actual time=54.828..1497.779 rows=241447 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102122 orders_by_customer  (cost=0.00..7120.85 rows=233842 width=8) (actual time=3.134..1325.587 rows=233660 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2568
+                                       ->  Hash  (cost=622.42..622.42 rows=23609 width=4) (actual time=51.462..51.463 rows=23609 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1087kB
+                                             ->  Index Only Scan using q05i3_102154 on customer_102154 customer  (cost=0.29..622.42 rows=23609 width=4) (actual time=0.393..33.225 rows=23609 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 14.748 ms
+                         Execution Time: 1617.866 ms
+               ->  Task
+                     Tuple data received from node: 624 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10261.07..10263.07 rows=200 width=16) (actual time=1611.439..1611.449 rows=39 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9675.69..9909.84 rows=23415 width=12) (actual time=1570.140..1593.568 rows=23415 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=908.20..8531.74 rows=228791 width=8) (actual time=37.495..1445.402 rows=238790 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102114 orders_by_customer  (cost=0.00..7022.85 rows=228791 width=8) (actual time=4.383..1301.313 rows=230996 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2512
+                                       ->  Hash  (cost=615.51..615.51 rows=23415 width=4) (actual time=32.674..32.675 rows=23415 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1080kB
+                                             ->  Index Only Scan using q05i3_102146 on customer_102146 customer  (cost=0.29..615.51 rows=23415 width=4) (actual time=2.396..16.112 rows=23415 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 16.113 ms
+                         Execution Time: 1615.896 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10423.98..10425.98 rows=200 width=16) (actual time=1610.216..1610.226 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9838.20..10072.51 rows=23431 width=12) (actual time=1593.647..1599.625 rows=23431 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=908.64..8655.31 rows=236579 width=8) (actual time=45.910..1477.606 rows=241675 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102126 orders_by_customer  (cost=0.00..7125.54 rows=236579 width=8) (actual time=2.857..1314.158 rows=233976 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2627
+                                       ->  Hash  (cost=615.75..615.75 rows=23431 width=4) (actual time=42.875..42.876 rows=23431 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1080kB
+                                             ->  Index Only Scan using customer_pkey_102158 on customer_102158 customer  (cost=0.29..615.75 rows=23431 width=4) (actual time=0.852..22.370 rows=23431 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 15.156 ms
+                         Execution Time: 1611.241 ms
+               ->  Task
+                     Tuple data received from node: 624 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10452.00..10454.00 rows=200 width=16) (actual time=1606.081..1606.087 rows=39 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9860.90..10097.34 rows=23644 width=12) (actual time=1595.693..1601.173 rows=23644 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=918.50..8682.21 rows=235738 width=8) (actual time=45.507..1472.719 rows=243442 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102132 orders_by_customer  (cost=0.00..7144.79 rows=235738 width=8) (actual time=2.297..1319.723 rows=235593 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2550
+                                       ->  Hash  (cost=622.95..622.95 rows=23644 width=4) (actual time=43.009..43.010 rows=23644 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1088kB
+                                             ->  Index Only Scan using q05i3_102164 on customer_102164 customer  (cost=0.29..622.95 rows=23644 width=4) (actual time=6.781..19.187 rows=23644 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 16.657 ms
+                         Execution Time: 1606.975 ms
+               ->  Task
+                     Tuple data received from node: 592 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10290.44..10292.44 rows=200 width=16) (actual time=1597.600..1597.609 rows=37 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9705.11..9939.24 rows=23413 width=12) (actual time=1581.752..1590.793 rows=23413 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=908.14..8539.26 rows=233171 width=8) (actual time=53.193..1475.782 rows=238536 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102124 orders_by_customer  (cost=0.00..7018.93 rows=233171 width=8) (actual time=2.426..1302.476 rows=230711 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2483
+                                       ->  Hash  (cost=615.48..615.48 rows=23413 width=4) (actual time=50.539..50.540 rows=23413 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1080kB
+                                             ->  Index Only Scan using q05i3_102156 on customer_102156 customer  (cost=0.29..615.48 rows=23413 width=4) (actual time=2.260..36.837 rows=23413 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 16.241 ms
+                         Execution Time: 1598.687 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10169.94..10171.94 rows=200 width=16) (actual time=1594.085..1594.096 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9589.94..9821.94 rows=23200 width=12) (actual time=1583.932..1589.352 rows=23200 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=902.29..8442.54 rows=229479 width=8) (actual time=52.081..1477.781 rows=237256 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102136 orders_by_customer  (cost=0.00..6937.76 rows=229479 width=8) (actual time=8.873..1333.762 rows=229425 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2396
+                                       ->  Hash  (cost=612.29..612.29 rows=23200 width=4) (actual time=42.952..42.953 rows=23200 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1072kB
+                                             ->  Index Only Scan using q05i3_102168 on customer_102168 customer  (cost=0.29..612.29 rows=23200 width=4) (actual time=1.277..19.154 rows=23200 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 15.012 ms
+                         Execution Time: 1595.054 ms
+               ->  Task
+                     Tuple data received from node: 608 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10321.61..10323.61 rows=200 width=16) (actual time=1593.431..1593.442 rows=38 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9739.56..9972.38 rows=23282 width=12) (actual time=1581.547..1587.218 rows=23282 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=904.54..8564.25 rows=235061 width=8) (actual time=44.928..1472.471 rows=240116 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102134 orders_by_customer  (cost=0.00..7042.56 rows=235061 width=8) (actual time=4.516..1319.932 rows=232457 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2628
+                                       ->  Hash  (cost=613.52..613.52 rows=23282 width=4) (actual time=40.210..40.211 rows=23282 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1075kB
+                                             ->  Index Only Scan using q05i3_102166 on customer_102166 customer  (cost=0.29..613.52 rows=23282 width=4) (actual time=4.032..34.550 rows=23282 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 8.633 ms
+                         Execution Time: 1594.467 ms
+               ->  Task
+                     Tuple data received from node: 624 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10230.52..10232.52 rows=200 width=16) (actual time=1578.280..1578.293 rows=39 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9643.64..9878.39 rows=23475 width=12) (actual time=1558.203..1566.886 rows=23475 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=913.85..8516.29 rows=225471 width=8) (actual time=52.582..1454.228 rows=238078 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102128 orders_by_customer  (cost=0.00..7010.46 rows=225471 width=8) (actual time=4.504..1291.937 rows=230061 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2456
+                                       ->  Hash  (cost=620.41..620.41 rows=23475 width=4) (actual time=47.891..47.892 rows=23475 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1082kB
+                                             ->  Index Only Scan using q05i3_102160 on customer_102160 customer  (cost=0.29..620.41 rows=23475 width=4) (actual time=5.568..14.137 rows=23475 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 9.129 ms
+                         Execution Time: 1579.334 ms
+               ->  Task
+                     Tuple data received from node: 624 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10256.32..10258.32 rows=200 width=16) (actual time=1562.576..1562.587 rows=39 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9670.57..9904.87 rows=23430 width=12) (actual time=1542.805..1556.651 rows=23430 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=908.61..8535.38 rows=227039 width=8) (actual time=46.685..1450.498 rows=239355 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102130 orders_by_customer  (cost=0.00..7030.68 rows=227039 width=8) (actual time=6.733..1303.512 rows=231619 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2515
+                                       ->  Hash  (cost=615.74..615.74 rows=23430 width=4) (actual time=39.745..39.746 rows=23430 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1080kB
+                                             ->  Index Only Scan using customer_pkey_102162 on customer_102162 customer  (cost=0.29..615.74 rows=23430 width=4) (actual time=2.307..26.741 rows=23430 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 16.522 ms
+                         Execution Time: 1563.619 ms
+               ->  Task
+                     Tuple data received from node: 624 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10295.17..10297.17 rows=200 width=16) (actual time=1559.484..1559.491 rows=39 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9705.72..9941.50 rows=23578 width=12) (actual time=1554.107..1557.106 rows=23578 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=916.68..8563.92 rows=228359 width=8) (actual time=65.641..1464.588 rows=240781 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102138 orders_by_customer  (cost=0.00..7047.69 rows=228359 width=8) (actual time=19.437..1316.616 rows=232931 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2564
+                                       ->  Hash  (cost=621.96..621.96 rows=23578 width=4) (actual time=45.408..45.409 rows=23578 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1085kB
+                                             ->  Index Only Scan using q05i3_102170 on customer_102170 customer  (cost=0.29..621.96 rows=23578 width=4) (actual time=4.612..34.432 rows=23578 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 18.037 ms
+                         Execution Time: 1560.408 ms
+               ->  Task
+                     Tuple data received from node: 592 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=10467.72..10469.72 rows=200 width=16) (actual time=1541.760..1541.771 rows=37 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=9877.77..10113.75 rows=23598 width=12) (actual time=1528.895..1537.141 rows=23598 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Right Join  (cost=917.23..8687.18 rows=238118 width=8) (actual time=59.107..1405.560 rows=243207 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102108 orders_by_customer  (cost=0.00..7144.77 rows=238118 width=8) (actual time=0.819..1222.255 rows=235471 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 2671
+                                       ->  Hash  (cost=622.26..622.26 rows=23598 width=4) (actual time=57.354..57.355 rows=23598 loops=1)
+                                             Buckets: 32768  Batches: 1  Memory Usage: 1086kB
+                                             ->  Index Only Scan using q05i3_102140 on customer_102140 customer  (cost=0.29..622.26 rows=23598 width=4) (actual time=0.652..28.032 rows=23598 loops=1)
+                                                   Heap Fetches: 0
+                         Planning Time: 26.079 ms
+                         Execution Time: 1545.254 ms
+ Planning Time: 4.306 ms
+ Execution Time: 2106.809 ms
+(652 rows)
+

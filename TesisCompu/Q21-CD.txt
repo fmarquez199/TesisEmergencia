@@ -1,0 +1,1392 @@
+SET
+                                                                         QUERY PLAN                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit (actual rows=100 loops=1)
+   ->  Sort (actual rows=100 loops=1)
+         Sort Key: (COALESCE((pg_catalog.sum(remote_scan.numwait))::bigint, '0'::bigint)) DESC, remote_scan.s_name
+         Sort Method: top-N heapsort  Memory: 37kB
+         ->  HashAggregate (actual rows=2011 loops=1)
+               Group Key: remote_scan.s_name
+               Batches: 1  Memory Usage: 641kB
+               ->  Custom Scan (Citus Adaptive) (actual rows=17038 loops=1)
+                     Task Count: 32
+                     Tuple data received from nodes: 549 kB
+                     Tasks Shown: All
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=522 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=610 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 48kB
+                                       ->  Nested Loop (actual rows=610 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1228 loops=1)
+                                                   ->  Gather (actual rows=2061 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2061 loops=1)
+                                                               ->  Hash Join (actual rows=24284 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102020 l1 (actual rows=595943 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 345452
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102020 on lineitem_102020 l3 (actual rows=1 loops=24284)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102020 on lineitem_102020 l2 (actual rows=1 loops=2061)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102084 on orders_102084 orders (actual rows=0 loops=1228)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=540 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=603 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 48kB
+                                       ->  Nested Loop (actual rows=603 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1238 loops=1)
+                                                   ->  Gather (actual rows=2074 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2074 loops=1)
+                                                               ->  Hash Join (actual rows=23746 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102024 l1 (actual rows=592167 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344083
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102024 on lineitem_102024 l3 (actual rows=1 loops=23746)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102024 on lineitem_102024 l2 (actual rows=1 loops=2074)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102088 on orders_102088 orders (actual rows=0 loops=1238)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=529 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=626 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 49kB
+                                       ->  Nested Loop (actual rows=626 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1323 loops=1)
+                                                   ->  Gather (actual rows=2192 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2192 loops=1)
+                                                               ->  Hash Join (actual rows=24111 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102026 l1 (actual rows=592195 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 345686
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102026 on lineitem_102026 l3 (actual rows=1 loops=24111)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102026 on lineitem_102026 l2 (actual rows=1 loops=2192)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102090 on orders_102090 orders (actual rows=0 loops=1323)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=549 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=645 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 50kB
+                                       ->  Nested Loop (actual rows=645 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1272 loops=1)
+                                                   ->  Gather (actual rows=2108 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2108 loops=1)
+                                                               ->  Hash Join (actual rows=23854 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102038 l1 (actual rows=590657 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344515
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102038 on lineitem_102038 l3 (actual rows=1 loops=23854)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102038 on lineitem_102038 l2 (actual rows=1 loops=2108)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102102 on orders_102102 orders (actual rows=1 loops=1272)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 16 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=493 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=575 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 47kB
+                                       ->  Nested Loop (actual rows=575 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1219 loops=1)
+                                                   ->  Gather (actual rows=2064 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2064 loops=1)
+                                                               ->  Hash Join (actual rows=23865 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102040 l1 (actual rows=593153 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344160
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102040 on lineitem_102040 l3 (actual rows=1 loops=23865)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102040 on lineitem_102040 l2 (actual rows=1 loops=2064)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102104 on orders_102104 orders (actual rows=0 loops=1219)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=514 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=582 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 47kB
+                                       ->  Nested Loop (actual rows=582 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1254 loops=1)
+                                                   ->  Gather (actual rows=2123 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2123 loops=1)
+                                                               ->  Hash Join (actual rows=24014 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102036 l1 (actual rows=593743 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344760
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102036 on lineitem_102036 l3 (actual rows=1 loops=24014)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102036 on lineitem_102036 l2 (actual rows=1 loops=2123)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102100 on orders_102100 orders (actual rows=0 loops=1254)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 16 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=504 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=583 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 47kB
+                                       ->  Nested Loop (actual rows=583 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1202 loops=1)
+                                                   ->  Gather (actual rows=2031 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2031 loops=1)
+                                                               ->  Hash Join (actual rows=23771 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102022 l1 (actual rows=593686 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 345112
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102022 on lineitem_102022 l3 (actual rows=1 loops=23771)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102022 on lineitem_102022 l2 (actual rows=1 loops=2031)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102086 on orders_102086 orders (actual rows=0 loops=1202)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=563 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=643 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 50kB
+                                       ->  Nested Loop (actual rows=643 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1304 loops=1)
+                                                   ->  Gather (actual rows=2152 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2152 loops=1)
+                                                               ->  Hash Join (actual rows=23776 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102034 l1 (actual rows=593830 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 345935
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102034 on lineitem_102034 l3 (actual rows=1 loops=23776)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102034 on lineitem_102034 l2 (actual rows=1 loops=2152)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102098 on orders_102098 orders (actual rows=0 loops=1304)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=538 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=630 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 49kB
+                                       ->  Nested Loop (actual rows=630 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1284 loops=1)
+                                                   ->  Gather (actual rows=2128 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2128 loops=1)
+                                                               ->  Hash Join (actual rows=23982 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102030 l1 (actual rows=589874 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 343871
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102030 on lineitem_102030 l3 (actual rows=1 loops=23982)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102030 on lineitem_102030 l2 (actual rows=1 loops=2128)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102094 on orders_102094 orders (actual rows=0 loops=1284)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=538 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=640 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 50kB
+                                       ->  Nested Loop (actual rows=640 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1290 loops=1)
+                                                   ->  Gather (actual rows=2149 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2149 loops=1)
+                                                               ->  Hash Join (actual rows=23982 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102018 l1 (actual rows=593056 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344682
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102018 on lineitem_102018 l3 (actual rows=1 loops=23982)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102018 on lineitem_102018 l2 (actual rows=1 loops=2149)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102082 on orders_102082 orders (actual rows=0 loops=1290)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=544 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=621 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 49kB
+                                       ->  Nested Loop (actual rows=621 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1306 loops=1)
+                                                   ->  Gather (actual rows=2163 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2163 loops=1)
+                                                               ->  Hash Join (actual rows=23918 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102028 l1 (actual rows=592197 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 345186
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102028 on lineitem_102028 l3 (actual rows=1 loops=23918)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102028 on lineitem_102028 l2 (actual rows=1 loops=2163)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102092 on orders_102092 orders (actual rows=0 loops=1306)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=549 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=640 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 50kB
+                                       ->  Nested Loop (actual rows=640 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1305 loops=1)
+                                                   ->  Gather (actual rows=2111 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2111 loops=1)
+                                                               ->  Hash Join (actual rows=23828 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102042 l1 (actual rows=591071 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344725
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102042 on lineitem_102042 l3 (actual rows=1 loops=23828)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102042 on lineitem_102042 l2 (actual rows=1 loops=2111)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102106 on orders_102106 orders (actual rows=0 loops=1305)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 16 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=502 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=598 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 48kB
+                                       ->  Nested Loop (actual rows=598 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1245 loops=1)
+                                                   ->  Gather (actual rows=2101 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2101 loops=1)
+                                                               ->  Hash Join (actual rows=23630 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102032 l1 (actual rows=594201 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344296
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102032 on lineitem_102032 l3 (actual rows=1 loops=23630)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102032 on lineitem_102032 l2 (actual rows=1 loops=2101)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102096 on orders_102096 orders (actual rows=0 loops=1245)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=562 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=634 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 49kB
+                                       ->  Nested Loop (actual rows=634 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1286 loops=1)
+                                                   ->  Gather (actual rows=2133 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2133 loops=1)
+                                                               ->  Hash Join (actual rows=23703 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102025 l1 (actual rows=590805 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 342991
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102025 on lineitem_102025 l3 (actual rows=1 loops=23703)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102025 on lineitem_102025 l2 (actual rows=1 loops=2133)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102089 on orders_102089 orders (actual rows=0 loops=1286)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=544 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=641 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 50kB
+                                       ->  Nested Loop (actual rows=641 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1242 loops=1)
+                                                   ->  Gather (actual rows=2070 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2070 loops=1)
+                                                               ->  Hash Join (actual rows=23805 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102027 l1 (actual rows=593270 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 345526
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102027 on lineitem_102027 l3 (actual rows=1 loops=23805)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102027 on lineitem_102027 l2 (actual rows=1 loops=2070)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102091 on orders_102091 orders (actual rows=1 loops=1242)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=545 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=631 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 49kB
+                                       ->  Nested Loop (actual rows=631 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1245 loops=1)
+                                                   ->  Gather (actual rows=2066 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2066 loops=1)
+                                                               ->  Hash Join (actual rows=24042 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102017 l1 (actual rows=592521 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344317
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102017 on lineitem_102017 l3 (actual rows=1 loops=24042)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102017 on lineitem_102017 l2 (actual rows=1 loops=2066)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102081 on orders_102081 orders (actual rows=1 loops=1245)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=539 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=639 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 49kB
+                                       ->  Nested Loop (actual rows=639 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1335 loops=1)
+                                                   ->  Gather (actual rows=2229 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2229 loops=1)
+                                                               ->  Hash Join (actual rows=23777 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102019 l1 (actual rows=591201 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344214
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102019 on lineitem_102019 l3 (actual rows=1 loops=23777)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102019 on lineitem_102019 l2 (actual rows=1 loops=2229)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102083 on orders_102083 orders (actual rows=0 loops=1335)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 16 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=497 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=573 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 47kB
+                                       ->  Nested Loop (actual rows=573 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1236 loops=1)
+                                                   ->  Gather (actual rows=2083 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2083 loops=1)
+                                                               ->  Hash Join (actual rows=23894 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102021 l1 (actual rows=594002 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 345411
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102021 on lineitem_102021 l3 (actual rows=1 loops=23894)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102021 on lineitem_102021 l2 (actual rows=1 loops=2083)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102085 on orders_102085 orders (actual rows=0 loops=1236)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=546 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=626 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 49kB
+                                       ->  Nested Loop (actual rows=626 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1244 loops=1)
+                                                   ->  Gather (actual rows=2087 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2087 loops=1)
+                                                               ->  Hash Join (actual rows=23679 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102033 l1 (actual rows=591947 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344807
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102033 on lineitem_102033 l3 (actual rows=1 loops=23679)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102033 on lineitem_102033 l2 (actual rows=1 loops=2087)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102097 on orders_102097 orders (actual rows=1 loops=1244)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=555 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=618 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 49kB
+                                       ->  Nested Loop (actual rows=618 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1270 loops=1)
+                                                   ->  Gather (actual rows=2112 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2112 loops=1)
+                                                               ->  Hash Join (actual rows=23902 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102035 l1 (actual rows=593437 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 346095
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102035 on lineitem_102035 l3 (actual rows=1 loops=23902)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102035 on lineitem_102035 l2 (actual rows=1 loops=2112)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102099 on orders_102099 orders (actual rows=0 loops=1270)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=551 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=641 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 50kB
+                                       ->  Nested Loop (actual rows=641 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1243 loops=1)
+                                                   ->  Gather (actual rows=2083 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2083 loops=1)
+                                                               ->  Hash Join (actual rows=23859 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102031 l1 (actual rows=593361 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 345487
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102031 on lineitem_102031 l3 (actual rows=1 loops=23859)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102031 on lineitem_102031 l2 (actual rows=1 loops=2083)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102095 on orders_102095 orders (actual rows=1 loops=1243)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=519 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=609 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 48kB
+                                       ->  Nested Loop (actual rows=609 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1226 loops=1)
+                                                   ->  Gather (actual rows=2108 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2108 loops=1)
+                                                               ->  Hash Join (actual rows=23790 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102029 l1 (actual rows=592419 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344835
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102029 on lineitem_102029 l3 (actual rows=1 loops=23790)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102029 on lineitem_102029 l2 (actual rows=1 loops=2108)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102093 on orders_102093 orders (actual rows=0 loops=1226)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=531 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=606 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 48kB
+                                       ->  Nested Loop (actual rows=606 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1228 loops=1)
+                                                   ->  Gather (actual rows=2081 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2081 loops=1)
+                                                               ->  Hash Join (actual rows=24066 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102023 l1 (actual rows=594777 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 345576
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102023 on lineitem_102023 l3 (actual rows=1 loops=24066)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102023 on lineitem_102023 l2 (actual rows=1 loops=2081)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102087 on orders_102087 orders (actual rows=0 loops=1228)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=519 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=599 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 48kB
+                                       ->  Nested Loop (actual rows=599 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1223 loops=1)
+                                                   ->  Gather (actual rows=2052 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2052 loops=1)
+                                                               ->  Hash Join (actual rows=23572 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102037 l1 (actual rows=592311 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 345919
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102037 on lineitem_102037 l3 (actual rows=1 loops=23572)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102037 on lineitem_102037 l2 (actual rows=1 loops=2052)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102101 on orders_102101 orders (actual rows=0 loops=1223)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=547 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=642 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 50kB
+                                       ->  Nested Loop (actual rows=642 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1321 loops=1)
+                                                   ->  Gather (actual rows=2139 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2139 loops=1)
+                                                               ->  Hash Join (actual rows=24057 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102039 l1 (actual rows=591444 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 344496
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102039 on lineitem_102039 l3 (actual rows=1 loops=24057)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102039 on lineitem_102039 l2 (actual rows=1 loops=2139)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102103 on orders_102103 orders (actual rows=0 loops=1321)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=534 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=609 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 48kB
+                                       ->  Nested Loop (actual rows=609 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1254 loops=1)
+                                                   ->  Gather (actual rows=2107 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 0
+                                                         ->  Nested Loop Anti Join (actual rows=2107 loops=1)
+                                                               ->  Hash Join (actual rows=23865 loops=1)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102041 l1 (actual rows=592402 loops=1)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 343435
+                                                                     ->  Hash (actual rows=2011 loops=1)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=1)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=1)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=1)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=1)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102041 on lineitem_102041 l3 (actual rows=1 loops=23865)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102041 on lineitem_102041 l2 (actual rows=1 loops=2107)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102105 on orders_102105 orders (actual rows=0 loops=1254)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=551 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=640 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 50kB
+                                       ->  Nested Loop (actual rows=640 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1263 loops=1)
+                                                   ->  Gather (actual rows=2081 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 2
+                                                         ->  Nested Loop Anti Join (actual rows=694 loops=3)
+                                                               ->  Hash Join (actual rows=7886 loops=3)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102016 l1 (actual rows=198289 loops=3)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 115044
+                                                                     ->  Hash (actual rows=2011 loops=3)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=3)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=3)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=3)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=3)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102016 on lineitem_102016 l3 (actual rows=1 loops=23658)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102016 on lineitem_102016 l2 (actual rows=1 loops=2081)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102080 on orders_102080 orders (actual rows=1 loops=1263)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=532 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=609 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 48kB
+                                       ->  Nested Loop (actual rows=609 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1260 loops=1)
+                                                   ->  Gather (actual rows=2126 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 2
+                                                         ->  Nested Loop Anti Join (actual rows=709 loops=3)
+                                                               ->  Hash Join (actual rows=7906 loops=3)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102012 l1 (actual rows=197906 loops=3)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 115112
+                                                                     ->  Hash (actual rows=2011 loops=3)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=3)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=3)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=3)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=3)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102012 on lineitem_102012 l3 (actual rows=1 loops=23719)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102012 on lineitem_102012 l2 (actual rows=1 loops=2126)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102076 on orders_102076 orders (actual rows=0 loops=1260)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 16 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=498 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=591 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 48kB
+                                       ->  Nested Loop (actual rows=591 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1225 loops=1)
+                                                   ->  Gather (actual rows=2071 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 2
+                                                         ->  Nested Loop Anti Join (actual rows=690 loops=3)
+                                                               ->  Hash Join (actual rows=7901 loops=3)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102014 l1 (actual rows=197429 loops=3)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 114522
+                                                                     ->  Hash (actual rows=2011 loops=3)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=3)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=3)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=3)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=3)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102014 on lineitem_102014 l3 (actual rows=1 loops=23702)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102014 on lineitem_102014 l2 (actual rows=1 loops=2071)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102078 on orders_102078 orders (actual rows=0 loops=1225)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 16 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=492 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=573 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 47kB
+                                       ->  Nested Loop (actual rows=573 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1226 loops=1)
+                                                   ->  Gather (actual rows=2111 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 2
+                                                         ->  Nested Loop Anti Join (actual rows=704 loops=3)
+                                                               ->  Hash Join (actual rows=7982 loops=3)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102015 l1 (actual rows=197733 loops=3)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 115103
+                                                                     ->  Hash (actual rows=2011 loops=3)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=3)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=3)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=3)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=3)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102015 on lineitem_102015 l3 (actual rows=1 loops=23945)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102015 on lineitem_102015 l2 (actual rows=1 loops=2111)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102079 on orders_102079 orders (actual rows=0 loops=1226)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 17 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=536 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=634 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 49kB
+                                       ->  Nested Loop (actual rows=634 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1256 loops=1)
+                                                   ->  Gather (actual rows=2085 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 2
+                                                         ->  Nested Loop Anti Join (actual rows=695 loops=3)
+                                                               ->  Hash Join (actual rows=7903 loops=3)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102013 l1 (actual rows=197350 loops=3)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 114671
+                                                                     ->  Hash (actual rows=2011 loops=3)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=3)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=3)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=3)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=3)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102013 on lineitem_102013 l3 (actual rows=1 loops=23709)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102013 on lineitem_102013 l2 (actual rows=1 loops=2085)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102077 on orders_102077 orders (actual rows=1 loops=1256)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+                     ->  Task
+                           Tuple data received from node: 18 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  GroupAggregate (actual rows=555 loops=1)
+                                 Group Key: supplier.s_name
+                                 ->  Sort (actual rows=643 loops=1)
+                                       Sort Key: supplier.s_name
+                                       Sort Method: quicksort  Memory: 50kB
+                                       ->  Nested Loop (actual rows=643 loops=1)
+                                             ->  Nested Loop Semi Join (actual rows=1345 loops=1)
+                                                   ->  Gather (actual rows=2197 loops=1)
+                                                         Workers Planned: 2
+                                                         Workers Launched: 2
+                                                         ->  Nested Loop Anti Join (actual rows=732 loops=3)
+                                                               ->  Hash Join (actual rows=8013 loops=3)
+                                                                     Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                                     ->  Parallel Seq Scan on lineitem_102011 l1 (actual rows=197437 loops=3)
+                                                                           Filter: (l_receiptdate > l_commitdate)
+                                                                           Rows Removed by Filter: 114255
+                                                                     ->  Hash (actual rows=2011 loops=3)
+                                                                           Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                                                           ->  Nested Loop (actual rows=2011 loops=3)
+                                                                                 ->  Seq Scan on nation_102008 nation (actual rows=1 loops=3)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                                                                 ->  Bitmap Heap Scan on supplier_102010 supplier (actual rows=2011 loops=3)
+                                                                                       Recheck Cond: (s_nationkey = nation.n_nationkey)
+                                                                                       Heap Blocks: exact=934
+                                                                                       ->  Bitmap Index Scan on q02i4_102010 (actual rows=2011 loops=3)
+                                                                                             Index Cond: (s_nationkey = nation.n_nationkey)
+                                                               ->  Index Only Scan using q21i1_102011 on lineitem_102011 l3 (actual rows=1 loops=24040)
+                                                                     Index Cond: (l_orderkey = l1.l_orderkey)
+                                                                     Filter: ((l_receiptdate > l_commitdate) AND (l_suppkey <> l1.l_suppkey))
+                                                                     Rows Removed by Filter: 1
+                                                                     Heap Fetches: 0
+                                                   ->  Index Only Scan using q21i1_102011 on lineitem_102011 l2 (actual rows=1 loops=2197)
+                                                         Index Cond: (l_orderkey = l1.l_orderkey)
+                                                         Filter: (l_suppkey <> l1.l_suppkey)
+                                                         Rows Removed by Filter: 1
+                                                         Heap Fetches: 0
+                                             ->  Index Only Scan using q21i2_102075 on orders_102075 orders (actual rows=0 loops=1345)
+                                                   Index Cond: ((o_orderkey = l1.l_orderkey) AND (o_orderstatus = 'F'::bpchar))
+                                                   Heap Fetches: 0
+(1387 rows)
+

@@ -1,0 +1,23 @@
+                                                                QUERY PLAN                                                                
+------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=1006.82..1006.85 rows=10 width=44) (actual time=806.155..806.157 rows=10 loops=1)
+   ->  Sort  (cost=1006.82..1007.32 rows=200 width=44) (actual time=806.154..806.155 rows=10 loops=1)
+         Sort Key: (sum(remote_scan.revenue)) DESC, remote_scan.o_orderdate
+         Sort Method: top-N heapsort  Memory: 26kB
+         ->  HashAggregate  (cost=1000.00..1002.50 rows=200 width=44) (actual time=801.490..804.053 rows=11620 loops=1)
+               Group Key: remote_scan.l_orderkey, remote_scan.o_orderdate, remote_scan.o_shippriority
+               Batches: 1  Memory Usage: 4769kB
+               ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=44) (actual time=795.283..795.676 rows=11620 loops=1)
+                     Task Count: 16
+                     Tuple data received from nodes: 294 kB
+                     Tasks Shown: None, not supported for re-partition queries
+                     ->  MapMergeJob
+                           Map Task Count: 32
+                           Merge Task Count: 16
+                     ->  MapMergeJob
+                           Map Task Count: 32
+                           Merge Task Count: 16
+ Planning Time: 8.205 ms
+ Execution Time: 806.889 ms
+(19 filas)
+

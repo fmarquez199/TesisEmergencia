@@ -1,0 +1,32 @@
+                                                                            QUERY PLAN                                                                            
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize GroupAggregate  (cost=198084.28..198130.36 rows=5 width=24) (actual time=1337.550..1377.473 rows=5 loops=1)
+   Group Key: orders.o_orderpriority
+   ->  Gather Merge  (cost=198084.28..198130.26 rows=10 width=24) (actual time=1336.796..1377.425 rows=15 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         ->  Partial GroupAggregate  (cost=197084.26..197129.09 rows=5 width=24) (actual time=1312.579..1315.822 rows=5 loops=3)
+               Group Key: orders.o_orderpriority
+               ->  Sort  (cost=197084.26..197099.19 rows=5970 width=16) (actual time=1311.738..1313.160 rows=17508 loops=3)
+                     Sort Key: orders.o_orderpriority
+                     Sort Method: quicksort  Memory: 1314kB
+                     Worker 0:  Sort Method: quicksort  Memory: 702kB
+                     Worker 1:  Sort Method: quicksort  Memory: 752kB
+                     ->  Parallel Hash Semi Join  (cost=157531.31..196709.84 rows=5970 width=16) (actual time=1144.540..1306.253 rows=17508 loops=3)
+                           Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                           ->  Parallel Seq Scan on orders  (cost=0.00..35511.00 rows=23483 width=20) (actual time=0.125..93.982 rows=19073 loops=3)
+                                 Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                 Rows Removed by Filter: 480927
+                           ->  Parallel Hash  (cost=143856.49..143856.49 rows=833506 width=4) (actual time=1026.376..1026.377 rows=1264432 loops=3)
+                                 Buckets: 262144 (originally 262144)  Batches: 32 (originally 16)  Memory Usage: 6784kB
+                                 ->  Parallel Seq Scan on lineitem  (cost=0.00..143856.49 rows=833506 width=4) (actual time=17.972..609.153 rows=1264432 loops=3)
+                                       Filter: (l_commitdate < l_receiptdate)
+                                       Rows Removed by Filter: 735973
+ Planning Time: 0.551 ms
+ JIT:
+   Functions: 54
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+   Timing: Generation 3.784 ms, Inlining 0.000 ms, Optimization 2.261 ms, Emission 51.790 ms, Total 57.835 ms
+ Execution Time: 1395.113 ms
+(28 rows)
+

@@ -1,0 +1,95 @@
+CREATE VIEW
+                                                                                    QUERY PLAN                                                                                    
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=0 width=0) (actual time=30.358..30.360 rows=1 loops=1)
+   ->  Distributed Subplan 1_1
+         Subplan Duration: 436.83 ms
+         Intermediate Data Size: 273 kB
+         Result destination: Write locally
+         ->  HashAggregate  (cost=500.00..502.50 rows=200 width=36) (actual time=424.345..425.957 rows=10000 loops=1)
+               Group Key: remote_scan.supplier_no
+               Batches: 1  Memory Usage: 4257kB
+               ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=36) (actual time=378.852..391.336 rows=162022 loops=1)
+                     Task Count: 32
+                     Tuple data received from nodes: 2816 kB
+                     Tasks Shown: One of 32
+                     ->  Task
+                           Tuple data received from node: 87 kB
+                           Node: host=159.90.9.11 port=5432 dbname=raw_tpch
+                           ->  HashAggregate  (cost=6496.84..6562.41 rows=5246 width=36) (actual time=63.287..64.607 rows=5026 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 1  Memory Usage: 2257kB
+                                 ->  Seq Scan on lineitem_102359 lineitem  (cost=0.00..6423.68 rows=7316 width=16) (actual time=0.035..53.693 rows=7000 loops=1)
+                                       Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Rows Removed by Filter: 181512
+                               Planning Time: 0.153 ms
+                               Execution Time: 65.279 ms
+         Planning Time: 0.000 ms
+         Execution Time: 426.580 ms
+   ->  Distributed Subplan 1_2
+         Subplan Duration: 14.84 ms
+         Intermediate Data Size: 20 bytes
+         Result destination: Send to 4 nodes
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=0 width=0) (actual time=3.421..3.422 rows=1 loops=1)
+               Task Count: 1
+               Tuple data received from nodes: 14 bytes
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 14 bytes
+                     Node: host=localhost port=5432 dbname=raw_tpch
+                     ->  Aggregate  (cost=84.18..84.19 rows=1 width=32) (actual time=2.816..2.816 rows=1 loops=1)
+                           ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..67.51 rows=6667 width=32) (actual time=1.630..1.952 rows=10000 loops=1)
+                         Planning Time: 0.023 ms
+                         Execution Time: 2.872 ms
+         Planning Time: 0.000 ms
+         Execution Time: 3.432 ms
+   ->  Distributed Subplan 1_3
+         Subplan Duration: 516.90 ms
+         Intermediate Data Size: 273 kB
+         Result destination: Send to 4 nodes
+         ->  HashAggregate  (cost=500.00..502.50 rows=200 width=36) (actual time=430.271..431.861 rows=10000 loops=1)
+               Group Key: remote_scan.supplier_no
+               Batches: 1  Memory Usage: 4257kB
+               ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=36) (actual time=384.501..397.202 rows=162022 loops=1)
+                     Task Count: 32
+                     Tuple data received from nodes: 2816 kB
+                     Tasks Shown: One of 32
+                     ->  Task
+                           Tuple data received from node: 88 kB
+                           Node: host=159.90.9.12 port=5432 dbname=raw_tpch
+                           ->  HashAggregate  (cost=6406.41..6468.45 rows=4963 width=36) (actual time=53.025..55.196 rows=5062 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 1  Memory Usage: 2257kB
+                                 ->  Seq Scan on lineitem_102348 lineitem  (cost=0.00..6338.78 rows=6763 width=16) (actual time=0.053..44.791 rows=7002 loops=1)
+                                       Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Rows Removed by Filter: 180117
+                               Planning Time: 0.263 ms
+                               Execution Time: 56.214 ms
+         Planning Time: 0.000 ms
+         Execution Time: 432.443 ms
+   Task Count: 1
+   Tuple data received from nodes: 75 bytes
+   Tasks Shown: All
+   ->  Task
+         Tuple data received from node: 75 bytes
+         Node: host=159.90.9.10 port=5432 dbname=raw_tpch
+         ->  Sort  (cost=611.59..611.60 rows=5 width=103) (actual time=26.289..26.293 rows=1 loops=1)
+               Sort Key: supplier.s_suppkey
+               Sort Method: quicksort  Memory: 25kB
+               InitPlan 1 (returns $0)
+                 ->  Function Scan on read_intermediate_result intermediate_result_1  (cost=0.00..0.00 rows=1 width=32) (actual time=0.086..0.087 rows=1 loops=1)
+               ->  Hash Join  (cost=448.00..611.53 rows=5 width=103) (actual time=22.291..26.265 rows=1 loops=1)
+                     Hash Cond: (intermediate_result.supplier_no = supplier.s_suppkey)
+                     ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..79.83 rows=6087 width=36) (actual time=8.550..12.520 rows=1 loops=1)
+                           Filter: (total_revenue = $0)
+                           Rows Removed by Filter: 9999
+                     ->  Hash  (cost=323.00..323.00 rows=10000 width=71) (actual time=13.496..13.498 rows=10000 loops=1)
+                           Buckets: 16384  Batches: 1  Memory Usage: 1144kB
+                           ->  Seq Scan on supplier_102333 supplier  (cost=0.00..323.00 rows=10000 width=71) (actual time=0.037..6.109 rows=10000 loops=1)
+             Planning Time: 0.818 ms
+             Execution Time: 26.869 ms
+ Planning Time: 5.449 ms
+ Execution Time: 998.977 ms
+(89 filas)
+
+DROP VIEW

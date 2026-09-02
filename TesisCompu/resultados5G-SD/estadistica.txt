@@ -1,0 +1,3321 @@
+Consulta (sin diseño) 1"
+     Tiempo   Manager Worker1 Worker2   Total
+1  10.78424  96389.20 2931544 2169440 5197373
+2  10.91528 101196.28 3077744 2277633 5456574
+3  10.84402  98127.60 2984414 2208566 5291108
+4  10.80404  95966.41 2918685 2159924 5174575
+5  10.84046  99900.83 3038345 2248476 5386722
+6  10.81212 100239.84 3048655 2256107 5405002
+7  10.82765  95574.99 2906780 2151114 5153470
+8  10.83842  96873.53 2946273 2180341 5223488
+9  10.77834  98729.99 3002735 2222124 5323589
+10 10.83907 100489.70 3056254 2261730 5418474
+11 10.81295  99647.24 3030632 2242769 5373048
+12 10.82196  99129.49 3014886 2231116 5345131
+13 10.81884  98500.35 2995751 2216956 5311207
+14 10.83890  96877.80 2946403 2180437 5223718
+15 10.82388  96142.67 2924045 2163891 5184079
+16 10.83727  95659.93 2909364 2153026 5158050
+17 10.81461  94859.60 2885023 2135013 5114895
+18 10.87560  96602.02 2938016 2174230 5208847
+19 10.81208  94837.32 2884345 2134511 5113694
+20 10.85650  98240.54 2987849 2211108 5297198
+21 10.82723  95571.35 2906669 2151032 5153273
+22 10.79853 100113.84 3044823 2253271 5398208
+23 10.82162  96122.58 2923435 2163439 5182996
+24 10.82854  96785.21 2943587 2178353 5218725
+25 10.81903  98502.03 2995802 2216993 5311298
+26 10.83350  98032.40 2981519 2206423 5285975
+27 10.84068  96291.88 2928584 2167249 5192125
+28 10.77316  97486.32 2964911 2194133 5256530
+29 10.81678  97280.59 2958654 2189502 5245437
+30 10.81620 100277.72 3049807 2256959 5407044
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo   Manager    Worker1    Worker2      Total
+Min.      10.77  94837.32 2884345.11 2134511.45 5113693.88
+1st Qu.   10.81  96179.97 2925179.99 2164730.62 5186090.59
+Median    10.82  97383.46 2961782.28 2191817.54 5250983.27
+Mean      10.83  97681.64 2970851.20 2198528.84 5267061.69
+3rd Qu.   10.84  99029.62 3011847.97 2228867.82 5339745.40
+Max.      10.92 101196.28 3077744.17 2277633.20 5456573.65
+Desv.Est   0.03   1831.17   55692.34   41214.18   98737.69
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.91647, p-value = 0.02175
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.95055, p-value = 0.1749
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 231, p-value = 0.6455
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+       tau 
+0.06206897 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 4202, p-value = 0.7315
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+0.06518354 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.95055, p-value = 0.1749
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 231, p-value = 0.6455
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+       tau 
+0.06206897 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 4202, p-value = 0.7315
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+0.06518354 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.95055, p-value = 0.1749
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 231, p-value = 0.6455
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+       tau 
+0.06206897 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 4202, p-value = 0.7315
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+0.06518354 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.95055, p-value = 0.1749
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 231, p-value = 0.6455
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+       tau 
+0.06206897 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 4202, p-value = 0.7315
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+0.06518354 
+
+[1] "Consulta (sin diseño) 2"
+     Tiempo  Manager  Worker1  Worker2    Total
+1  0.993435 8879.295 270051.4 199847.0 478777.7
+2  0.942611 8739.008 265784.8 196689.6 471213.3
+3  0.965630 8737.989 265753.8 196666.6 471158.4
+4  0.923560 8203.482 249497.5 184636.5 442337.4
+5  0.944796 8706.814 264805.6 195965.0 469477.4
+6  0.922652 8553.966 260157.0 192524.8 461235.8
+7  0.942283 8317.477 252964.5 187202.2 448484.1
+8  0.964689 8622.364 262237.2 194064.3 464923.8
+9  0.917811 8407.180 255692.7 189221.1 453321.0
+10 0.913075 8465.177 257456.6 190526.5 456448.2
+11 0.923220 8507.979 258758.4 191489.8 458756.1
+12 0.906148 8300.346 252443.5 186816.6 447560.4
+13 0.866898 7892.689 240045.1 177641.4 425579.2
+14 0.923386 8253.199 251009.6 185755.4 445018.2
+15 0.931106 8270.509 251536.0 186145.0 445951.6
+16 0.909957 8032.137 244286.3 180780.0 433098.4
+17 0.919320 8063.748 245247.7 181491.4 434802.9
+18 0.941503 8362.860 254344.7 188223.6 450931.2
+19 0.918535 8056.862 245038.2 181336.5 434431.6
+20 0.928213 8399.402 255456.1 189046.0 452901.6
+21 0.933545 8240.347 250618.7 185466.2 444325.2
+22 0.916491 8496.847 258419.8 191239.2 458155.9
+23 0.947477 8415.924 255958.6 189417.9 453792.4
+24 0.935875 8364.825 254404.5 188267.8 451037.1
+25 0.909687 8282.262 251893.5 186409.6 446585.3
+26 0.961751 8702.888 264686.2 195876.6 469265.7
+27 0.910938 8091.368 246087.7 182113.1 436292.1
+28 0.938640 8493.756 258325.8 191169.7 457989.2
+29 0.922579 8297.203 252347.9 186745.8 447390.9
+30 0.929213 8614.794 262007.0 193893.9 464515.6
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo Manager   Worker1   Worker2     Total
+Min.       0.87 7892.69 240045.15 177641.41 425579.24
+1st Qu.    0.92 8257.53 251141.17 185852.83 445251.53
+Median     0.93 8382.11 254930.32 188656.93 451969.37
+Mean       0.93 8392.42 255243.87 188888.97 452525.27
+3rd Qu.    0.94 8542.47 259807.32 192266.07 460615.87
+Max.       0.99 8879.29 270051.39 199847.02 478777.71
+Desv.Est   0.02  239.37   7280.18   5387.57  12907.12
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.9412, p-value = 0.09799
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.98478, p-value = 0.9334
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 322, p-value = 0.0001181
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.4804598 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 1558, p-value = 0.0001306
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.6533927 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.98478, p-value = 0.9334
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 322, p-value = 0.0001181
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.4804598 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 1558, p-value = 0.0001306
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.6533927 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.98478, p-value = 0.9334
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 322, p-value = 0.0001181
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.4804598 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 1558, p-value = 0.0001306
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.6533927 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.98478, p-value = 0.9334
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 322, p-value = 0.0001181
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.4804598 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 1558, p-value = 0.0001306
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.6533927 
+
+[1] "Consulta (sin diseño) 3"
+     Tiempo  Manager Worker1 Worker2   Total
+1  5.537251 49491.80 1505224 1113916 2668632
+2  5.570090 51640.66 1570579 1162281 2784500
+3  5.660344 51220.47 1557799 1152823 2761843
+4  5.779219 51333.67 1561242 1155371 2767947
+5  5.613279 51729.45 1573279 1164279 2789288
+6  5.830153 54051.73 1643908 1216547 2914506
+7  5.696850 50285.76 1529372 1131786 2711443
+8  5.474469 48930.65 1488158 1101286 2638375
+9  5.524573 50605.28 1539089 1138977 2728671
+10 5.773577 53527.21 1627955 1204741 2886224
+11 5.676540 52312.43 1591010 1177400 2820723
+12 5.675282 51985.78 1581075 1170048 2803109
+13 5.758931 52432.29 1594655 1180098 2827186
+14 5.691289 50868.58 1547097 1144903 2742869
+15 5.545091 49254.03 1497993 1108565 2655812
+16 5.611835 49535.34 1506548 1114896 2670980
+17 5.750882 50443.44 1534167 1135335 2719945
+18 5.675431 50411.77 1533204 1134622 2718238
+19 5.930346 52017.59 1582043 1170764 2804825
+20 5.821101 52675.16 1602042 1185564 2840281
+21 5.554170 49026.34 1491068 1103440 2643534
+22 5.594567 51867.59 1577481 1167388 2796736
+23 5.469401 48581.72 1477545 1093433 2619560
+24 5.693012 50883.98 1547566 1145250 2743700
+25 5.623690 51200.99 1557207 1152385 2760793
+26 5.909148 53471.90 1626273 1203496 2883242
+27 5.769915 51251.02 1558729 1153511 2763491
+28 5.701583 51593.64 1569149 1161222 2781965
+29 5.761845 51819.08 1576005 1166296 2794121
+30 5.782088 53606.11 1630355 1206517 2890479
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager    Worker1    Worker2      Total
+Min.       5.47 48581.72 1477545.40 1093432.81 2619559.93
+1st Qu.    5.60 50419.69 1533444.67 1134800.13 2718664.49
+Median     5.68 51292.34 1559985.25 1154441.05 2765718.64
+Mean       5.68 51268.52 1559260.56 1153904.75 2764433.83
+3rd Qu.    5.77 52009.64 1581800.79 1170585.27 2804395.70
+Max.       5.93 54051.73 1643908.00 1216546.67 2914506.40
+Desv.Est   0.12  1448.60   44057.05   32603.68   78109.33
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.97767, p-value = 0.7607
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.97364, p-value = 0.6428
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 338, p-value = 6.12e-06
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+     tau 
+0.554023 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 1190, p-value = 7.385e-06
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7352614 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.97364, p-value = 0.6428
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 338, p-value = 6.12e-06
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+     tau 
+0.554023 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 1190, p-value = 7.385e-06
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7352614 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.97364, p-value = 0.6428
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 338, p-value = 6.12e-06
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+     tau 
+0.554023 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 1190, p-value = 7.385e-06
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7352614 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.97364, p-value = 0.6428
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 338, p-value = 6.12e-06
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+     tau 
+0.554023 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 1190, p-value = 7.385e-06
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7352614 
+
+[1] "Consulta (sin diseño) 4"
+     Tiempo  Manager Worker1  Worker2   Total
+1  4.133306 36943.38 1123581 831487.6 1992012
+2  4.050809 37555.31 1142193 845260.5 2025008
+3  4.012373 36307.98 1104257 817186.6 1957751
+4  4.043061 35912.32 1092223 808281.5 1936417
+5  4.110160 37877.38 1151988 852509.4 2042375
+6  4.081512 37839.96 1150850 851667.2 2040357
+7  4.068852 35915.52 1092321 808353.6 1936590
+8  4.041307 36121.09 1098573 812980.4 1947674
+9  3.998602 36627.33 1113969 824374.4 1974971
+10 4.047910 37528.44 1141375 844655.6 2023559
+11 4.045660 37282.98 1133910 839131.1 2010324
+12 4.084139 37410.85 1137799 842009.2 2017219
+13 4.070824 37062.89 1127216 834177.6 1998457
+14 4.068144 36360.96 1105868 818379.1 1960608
+15 4.093874 36363.66 1105950 818439.9 1960754
+16 4.086287 36069.42 1097001 811817.4 1944888
+17 4.048527 35511.36 1080028 799257.1 1914797
+18 4.082613 36263.63 1102908 816188.6 1955360
+19 4.007877 35154.80 1069184 791232.0 1895571
+20 4.073406 36860.26 1121054 829617.0 1987531
+21 4.049961 35748.77 1087249 804600.5 1927598
+22 4.053705 37582.16 1143009 845864.8 2026456
+23 4.036603 35854.95 1090478 806990.4 1933324
+24 4.030837 36027.51 1095727 810874.2 1942628
+25 4.080031 37146.72 1129766 836064.3 2002977
+26 4.089540 37006.26 1125494 832903.0 1995403
+27 4.076101 36205.79 1101149 814886.8 1952241
+28 4.073191 36858.32 1120994 829573.2 1987426
+29 4.032102 36262.66 1102878 816166.7 1955308
+30 4.101042 38021.03 1156357 855742.4 2050120
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager    Worker1   Worker2     Total
+Min.       4.00 35154.80 1069184.26 791231.97 1895571.0
+1st Qu.    4.04 36082.34 1097394.03 812108.13 1945584.5
+Median     4.07 36495.50 1109959.69 821407.14 1967862.3
+Mean       4.06 36656.12 1114844.96 825022.40 1976523.5
+3rd Qu.    4.08 37248.91 1132873.87 838364.40 2008487.2
+Max.       4.13 38021.03 1156356.57 855742.38 2050120.0
+Desv.Est   0.03   761.18   23150.37  17132.04   41043.6
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.98449, p-value = 0.9283
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.9666, p-value = 0.4508
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 290, p-value = 0.009346
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.3333333 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 2280, p-value = 0.00622
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.4927697 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.9666, p-value = 0.4508
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 290, p-value = 0.009346
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.3333333 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 2280, p-value = 0.00622
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.4927697 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.9666, p-value = 0.4508
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 290, p-value = 0.009346
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.3333333 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 2280, p-value = 0.00622
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.4927697 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.9666, p-value = 0.4508
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 290, p-value = 0.009346
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.3333333 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 2280, p-value = 0.00622
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.4927697 
+
+[1] "Consulta (sin diseño) 5"
+      Tiempo  Manager Worker1 Worker2   Total
+1   9.004673 80483.52 2447794 1811449 4339727
+2   9.011040 83541.93 2540812 1880285 4504639
+3   9.021676 81637.18 2482881 1837415 4401933
+4   8.885619 78926.13 2400428 1776397 4255751
+5  10.817311 99687.46 3031855 2243674 5375217
+6   8.863941 82178.17 2499335 1849591 4431104
+7   9.223302 81413.55 2476080 1832382 4389875
+8   9.329790 83389.41 2536173 1876852 4496414
+9   9.299247 85181.42 2590674 1917185 4593041
+10  9.319500 86401.69 2627787 1944650 4658839
+11  9.114287 83993.16 2554535 1890441 4528969
+12  9.328031 85445.08 2598693 1923120 4607258
+13  9.305515 84722.23 2576709 1906850 4568281
+14  8.987852 80333.17 2443222 1808065 4331620
+15  9.027702 80188.18 2438812 1804802 4323802
+16  9.551246 84308.29 2564119 1897534 4545961
+17  9.380766 82282.70 2502514 1851944 4436740
+18  9.343831 82996.18 2524213 1868002 4475211
+19  9.366799 82160.19 2498788 1849186 4430134
+20  9.283795 84009.09 2555020 1890800 4529828
+21  9.277183 81889.15 2490545 1843086 4415520
+22  9.113034 84487.53 2569571 1901568 4555626
+23  9.342302 82982.60 2523800 1867696 4474479
+24  9.407542 84084.35 2557309 1892493 4533886
+25  9.470682 86226.00 2622444 1940696 4649366
+26  9.652412 87344.71 2656468 1965875 4709687
+27  8.944213 79446.59 2416257 1788111 4283815
+28  9.603605 86903.05 2643035 1955934 4685873
+29  9.425537 84768.45 2578115 1907891 4570774
+30  9.343871 86627.63 2634659 1949735 4671022
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager   Worker1    Worker2     Total
+Min.       8.86 78926.13 2400428.4 1776396.97 4255751.5
+1st Qu.    9.05 81956.91 2492605.4 1844611.05 4419173.4
+Median     9.31 83767.55 2547673.4 1885363.16 4516804.1
+Mean       9.30 83934.63 2552754.8 1889123.61 4525813.1
+3rd Qu.    9.38 85078.18 2587534.3 1914861.59 4587474.1
+Max.      10.82 99687.46 3031855.4 2243674.01 5375216.9
+Desv.Est   0.35  3732.30  113512.8   84003.27  201248.4
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.74498, p-value = 7.561e-06
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.77589, p-value = 2.457e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 340, p-value = 4.042e-06
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.5632184 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 1242, p-value = 1.144e-05
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.723693 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.77589, p-value = 2.457e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 340, p-value = 4.042e-06
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.5632184 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 1242, p-value = 1.144e-05
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.723693 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.77589, p-value = 2.457e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 340, p-value = 4.042e-06
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.5632184 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 1242, p-value = 1.144e-05
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.723693 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.77589, p-value = 2.457e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 340, p-value = 4.042e-06
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.5632184 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 1242, p-value = 1.144e-05
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.723693 
+
+[1] "Consulta (sin diseño) 6"
+     Tiempo  Manager  Worker1  Worker2     Total
+1  2.384093 21308.96 648082.3 479602.5 1148993.7
+2  2.210919 20497.57 623405.2 461340.6 1105243.3
+3  2.274470 20581.69 625963.3 463233.7 1109778.8
+4  2.387581 21207.59 644999.2 477320.9 1143527.7
+5  2.205083 20321.05 618036.5 457367.6 1095725.1
+6  2.169130 20110.14 611622.1 452620.7 1084352.9
+7  2.318493 20465.20 622420.7 460612.0 1103497.9
+8  2.187775 19554.27 594716.0 440109.6 1054379.9
+9  2.140248 19604.74 596251.0 441245.6 1057101.4
+10 2.343679 21728.40 660839.0 489042.9 1171610.3
+11 2.145481 19771.79 601331.4 445005.2 1066108.4
+12 2.265403 20751.17 631117.9 467048.3 1118917.3
+13 2.133123 19421.06 590664.4 437111.4 1047196.9
+14 2.324497 20776.29 631882.0 467613.7 1120271.9
+15 2.122551 18853.47 573402.0 424336.6 1016592.0
+16 2.069894 18270.83 555682.0 411223.2  985176.0
+17 2.240744 19654.52 597764.9 442365.9 1059785.4
+18 2.182375 19384.85 589563.3 436296.5 1045244.6
+19 2.127812 18663.95 567638.0 420071.0 1006372.9
+20 2.220011 20088.89 610975.5 452142.2 1083206.7
+21 2.250411 19864.25 604143.4 447086.3 1071093.9
+22 2.247239 20834.30 633646.2 468919.3 1123399.8
+23 2.254104 20021.98 608940.7 450636.4 1079599.1
+24 2.057483 18389.73 559297.9 413899.1  991586.8
+25 2.179814 19846.16 603593.2 446679.1 1070118.5
+26 2.206684 19968.29 607307.8 449428.0 1076704.0
+27 2.212669 19653.94 597747.2 442352.8 1059753.9
+28 2.235008 20224.59 615102.9 455196.6 1090524.1
+29 2.243040 20172.75 613526.2 454029.8 1087728.8
+30 2.237841 20747.17 630996.3 466958.2 1118701.7
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager  Worker1   Worker2      Total
+Min.       2.06 18270.83 555682.0 411223.18  985175.99
+1st Qu.    2.17 19617.04 596625.1 441522.41 1057764.50
+Median     2.22 20055.43 609958.1 451389.33 1081402.89
+Mean       2.22 20024.65 609021.9 450696.52 1079743.12
+3rd Qu.    2.25 20560.66 625323.8 462760.44 1108644.89
+Max.       2.39 21728.40 660839.0 489042.89 1171610.32
+Desv.Est   0.08   823.23  25037.4  18528.51   44389.15
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.97665, p-value = 0.7312
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.97995, p-value = 0.8242
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 367, p-value = 4.228e-09
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6873563 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 666, p-value = 6.924e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8518354 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.97995, p-value = 0.8242
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 367, p-value = 4.228e-09
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6873563 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 666, p-value = 6.924e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8518354 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.97995, p-value = 0.8242
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 367, p-value = 4.228e-09
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6873563 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 666, p-value = 6.924e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8518354 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.97995, p-value = 0.8242
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 367, p-value = 4.228e-09
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6873563 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 666, p-value = 6.924e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8518354
+
+Consulta (sin diseño) 7"
+     Tiempo  Manager Worker1 Worker2    Total
+1  25.06203 224003.8 6812763 5041671 12078438
+2  24.11096 223534.3 6798483 5031104 12053122
+3  24.42249 220999.1 6721381 4974046 11916427
+4  23.69859 210501.7 6402116 4737779 11350396
+5  25.03158 230679.8 7015805 5191929 12438414
+6  24.51553 227285.1 6912559 5115524 12255367
+7  23.91275 211076.5 6419598 4750716 11381390
+8  24.51533 219117.3 6664148 4931691 11814957
+9  24.34547 223005.3 6782396 5019199 12024601
+10 24.25652 224883.8 6839527 5061478 12125888
+11 23.86149 219896.7 6687853 4949234 11856984
+12 24.28616 222462.0 6765873 5006971 11995306
+13 23.80291 216714.1 6591056 4877601 11685372
+14 24.01141 214613.3 6527165 4830319 11572097
+15 25.02478 222281.5 6760384 5002909 11985574
+16 24.93792 220125.6 6694813 4954385 11869323
+17 24.00407 210549.9 6403583 4738865 11352998
+18 24.00990 213266.9 6486215 4800015 11499497
+19 23.86846 209360.4 6367406 4712092 11288858
+20 24.41593 220939.8 6719577 4972711 11913228
+21 24.31180 214598.8 6526725 4829994 11571318
+22 24.42744 226468.4 6887721 5097143 12211333
+23 24.71696 219547.3 6677226 4941370 11838143
+24 24.01230 214621.3 6527407 4830499 11572528
+25 22.79294 207518.8 6311395 4670642 11189556
+26 24.30398 219926.8 6688767 4949911 11858605
+27 24.08158 213903.6 6505579 4814345 11533828
+28 24.11113 218181.7 6635693 4910634 11764508
+29 24.92706 224181.2 6818160 5045666 12088007
+30 23.80542 220701.6 6712331 4967349 11900381
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo   Manager   Worker1   Worker2      Total
+Min.      22.79 207518.78 6311394.9 4670642.5 11189556.2
+1st Qu.   24.01 214602.46 6526835.0 4830075.3 11571512.8
+Median    24.27 219911.76 6688310.1 4949572.3 11857794.2
+Mean      24.25 218831.54 6655456.9 4925259.8 11799548.2
+3rd Qu.   24.49 222869.50 6778265.6 5016142.3 12017277.4
+Max.      25.06 230679.79 7015804.7 5191929.1 12438413.6
+Desv.Est   0.48   5793.61  176204.7  130397.3   312395.6
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.93457, p-value = 0.065
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.97424, p-value = 0.6604
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 334, p-value = 1.36e-05
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.5356322 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 1314, p-value = 2.084e-05
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7076752 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.97424, p-value = 0.6604
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 334, p-value = 1.36e-05
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.5356322 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 1314, p-value = 2.084e-05
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7076752 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.97424, p-value = 0.6604
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 334, p-value = 1.36e-05
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.5356322 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 1314, p-value = 2.084e-05
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7076752 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.97424, p-value = 0.6604
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 334, p-value = 1.36e-05
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.5356322 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 1314, p-value = 2.084e-05
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7076752 
+
+[1] "Consulta (sin diseño) 8"
+     Tiempo  Manager  Worker1  Worker2    Total
+1  67.48464 603175.9 18344755 13575730 32523661
+2  69.44475 643826.8 19581096 14490663 34715586
+3  71.52138 647197.2 19683601 14566520 34897318
+4  71.03822 630994.0 19190803 14201833 34023630
+5  70.36046 648410.3 19720497 14593824 34962731
+6  69.98676 648851.8 19733923 14603760 34986535
+7  70.19329 619592.1 18844032 13945212 33408836
+8  69.78316 623720.0 18969574 14038117 33631411
+9  68.84034 630579.8 19178208 14192513 34001300
+10 69.49279 644272.2 19594642 14500687 34739601
+11 69.66999 642047.2 19526973 14450610 34619630
+12 68.86049 630764.4 19183822 14196667 34011254
+13 67.86803 617905.7 18792742 13907255 33317903
+14 69.94936 625205.5 19014754 14071552 33711511
+15 69.13881 614122.5 18677681 13822106 33113910
+16 66.40952 586193.0 17828244 13193494 31607931
+17 69.80163 612259.9 18621032 13780184 33013476
+18 68.10082 604902.6 18397270 13614593 32616766
+19 67.77269 594463.2 18079770 13379632 32053866
+20 68.01590 615476.1 18718850 13852572 33186899
+21 66.94034 590878.5 17970748 13298952 31860578
+22 70.67798 655260.1 19928823 14747993 35332076
+23 70.08633 622538.8 18933652 14011533 33567723
+24 67.88741 606775.8 18454242 13656754 32717772
+25 70.65351 643266.2 19564046 14478046 34685358
+26 69.16652 625888.1 19035515 14086915 33748318
+27 73.16051 649845.1 19764134 14626118 35040097
+28 72.06359 652103.6 19832824 14676950 35161878
+29 70.56942 634665.2 19302459 14284463 34221587
+30 75.30244 698133.8 21232767 15712955 37643855
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo   Manager    Worker1    Worker2    Total
+Min.      66.41 586192.98 17828243.8 13193494.2 31607931
+1st Qu.   68.29 614460.91 18687973.5 13829722.9 33132157
+Median    69.73 628233.95 19106861.4 14139713.8 33874809
+Mean      69.67 628777.18 19123382.7 14151940.2 33904100
+3rd Qu.   70.52 644160.83 19591255.1 14498181.3 34733597
+Max.      75.30 698133.76 21232766.7 15712954.6 37643855
+Desv.Est   1.85  23205.31   705757.1   522283.7  1251246
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.94789, p-value = 0.1484
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.95629, p-value = 0.2483
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 356, p-value = 9.5e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6367816 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 808, p-value = 9.903e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8202447 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.95629, p-value = 0.2483
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 356, p-value = 9.5e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6367816 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 808, p-value = 9.903e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8202447 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.95629, p-value = 0.2483
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 356, p-value = 9.5e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6367816 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 808, p-value = 9.903e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8202447 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.95629, p-value = 0.2483
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 356, p-value = 9.5e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6367816 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 808, p-value = 9.903e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8202447 
+
+[1] "Consulta (sin diseño) 9"
+     Tiempo Manager  Worker1  Worker2    Total
+1  160.0955 1430929 43519719 32206041 77156689
+2  157.6425 1461514 44449900 32894407 78805821
+3  158.2531 1432033 43553284 32230881 77216198
+4  158.7578 1410159 42888021 31738564 76036745
+5  158.8767 1464136 44529668 32953438 78947242
+6  159.5339 1479049 44983220 33289081 79751350
+7  154.4087 1362957 41452442 30676188 73491586
+8  155.0484 1385818 42147728 31190723 74724269
+9  155.9203 1428235 43437780 32145404 77011419
+10 162.0349 1502236 45688431 33810961 81001629
+11 161.4223 1487595 45243136 33481428 80212159
+12 159.9843 1465461 44569968 32983261 79018690
+13 157.4371 1433389 43594545 32261415 77289349
+14 156.9344 1402675 42660412 31570126 75633214
+15 154.6768 1373910 41785551 30922700 74082160
+16 151.5376 1337613 40681642 30105770 72125025
+17 152.2785 1335700 40623459 30062713 72021871
+18 151.6983 1347454 40980940 30327260 72655654
+19 153.4974 1346392 40948625 30303346 72598363
+20 156.8854 1419656 43176866 31952319 76548842
+21 154.4554 1363369 41464977 30685464 73513810
+22 154.9322 1436387 43685707 32328878 77450971
+23 153.0821 1359746 41354771 30603908 73318424
+24 150.8835 1348592 41015560 30352880 72717032
+25 157.5066 1434022 43613775 32275646 77323443
+26 153.4773 1388816 42238920 31258208 74885944
+27 151.3806 1344632 40895114 30263747 72503493
+28 157.0606 1421242 43225106 31988018 76634366
+29 151.8909 1366029 41545877 30745332 73657238
+30 151.5791 1405300 42740241 31629202 75774743
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo    Manager  Worker1  Worker2    Total
+Min.     150.88 1335700.07 40623459 30062713 72021871
+1st Qu.  153.18 1363060.08 41455575 30678507 73497142
+Median   155.48 1407729.42 42814131 31683883 75905744
+Mean     155.77 1405834.93 42756513 31641244 75803591
+3rd Qu.  158.10 1433863.65 43608967 32272088 77314919
+Max.     162.03 1502236.47 45688431 33810961 81001629
+Desv.Est   3.25   48690.68  1480859  1095885  2625435
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.95368, p-value = 0.2119
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.94716, p-value = 0.1418
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 371, p-value = 1.193e-09
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7057471 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 564, p-value = 4.791e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8745273 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.94716, p-value = 0.1418
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 371, p-value = 1.193e-09
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7057471 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 564, p-value = 4.791e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8745273 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.94716, p-value = 0.1418
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 371, p-value = 1.193e-09
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7057471 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 564, p-value = 4.791e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8745273 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.94716, p-value = 0.1418
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 371, p-value = 1.193e-09
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7057471 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 564, p-value = 4.791e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8745273 
+
+[1] "Consulta (sin diseño) 10"
+     Tiempo  Manager Worker1 Worker2   Total
+1  7.714159 68948.94 2096986 1551840 3717775
+2  7.236011 67085.53 2040313 1509900 3617298
+3  7.547214 68294.76 2077090 1537116 3682501
+4  7.380554 65557.45 1993839 1475507 3534903
+5  8.230945 75852.68 2306954 1707223 4090029
+6  7.972234 73911.10 2247903 1663523 3985337
+7  7.647592 67504.85 2053066 1519337 3639908
+8  7.629290 68190.38 2073916 1534767 3676873
+9  7.676834 70320.06 2138687 1582699 3791706
+10 8.358789 77494.87 2356899 1744184 4178577
+11 7.101490 65444.13 1990392 1472956 3528793
+12 8.427686 77197.89 2347866 1737499 4162564
+13 7.563093 68858.32 2094230 1549800 3712888
+14 8.317648 74342.91 2261036 1673242 4008621
+15 6.975615 61960.60 1884445 1394552 3340958
+16 7.766129 68551.17 2084888 1542887 3696326
+17 7.466615 65492.86 1991874 1474053 3531421
+18 7.849786 69725.39 2120601 1569315 3759641
+19 7.076499 62070.99 1887803 1397037 3346911
+20 7.406082 67017.66 2038249 1508372 3613639
+21 7.919568 69905.57 2126080 1573370 3769356
+22 7.221343 66949.54 2036177 1506839 3609965
+23 8.018472 71223.73 2166171 1603038 3840433
+24 7.412795 66255.36 2015064 1491215 3572535
+25 7.038606 64083.12 1948999 1442324 3455406
+26 7.657607 69293.71 2107472 1559599 3736365
+27 7.565036 67196.11 2043676 1512388 3623261
+28 7.463992 67541.69 2054186 1520166 3641894
+29 7.142067 64232.09 1953530 1445677 3463439
+30 7.810433 72411.03 2202281 1629761 3904453
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager   Worker1    Worker2     Total
+Min.       6.98 61960.60 1884445.4 1394552.40 3340958.5
+1st Qu.    7.39 66428.90 2020342.6 1495120.84 3581892.4
+Median     7.60 68242.57 2075502.9 1535941.28 3679686.8
+Mean       7.62 68763.82 2091355.8 1547672.93 3707792.5
+3rd Qu.    7.84 70216.44 2135535.2 1580367.17 3786118.8
+Max.       8.43 77494.87 2356898.7 1744183.55 4178577.1
+Desv.Est   0.40  4011.49  122003.8   90286.84  216302.1
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.9648, p-value = 0.4082
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.95105, p-value = 0.1804
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 398, p-value = 1.621e-14
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8298851 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 194, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9568409 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.95105, p-value = 0.1804
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 398, p-value = 1.621e-14
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8298851 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 194, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9568409 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.95105, p-value = 0.1804
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 398, p-value = 1.621e-14
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8298851 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 194, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9568409 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.95105, p-value = 0.1804
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 398, p-value = 1.621e-14
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8298851 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 194, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9568409 
+
+[1] "Consulta (sin diseño) 11"
+     Tiempo   Manager  Worker1  Worker2    Total
+1  1.720892 15381.285 467800.4 346187.9 829369.5
+2  0.869426  8060.505 245149.0 181418.4 434628.0
+3  0.924074  8361.949 254317.0 188203.1 450882.0
+4  0.813325  7224.324 219717.8 162598.5 389540.6
+5  0.957114  8820.331 268258.1 198519.9 475598.4
+6  0.886065  8214.766 249840.7 184890.4 442945.9
+7  0.870029  7679.695 233567.2 172847.5 414094.5
+8  0.942140  8420.821 256107.6 189528.1 454056.5
+9  0.994124  9106.210 276952.7 204954.2 491013.1
+10 0.992640  9202.830 279891.3 207128.9 496222.9
+11 0.852025  7851.878 238804.0 176722.9 423378.7
+12 0.919683  8424.327 256214.2 189607.0 454245.6
+13 0.850271  7741.308 235441.1 174234.3 417416.7
+14 0.768333  6867.339 208860.6 154563.8 370291.7
+15 0.857465  7616.396 231642.1 171422.9 410681.3
+16 1.049000  9259.462 281613.6 208403.5 499276.6
+17 0.980420  8599.682 261547.4 193553.8 463700.8
+18 0.859698  7636.231 232245.3 171869.3 411750.8
+19 0.877757  7699.181 234159.9 173286.1 415145.2
+20 0.873831  7907.300 240489.5 177970.2 426367.1
+21 0.908022  8015.057 243766.8 180395.6 432177.4
+22 0.964485  8941.803 271952.5 201253.9 482148.2
+23 0.868976  7718.642 234751.8 173724.1 416194.5
+24 0.936624  8371.520 254608.1 188418.5 451398.1
+25 0.993616  9046.395 275133.5 203608.0 487787.9
+26 0.914109  8271.775 251574.5 186173.5 446019.8
+27 0.877172  7791.443 236965.9 175362.6 420120.0
+28 0.840309  7603.959 231263.8 171142.9 410010.7
+29 0.876388  7881.785 239713.5 177396.0 424991.3
+30 0.899462  8338.970 253618.2 187685.9 449643.0
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager   Worker1   Worker2     Total
+Min.       0.77  6867.34 208860.56 154563.77 370291.68
+1st Qu.    0.87  7724.31 234924.10 173851.66 416500.06
+Median     0.89  8137.64 247494.85 183154.43 438786.92
+Mean       0.93  8401.91 255532.27 189102.39 453036.56
+3rd Qu.    0.95  8555.84 260214.07 192567.08 461336.99
+Max.       1.72 15381.29 467800.39 346187.87 829369.54
+Desv.Est   0.16  1444.63  43936.45  32514.43  77895.51
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.52919, p-value = 1.106e-08
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.56279, p-value = 2.642e-08
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 400, p-value = 5.995e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8390805 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 222, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9506118 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.56279, p-value = 2.642e-08
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 400, p-value = 5.995e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8390805 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 222, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9506118 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.56279, p-value = 2.642e-08
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 400, p-value = 5.995e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8390805 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 222, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9506118 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.56279, p-value = 2.642e-08
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 400, p-value = 5.995e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8390805 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 222, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9506118 
+
+[1] "Consulta (sin diseño) 12"
+     Tiempo  Manager  Worker1  Worker2   Total
+1  3.521153 31471.97 957176.1 708342.2 1696990
+2  3.518546 32620.67 992112.2 734196.1 1758929
+3  3.516122 31817.40 967681.9 716116.8 1715616
+4  3.441943 30572.91 929832.5 688107.1 1648513
+5  3.475325 32027.03 974057.5 720835.0 1726920
+6  3.446853 31956.00 971897.2 719236.3 1723089
+7  3.455726 30503.49 927721.3 686544.6 1644769
+8  3.432563 30680.15 933094.2 690520.8 1654295
+9  3.407491 31212.73 949291.8 702507.6 1683012
+10 3.479845 32261.87 981199.8 726120.5 1739582
+11 3.420676 31523.41 958740.6 709500.0 1699764
+12 3.415806 31288.90 951608.3 704221.8 1687119
+13 3.410019 31046.58 944238.6 698768.0 1674053
+14 3.402961 30415.57 925047.3 684565.8 1640029
+15 3.388568 30098.81 915413.4 677436.4 1622949
+16 3.413107 30127.30 916279.8 678077.6 1624485
+17 3.456702 30320.21 922146.9 682419.4 1634887
+18 3.399942 30199.84 918486.1 679710.3 1628396
+19 3.438999 30164.93 917424.3 678924.5 1626514
+20 3.404511 30807.43 936965.1 693385.4 1661158
+21 3.386514 29892.56 909140.7 672794.4 1611828
+22 3.394584 31471.41 957159.1 708329.6 1696960
+23 3.418881 30368.06 923602.4 683496.5 1637467
+24 3.469339 31008.86 943091.2 697918.9 1672019
+25 3.389467 30859.47 938547.7 694556.5 1663964
+26 3.395168 30722.89 934393.8 691482.6 1656599
+27 3.413859 30323.46 922245.7 682492.6 1635062
+28 3.470446 31404.08 955111.3 706814.2 1693330
+29 3.437987 30919.49 940373.4 695907.6 1667201
+30 3.419627 31703.58 964220.4 713555.2 1709479
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager   Worker1   Worker2      Total
+Min.       3.39 29892.56 909140.67 672794.38 1611827.61
+1st Qu.    3.41 30379.94 923963.62 683763.86 1638107.42
+Median     3.42 30889.48 939460.54 695232.09 1665582.11
+Mean       3.43 30993.03 942610.02 697562.81 1671165.86
+3rd Qu.    3.46 31471.83 957171.86 708339.06 1696982.75
+Max.       3.52 32620.67 992112.20 734196.07 1758928.94
+Desv.Est   0.04   715.16  21750.72  16096.26   38562.14
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.90483, p-value = 0.01104
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.96084, p-value = 0.3254
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 305, p-value = 0.001509
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.4022989 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 2006, p-value = 0.001778
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.5537264 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.96084, p-value = 0.3254
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 305, p-value = 0.001509
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.4022989 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 2006, p-value = 0.001778
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.5537264 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.96084, p-value = 0.3254
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 305, p-value = 0.001509
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.4022989 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 2006, p-value = 0.001778
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.5537264 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.96084, p-value = 0.3254
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 305, p-value = 0.001509
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.4022989 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 2006, p-value = 0.001778
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.5537264
+
+Consulta (sin diseño) 13"
+     Tiempo  Manager  Worker1  Worker2    Total
+1  1.698341 15179.73 461670.2 341651.3 818501.3
+2  1.546483 14337.54 436056.4 322696.3 773090.3
+3  1.664210 15059.44 458012.0 338944.1 812015.5
+4  1.689035 15002.78 456288.7 337668.8 808960.3
+5  1.424253 13125.27 399186.9 295411.6 707723.8
+6  1.587533 14718.12 447631.2 331262.0 793611.3
+7  1.685738 14879.91 452551.8 334903.4 802335.1
+8  1.488888 13307.64 404733.3 299516.2 717557.1
+9  1.639709 15019.79 456806.0 338051.7 809877.5
+10 1.678005 15556.89 473141.2 350140.3 838838.4
+11 1.624912 14974.46 455427.3 337031.3 807433.1
+12 1.512469 13854.27 421358.3 311819.1 747031.7
+13 1.649447 15017.42 456734.0 337998.3 809749.7
+14 1.687393 15081.87 458694.2 339449.0 813225.0
+15 1.690499 15015.78 456684.2 337961.5 809661.5
+16 1.681468 14842.22 451405.5 334055.1 800302.8
+17 1.691188 14834.13 451159.5 333873.0 799866.6
+18 1.707547 15167.21 461289.7 341369.7 817826.6
+19 1.810776 15883.09 483062.0 357482.0 856427.1
+20 1.673532 15143.80 460577.5 340842.7 816564.0
+21 1.774289 15661.55 476324.1 352495.7 844481.4
+22 1.626736 15081.57 458685.1 339442.3 813208.9
+23 1.688588 14998.81 456167.9 337579.5 808746.2
+24 1.716254 15339.83 466539.6 345254.9 827134.3
+25 1.688327 15371.40 467499.9 345965.5 828836.8
+26 1.713054 15501.43 471454.5 348892.0 835847.9
+27 1.709197 15181.87 461735.4 341699.6 818616.9
+28 1.722009 15582.46 473919.0 350715.8 840217.3
+29 1.769061 15910.03 483881.4 358088.3 857879.7
+30 1.694079 15705.92 477673.6 353494.4 846873.8
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager   Worker1   Worker2     Total
+Min.       1.42 13125.27 399186.93 295411.63 707723.83
+1st Qu.    1.64 14903.55 453270.66 335435.38 803609.59
+Median     1.69 15070.51 458348.53 339193.18 812612.22
+Mean       1.66 15011.21 456545.01 337858.51 809414.73
+3rd Qu.    1.71 15363.51 467259.81 345787.82 828411.14
+Max.       1.81 15910.03 483881.38 358088.34 857879.74
+Desv.Est   0.08   646.03  19648.25  14540.36  34834.65
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.87938, p-value = 0.002729
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.84707, p-value = 0.0005386
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 356, p-value = 9.5e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6367816 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 958, p-value = 1.533e-06
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7868743 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.84707, p-value = 0.0005386
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 356, p-value = 9.5e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6367816 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 958, p-value = 1.533e-06
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7868743 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.84707, p-value = 0.0005386
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 356, p-value = 9.5e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6367816 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 958, p-value = 1.533e-06
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7868743 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.84707, p-value = 0.0005386
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 356, p-value = 9.5e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6367816 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 958, p-value = 1.533e-06
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7868743 
+
+[1] "Consulta (sin diseño) 14"
+     Tiempo  Manager Worker1 Worker2   Total
+1  5.357060 47881.25 1456242 1077667 2581790
+2  5.369981 49785.44 1514155 1120525 2684465
+3  5.457313 49383.24 1501923 1111473 2662779
+4  5.466482 48555.79 1476757 1092849 2618162
+5  5.689577 52432.58 1594664 1180104 2827201
+6  5.483275 50835.80 1546100 1144166 2741101
+7  5.454376 48145.46 1464277 1083614 2596036
+8  5.702670 50970.31 1550191 1147193 2748354
+9  5.492776 50314.01 1530231 1132422 2712966
+10 5.641534 52303.03 1590724 1177189 2820215
+11 5.516387 50836.54 1546122 1144182 2741141
+12 5.514112 50509.45 1536175 1136820 2723505
+13 5.267818 47960.95 1458665 1079461 2586087
+14 5.327856 47620.23 1448303 1071792 2567716
+15 5.458733 48486.96 1474663 1091300 2614451
+16 5.697737 50293.59 1529610 1131962 2711865
+17 5.354339 46965.19 1428381 1057049 2532396
+18 5.427179 48206.68 1466139 1084992 2599338
+19 5.308160 46560.13 1416062 1047933 2510555
+20 5.391816 48790.56 1483897 1098133 2630821
+21 5.463680 48227.59 1466775 1085462 2600465
+22 5.531289 51280.94 1559638 1154184 2765104
+23 5.500051 48853.97 1485825 1099560 2634240
+24 5.564966 49739.51 1512758 1119491 2681989
+25 5.387061 49046.60 1491684 1103896 2644626
+26 5.378011 48665.64 1480098 1095322 2624085
+27 5.421373 48155.11 1464571 1083831 2596557
+28 5.374224 48631.37 1479055 1094550 2622237
+29 5.474291 49232.97 1497352 1108091 2654676
+30 5.530927 51277.58 1559536 1154109 2764923
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager    Worker1    Worker2      Total
+Min.       5.27 46560.13 1416061.70 1047932.83 2510554.66
+1st Qu.    5.38 48211.91 1466298.14 1085109.46 2599619.52
+Median     5.46 48950.28 1488754.70 1101728.07 2639433.05
+Mean       5.47 49331.62 1500352.44 1110310.78 2659994.84
+3rd Qu.    5.52 50460.59 1534688.72 1135720.77 2720870.08
+Max.       5.70 52432.58 1594663.86 1180104.37 2827200.81
+Desv.Est   0.11  1499.73   45612.05   33754.44   80866.22
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.94855, p-value = 0.1545
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.96637, p-value = 0.4453
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 359, p-value = 4.268e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6505747 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 766, p-value = 8.999e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8295884 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.96637, p-value = 0.4453
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 359, p-value = 4.268e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6505747 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 766, p-value = 8.999e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8295884 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.96637, p-value = 0.4453
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 359, p-value = 4.268e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6505747 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 766, p-value = 8.999e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8295884 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.96637, p-value = 0.4453
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 359, p-value = 4.268e-08
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.6505747 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 766, p-value = 8.999e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8295884 
+
+[1] "Consulta (sin diseño) 15"
+     Tiempo  Manager Worker1 Worker2   Total
+1  6.728645 60140.44 1829088 1353586 3242814
+2  6.950005 64433.95 1959669 1450220 3474323
+3  6.887431 62324.39 1895509 1402740 3360574
+4  6.429366 57108.57 1736878 1285347 3079333
+5  6.762259 62317.93 1895313 1402595 3360226
+6  6.849927 63506.12 1931450 1429337 3424294
+7  6.373520 56258.69 1711030 1266219 3033507
+8  6.650356 59440.70 1807806 1337837 3205084
+9  6.938254 63554.64 1932926 1430430 3426910
+10 6.684166 61969.33 1884711 1394749 3341429
+11 6.659154 61367.76 1866415 1381209 3308992
+12 6.800076 62288.93 1894431 1401942 3358662
+13 6.739810 61362.73 1866262 1381096 3308721
+14 6.613570 59111.91 1797806 1330437 3187355
+15 6.806242 60456.15 1838690 1360692 3259838
+16 6.356377 56107.37 1706428 1262813 3025348
+17 6.429715 56397.77 1715260 1269349 3041007
+18 6.683929 59369.71 1805647 1336239 3201256
+19 6.694768 58722.66 1785968 1321676 3166367
+20 6.542505 59203.15 1800581 1332490 3192275
+21 6.594065 58205.43 1770237 1310034 3138477
+22 6.747741 62558.74 1902637 1408015 3373211
+23 6.635158 58936.51 1792472 1326489 3177897
+24 6.742840 60267.32 1832947 1356442 3249655
+25 6.526053 59416.57 1807072 1337294 3203783
+26 6.504580 58859.97 1790144 1324766 3173770
+27 6.420985 57034.12 1734614 1283672 3075319
+28 6.680882 60455.32 1838664 1360673 3259793
+29 6.388372 57453.75 1747376 1293116 3097946
+30 6.632177 61487.34 1870052 1383901 3315440
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager    Worker1    Worker2     Total
+Min.       6.36 56107.37 1706427.56 1262813.23 3025348.2
+1st Qu.    6.53 58756.99 1787012.08 1322448.46 3168217.5
+Median     6.67 59790.57 1818447.02 1345711.36 3223949.0
+Mean       6.65 60003.93 1824936.09 1350513.49 3235453.5
+3rd Qu.    6.75 61848.84 1881046.29 1392036.91 3334932.0
+Max.       6.95 64433.95 1959668.78 1450220.17 3474322.9
+Desv.Est   0.17  2296.91   69857.22   51696.67  123850.8
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.96475, p-value = 0.407
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.97, p-value = 0.5391
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 376, p-value = 2.184e-10
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7287356 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 502, p-value = 3.559e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8883204 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.97, p-value = 0.5391
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 376, p-value = 2.184e-10
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7287356 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 502, p-value = 3.559e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8883204 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.97, p-value = 0.5391
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 376, p-value = 2.184e-10
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7287356 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 502, p-value = 3.559e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8883204 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.97, p-value = 0.5391
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 376, p-value = 2.184e-10
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7287356 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 502, p-value = 3.559e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8883204 
+
+[1] "Consulta (sin diseño) 16"
+     Tiempo  Manager Worker1   Worker2   Total
+1  4.995379 44648.56 1357924 1004908.9 2407481
+2  4.824010 44723.71 1360209 1006600.2 2411533
+3  4.606312 41682.53 1267716  938152.2 2247551
+4  4.528284 40222.29 1223305  905286.4 2168814
+5  4.828589 44498.10 1353348 1001522.4 2399368
+6  4.621055 42842.10 1302983  964250.7 2310076
+7  4.459809 39366.47 1197277  886024.5 2122668
+8  4.915006 43930.19 1336076  988740.4 2368746
+9  4.562244 41790.31 1270994  940578.0 2253362
+10 5.087711 47168.50 1434564 1061625.3 2543358
+11 4.935186 45480.45 1383225 1023632.3 2452337
+12 5.059233 46342.75 1409450 1043040.0 2498833
+13 4.238590 38590.32 1173671  868555.6 2080817
+14 4.640702 41478.47 1261510  933559.3 2236548
+15 4.798459 42622.11 1296292  959299.3 2298213
+16 4.522509 39919.92 1214109  898481.0 2152510
+17 4.744653 41617.37 1265735  936685.7 2244038
+18 4.627868 41106.84 1250207  925195.0 2216509
+19 4.593258 40289.42 1225347  906797.4 2172434
+20 4.778491 43240.58 1315102  973219.3 2331562
+21 4.586317 40483.15 1231239  911157.7 2182880
+22 4.980212 46171.87 1404253 1039194.1 2489619
+23 5.133880 45601.47 1386905 1026356.1 2458863
+24 4.616317 41260.51 1254881  928653.8 2224795
+25 4.654568 42377.60 1288856  953796.2 2285030
+26 4.387075 39698.66 1207379  893500.9 2140579
+27 4.885765 43397.60 1319878  976753.3 2340028
+28 4.513113 40839.17 1242067  919170.7 2202076
+29 5.019276 45140.80 1372895 1015987.7 2434023
+30 4.763375 44161.56 1343112  993947.8 2381222
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager    Worker1    Worker2     Total
+Min.       4.24 38590.32 1173670.92  868555.57 2080816.8
+1st Qu.    4.59 40906.09 1244101.81  920676.77 2205684.7
+Median     4.70 42499.85 1292573.90  956547.74 2291621.5
+Mean       4.73 42689.78 1298350.22  960822.41 2301862.4
+3rd Qu.    4.91 44610.95 1356779.81 1004062.25 2405453.0
+Max.       5.13 47168.50 1434564.21 1061625.29 2543358.0
+Desv.Est   0.22  2328.84   70828.52   52415.46  125572.8
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.97438, p-value = 0.6643
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.96914, p-value = 0.5159
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 393, p-value = 1.972e-13
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8068966 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 252, p-value = 5.846e-09
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9439377 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.96914, p-value = 0.5159
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 393, p-value = 1.972e-13
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8068966 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 252, p-value = 5.846e-09
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9439377 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.96914, p-value = 0.5159
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 393, p-value = 1.972e-13
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8068966 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 252, p-value = 5.846e-09
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9439377 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.96914, p-value = 0.5159
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 393, p-value = 1.972e-13
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8068966 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 252, p-value = 5.846e-09
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9439377 
+
+[1] "Consulta (sin diseño) 17"
+      Tiempo   Manager Worker1   Worker2   Total
+1   6.163880  55092.59 1675564 1239973.5 2970631
+2   6.838254  63397.89 1928159 1426901.7 3418458
+3   5.643754  51070.35 1553234 1149444.6 2753748
+4   6.771544  60147.95 1829316 1353754.9 3243219
+5   5.194279  47868.13 1455843 1077372.1 2581083
+6   6.907542  64040.27 1947696 1441359.6 3453096
+7   5.072134  44771.43 1361661 1007674.3 2414107
+8   6.676674  59675.93 1814960 1343131.1 3217767
+9   5.184576  47490.89 1444369 1068881.5 2560742
+10  6.724762  62345.70 1896158 1403219.9 3361723
+11  7.494377  69064.80 2100510 1554447.2 3724022
+12  7.932719  72663.98 2209974 1635454.1 3918092
+13  4.977019  45313.36 1378143 1019871.6 2443328
+14  6.741746  60257.54 1832649 1356221.5 3249128
+15  5.081875  45139.54 1372856 1015959.3 2433955
+16  6.835242  60334.28 1834983 1357948.7 3253266
+17  5.105299  44780.75 1361944 1007884.2 2414609
+18  6.799007  60391.89 1836735 1359245.2 3256372
+19  5.127905  44979.04 1367975 1012347.0 2425301
+20  6.747669  61059.68 1857045 1374275.3 3292380
+21  5.020318  44314.05 1347750  997380.1 2389444
+22 18.054352 167383.06 5090723 3767304.5 9025411
+23  5.082405  45144.24 1372999 1016065.3 2434209
+24  6.672214  59636.07 1813748 1342233.9 3215618
+25  7.246769  65978.34 2006639 1484980.0 3557598
+26  8.453996  76500.24 2326648 1721797.2 4124946
+27  6.183689  54926.35 1670509 1236232.0 2961667
+28  9.024676  81664.32 2483707 1838025.7 4403397
+29  4.675867  42052.35 1278964  946475.8 2267492
+30 10.451828  96899.57 2947066 2180926.7 5224892
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo   Manager   Worker1   Worker2   Total
+Min.       4.68  42052.35 1278963.8  946475.8 2267492
+1st Qu.    5.14  45857.74 1394699.5 1032124.1 2472681
+Median     6.70  59911.94 1822138.2 1348443.0 3230493
+Mean       6.83  61812.82 1879950.9 1391226.3 3332990
+3rd Qu.    6.89  63879.67 1942811.4 1437745.1 3444436
+Max.      18.05 167383.06 5090723.0 3767304.5 9025411
+Desv.Est   2.51  23632.87  718760.8  531907.0 1274301
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.64685, p-value = 2.866e-07
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.65117, p-value = 3.27e-07
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 414, p-value = 1.11e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.9034483 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 108, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9759733 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.65117, p-value = 3.27e-07
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 414, p-value = 1.11e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.9034483 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 108, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9759733 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.65117, p-value = 3.27e-07
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 414, p-value = 1.11e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.9034483 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 108, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9759733 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.65117, p-value = 3.27e-07
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 414, p-value = 1.11e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.9034483 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 108, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9759733 
+
+[1] "Consulta (sin diseño) 18"
+     Tiempo   Manager  Worker1  Worker2    Total
+1  1.841273 16457.247 500524.3 370404.6 887386.2
+2  1.141122 10579.416 321758.2 238111.8 570449.4
+3  1.065612  9642.726 293270.1 217029.6 519942.5
+4  1.123457  9979.059 303499.2 224599.5 538077.7
+5  1.075114  9907.766 301330.9 222994.9 534233.6
+6  1.079312 10006.371 304329.9 225214.2 539550.5
+7  1.093593  9653.082 293585.0 217262.7 520500.8
+8  1.127200 10074.883 306413.5 226756.2 543244.6
+9  1.038832  9515.736 289407.9 214171.5 513095.1
+10 1.067050  9892.690 300872.4 222655.6 533420.7
+11 0.992578  9147.151 278197.9 205875.7 493220.7
+12 1.125067 10305.652 313432.1 231950.2 555687.9
+13 1.132963 10315.083 313718.9 232162.4 556196.4
+14 0.975066  8715.113 265058.0 196151.8 469924.9
+15 1.044240  9275.417 282098.9 208762.6 500136.9
+16 1.029630  9088.484 276413.6 204555.3 490057.3
+17 1.040845  9129.695 277667.0 205482.8 492279.5
+18 1.026267  9115.773 277243.5 205169.5 491528.8
+19 1.085143  9518.252 289484.4 214228.1 513230.7
+20 1.041354  9423.216 286594.0 212089.1 508106.3
+21 1.042465  9201.778 279859.3 207105.2 496166.2
+22 1.106466 10258.118 311986.4 230880.3 553124.8
+23 1.317537 11702.966 355929.4 263399.6 631032.0
+24 1.042255  9315.647 283322.4 209668.0 502306.1
+25 1.033302  9407.717 286122.6 211740.3 507270.6
+26 1.013976  9175.472 279059.2 206513.1 494747.8
+27 1.105272  9817.531 298586.5 220964.0 529368.1
+28 1.035899  9373.853 285092.7 210978.1 505444.7
+29 1.062266  9553.476 290555.7 215020.9 515130.1
+30 1.048177  9717.717 295550.8 218717.5 523986.0
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager   Worker1   Worker2     Total
+Min.       0.98  8715.11 265058.04 196151.77 469924.92
+1st Qu.    1.04  9285.47 282404.78 208988.94 500679.20
+Median     1.06  9598.10 291912.90 216025.27 517536.26
+Mean       1.10  9908.90 301365.49 223020.50 534294.89
+3rd Qu.    1.11  9999.54 304122.19 225060.55 539182.28
+Max.       1.84 16457.25 500524.28 370404.64 887386.16
+Desv.Est   0.15  1366.21  41551.48  30749.48  73667.16
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.50221, p-value = 5.655e-09
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.54438, p-value = 1.631e-08
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 390, p-value = 8.009e-13
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7931034 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 294, p-value = 4.51e-08
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.934594 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.54438, p-value = 1.631e-08
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 390, p-value = 8.009e-13
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7931034 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 294, p-value = 4.51e-08
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.934594 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.54438, p-value = 1.631e-08
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 390, p-value = 8.009e-13
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7931034 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 294, p-value = 4.51e-08
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.934594 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.54438, p-value = 1.631e-08
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 390, p-value = 8.009e-13
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7931034 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 294, p-value = 4.51e-08
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.934594
+
+Consulta (sin diseño) 19"
+     Tiempo  Manager Worker1 Worker2   Total
+1  7.946808 71028.35 2160228 1598641 3829898
+2  8.308144 77025.34 2342619 1733616 4153260
+3  7.643748 69168.30 2103658 1556777 3729603
+4  7.207635 64021.51 1947125 1440937 3452084
+5  7.445685 68616.08 2086862 1544348 3699826
+6  7.635710 70791.16 2153015 1593303 3817108
+7  8.163244 72056.48 2191498 1621781 3885335
+8  8.135541 72715.24 2211533 1636608 3920856
+9  7.717374 70691.41 2149981 1591057 3811730
+10 7.761527 71957.62 2188491 1619556 3880005
+11 7.566994 69734.01 2120863 1569509 3760106
+12 7.414551 67917.54 2065617 1528626 3662161
+13 7.510957 68383.65 2079793 1539116 3687294
+14 7.404353 66179.90 2012770 1489517 3568466
+15 8.141083 72312.82 2199294 1627551 3899157
+16 7.908236 69805.54 2123038 1571119 3763963
+17 7.842476 68789.70 2092143 1548256 3709188
+18 7.899186 70164.18 2133946 1579191 3783301
+19 7.550292 66226.83 2014197 1490573 3570997
+20 8.127021 73541.44 2236661 1655203 3965405
+21 7.797593 68828.90 2093335 1549138 3711302
+22 8.344706 77364.31 2352928 1741245 4171537
+23 8.234583 73143.33 2224553 1646243 3943939
+24 7.319125 65418.14 1989602 1472371 3527391
+25 7.706561 70164.53 2133956 1579199 3783320
+26 7.769979 70310.56 2138398 1582486 3791194
+27 7.868585 69892.37 2125679 1573073 3768645
+28 7.980068 72211.66 2196217 1625274 3893703
+29 7.676872 69041.86 2099812 1553931 3722785
+30 8.125085 75328.19 2291002 1695418 4061748
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager   Worker1    Worker2   Total
+Min.       7.21 64021.51 1947125.1 1440937.42 3452084
+1st Qu.    7.58 68799.50 2092441.1 1548476.08 3709717
+Median     7.78 70164.35 2133951.2 1579194.96 3783310
+Mean       7.81 70427.70 2141960.4 1585122.05 3797510
+3rd Qu.    8.09 72172.87 2195037.3 1624400.68 3891611
+Max.       8.34 77364.31 2352927.8 1741244.93 4171537
+Desv.Est   0.30  3084.42   93808.3   69421.27  166314
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.97665, p-value = 0.7313
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.9737, p-value = 0.6445
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 373, p-value = 6.149e-10
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7149425 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 506, p-value = 3.636e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8874305 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.9737, p-value = 0.6445
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 373, p-value = 6.149e-10
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7149425 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 506, p-value = 3.636e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8874305 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.9737, p-value = 0.6445
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 373, p-value = 6.149e-10
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7149425 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 506, p-value = 3.636e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8874305 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.9737, p-value = 0.6445
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 373, p-value = 6.149e-10
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.7149425 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 506, p-value = 3.636e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8874305 
+
+[1] "Consulta (sin diseño) 20"
+      Tiempo   Manager Worker1 Worker2   Total
+1   5.474020  48926.64 1488036 1101196 2638158
+2  13.058730 121068.33 3682125 2724895 6528088
+3   5.445728  49278.41 1498734 1109113 2657126
+4   5.659032  50266.11 1528774 1131343 2710383
+5   5.588290  51499.16 1566275 1159096 2776870
+6   9.435097  87473.39 2660382 1968771 4716626
+7   5.705205  50359.51 1531614 1133446 2715420
+8   5.575181  49830.81 1515535 1121546 2686912
+9  12.902093 118183.61 3594390 2659968 6372542
+10  9.390348  87058.52 2647764 1959433 4694256
+11 13.182387 121482.94 3694734 2734227 6550444
+12  5.768392  52838.67 1607015 1189244 2849097
+13  9.342261  85056.79 2586884 1914380 4586321
+14  5.346802  47789.57 1453453 1075604 2576847
+15  5.613460  49861.32 1516463 1122233 2688557
+16  9.256553  81707.05 2485006 1838987 4405701
+17  5.540452  48597.67 1478030 1093792 2620420
+18  9.340260  82964.46 2523249 1867288 4473501
+19  5.596640  49090.52 1493020 1104884 2646995
+20  5.558571  50299.53 1529790 1132096 2712185
+21  5.825785  51423.86 1563985 1157401 2772810
+22  5.426220  50306.84 1530012 1132260 2712579
+23 13.068932 116084.23 3530540 2612717 6259342
+24  9.045069  80844.58 2458775 1819576 4359196
+25  9.048955  82386.38 2505667 1854277 4442331
+26  8.950478  80992.90 2463286 1822914 4367193
+27  5.466369  48554.79 1476726 1092827 2618108
+28  5.415540  49005.24 1490426 1102965 2642396
+29  9.328118  83892.32 2551468 1888171 4523532
+30  9.347397  86660.32 2635653 1950471 4672784
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo   Manager   Worker1   Worker2   Total
+Min.       5.35  47789.57 1453453.2 1075603.8 2576847
+1st Qu.    5.56  49838.44 1515766.8 1121717.9 2687323
+Median     5.80  52168.91 1586644.9 1174170.1 2812984
+Mean       7.79  70459.48 2142927.1 1585837.4 3799224
+3rd Qu.    9.34  84765.67 2578029.9 1907828.0 4570624
+Max.      13.18 121482.94 3694734.5 2734226.6 6550444
+Desv.Est   2.70  25049.05  761831.8  563780.9 1350662
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.77996, p-value = 2.888e-05
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.78935, p-value = 4.22e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 402, p-value = 2.442e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8482759 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 224, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9501669 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.78935, p-value = 4.22e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 402, p-value = 2.442e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8482759 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 224, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9501669 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.78935, p-value = 4.22e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 402, p-value = 2.442e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8482759 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 224, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9501669 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.78935, p-value = 4.22e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 402, p-value = 2.442e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.8482759 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 224, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.9501669 
+
+[1] "Consulta (sin diseño) 21"
+     Tiempo  Manager  Worker1  Worker2   Total
+1  2.364641 21135.10 642794.5 475689.4 1139619
+2  2.654451 24609.59 748466.3 553890.0 1326966
+3  2.709719 24520.26 745749.5 551879.4 1322149
+4  2.667315 23692.31 720568.7 533244.8 1277506
+5  2.655692 24473.66 744332.3 550830.7 1319637
+6  2.684310 24886.41 756885.6 560120.5 1341893
+7  2.677172 23631.24 718711.3 531870.3 1274213
+8  2.690503 24047.64 731375.6 541242.3 1296665
+9  2.679609 24545.31 746511.4 552443.3 1323500
+10 2.692453 24961.91 759181.6 561819.7 1345963
+11 2.684096 24735.42 752293.3 556722.1 1333751
+12 2.681061 24558.61 746915.9 552742.7 1324217
+13 2.715050 24719.22 751800.8 556357.6 1332878
+14 2.661833 23791.39 723582.0 535474.8 1282848
+15 2.682803 23829.88 724752.7 536341.1 1284924
+16 2.704974 23876.65 726175.0 537393.7 1287445
+17 2.681771 23522.96 715418.0 529433.1 1268374
+18 2.676545 23774.30 723062.1 535090.1 1281926
+19 2.690472 23599.28 717739.2 531150.9 1272489
+20 2.692326 24362.87 740962.7 548337.1 1313663
+21 2.732447 24119.15 733550.4 542851.7 1300521
+22 2.674977 24799.88 754254.0 558173.1 1337227
+23 2.676292 23772.05 722993.8 535039.5 1281805
+24 2.691594 24057.39 731672.1 541461.7 1297191
+25 2.671366 24321.50 739704.6 547406.1 1311432
+26 2.716160 24578.54 747522.1 553191.3 1325292
+27 2.703596 24014.58 730369.9 540498.0 1294883
+28 2.733127 24732.07 752191.6 556646.9 1333571
+29 2.694218 24230.42 736934.4 545356.0 1306521
+30 2.657063 24633.80 749202.8 554435.0 1328272
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo  Manager  Worker1   Worker2      Total
+Min.       2.36 21135.10 642794.5 475689.37 1139619.00
+1st Qu.    2.68 23801.01 723874.7 535691.38 1283367.09
+Median     2.68 24275.96 738319.5 546381.03 1308976.50
+Mean       2.68 24151.11 734522.5 543571.10 1302244.69
+3rd Qu.    2.69 24601.83 748230.3 553715.33 1326547.43
+Max.       2.73 24961.91 759181.6 561819.69 1345963.22
+Desv.Est   0.06   714.32  21725.1  16077.29   38516.71
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.47791, p-value = 3.155e-09
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.75473, p-value = 1.087e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 258, p-value = 0.1547
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.1862069 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 3388, p-value = 0.1889
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.2462736 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.75473, p-value = 1.087e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 258, p-value = 0.1547
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.1862069 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 3388, p-value = 0.1889
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.2462736 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.75473, p-value = 1.087e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 258, p-value = 0.1547
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.1862069 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 3388, p-value = 0.1889
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.2462736 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.75473, p-value = 1.087e-05
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 258, p-value = 0.1547
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.1862069 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 3388, p-value = 0.1889
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.2462736 
+
+[1] "Consulta (sin diseño) 22"
+     Tiempo  Manager  Worker1   Worker2    Total
+1  1.104323 9870.409 300194.7 222154.11 532219.3
+2  0.635069 5887.766 179068.2 132516.43 317472.4
+3  0.518209 4689.275 142617.8 105541.90 252848.9
+4  0.569483 5058.408 153844.4 113850.02 272752.9
+5  0.651259 6001.709 182533.6 135080.97 323616.3
+6  0.533453 4945.677 150415.9 111312.77 266674.3
+7  0.794044 7008.980 213168.4 157751.70 377929.1
+8  0.529088 4728.974 143825.2 106435.41 254989.5
+9  0.500027 4580.264 139302.4 103088.39 246971.0
+10 0.509523 4723.821 143668.4 106319.42 254711.7
+11 0.577987 5326.468 161997.1 119883.25 287206.8
+12 0.619398 5673.707 172557.9 127698.59 305930.2
+13 0.591589 5386.133 163811.7 121226.14 290424.0
+14 0.582001 5201.909 158208.8 117079.80 280490.5
+15 0.631727 5611.288 170659.5 126293.73 302564.5
+16 0.599351 5290.436 160901.3 119072.29 285264.0
+17 0.574248 5036.974 153192.6 113367.59 271597.1
+18 0.587429 5217.813 158692.5 117437.75 281348.1
+19 0.553112 4851.581 147554.1 109194.94 261600.6
+20 0.569983 5157.778 156866.6 116086.54 278111.0
+21 0.727637 6422.809 195340.8 144558.71 346322.3
+22 0.596414 5529.393 168168.8 124450.50 298148.7
+23 0.476450 4232.047 128711.8  95251.03 228194.9
+24 0.581262 5195.304 158007.9 116931.13 280134.4
+25 0.491674 4476.455 136145.2 100751.95 241373.6
+26 0.534672 4838.249 147148.6 108894.86 260881.7
+27 0.493416 4382.746 133295.1  98642.84 236320.7
+28 0.610224 5521.919 167941.5 124282.29 297745.7
+29 0.534038 4802.864 146072.4 108098.47 258973.8
+30 0.616027 5711.226 173699.0 128543.04 307953.3
+[1] "Descriptiva - consulta (sin diseño)"
+         Tiempo Manager   Worker1   Worker2    Total
+Min.       0.48 4232.05 128711.81  95251.03 228194.9
+1st Qu.    0.53 4811.71 146341.47 108297.57 259450.8
+Median     0.58 5198.61 158108.38 117005.47 280312.5
+Mean       0.60 5378.75 163587.08 121059.89 290025.7
+3rd Qu.    0.61 5590.81 170036.83 125832.92 301460.6
+Max.       1.10 9870.41 300194.74 222154.11 532219.3
+Desv.Est   0.12 1040.70  31651.52  23423.18  56115.4
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Tiempo
+W = 0.69525, p-value = 1.332e-06
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Manager
+W = 0.71645, p-value = 2.732e-06
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Manager
+T = 418, p-value = 1.11e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.9218391 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Manager
+S = 64, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.985762 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker1
+W = 0.71645, p-value = 2.732e-06
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker1
+T = 418, p-value = 1.11e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.9218391 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker1
+S = 64, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.985762 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Worker2
+W = 0.71645, p-value = 2.732e-06
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Worker2
+T = 418, p-value = 1.11e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.9218391 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Worker2
+S = 64, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.985762 
+
+
+	Shapiro-Wilk normality test
+
+data:  consulta$Total
+W = 0.71645, p-value = 2.732e-06
+
+
+	Kendall's rank correlation tau
+
+data:  consulta$Tiempo and consulta$Total
+T = 418, p-value = 1.11e-15
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.9218391 
+
+
+	Spearman's rank correlation rho
+
+data:  consulta$Tiempo and consulta$Total
+S = 64, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+     rho 
+0.985762

@@ -1,0 +1,37 @@
+SET
+                                                  QUERY PLAN                                                   
+---------------------------------------------------------------------------------------------------------------
+ Custom Scan (Citus Adaptive) (actual rows=0 loops=1)
+   ->  Distributed Subplan 1_1
+         Intermediate Data Size: 0 bytes
+         Result destination: Write locally
+         ->  Custom Scan (Citus Adaptive) (actual rows=0 loops=1)
+               Task Count: 12
+               Tuple data received from nodes: 0 bytes
+               Tasks Shown: None, not supported for re-partition queries
+               ->  MapMergeJob
+                     Map Task Count: 12
+                     Merge Task Count: 12
+                     ->  MapMergeJob
+                           Map Task Count: 32
+                           Merge Task Count: 12
+                     ->  MapMergeJob
+                           Map Task Count: 32
+                           Merge Task Count: 12
+               ->  MapMergeJob
+                     Map Task Count: 32
+                     Merge Task Count: 12
+   Task Count: 1
+   Tuple data received from nodes: 0 bytes
+   Tasks Shown: All
+   ->  Task
+         Tuple data received from node: 0 bytes
+         Node: host=localhost port=5432 dbname=tpch
+         ->  GroupAggregate (actual rows=0 loops=1)
+               Group Key: intermediate_result.nation, intermediate_result.o_year
+               ->  Sort (actual rows=0 loops=1)
+                     Sort Key: intermediate_result.nation, intermediate_result.o_year DESC
+                     Sort Method: quicksort  Memory: 25kB
+                     ->  Function Scan on read_intermediate_result intermediate_result (actual rows=0 loops=1)
+(32 rows)
+

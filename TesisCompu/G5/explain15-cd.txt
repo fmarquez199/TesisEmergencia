@@ -1,0 +1,778 @@
+SET
+CREATE VIEW
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=0 width=0) (actual time=79.111..79.112 rows=1 loops=1)
+   ->  Distributed Subplan 1_1
+         Subplan Duration: 2064.74 ms
+         Intermediate Data Size: 1367 kB
+         Result destination: Write locally
+         ->  HashAggregate  (cost=500.00..502.50 rows=200 width=36) (actual time=1856.630..2020.182 rows=50000 loops=1)
+               Group Key: remote_scan.supplier_no
+               Batches: 5  Memory Usage: 8257kB  Disk Usage: 19320kB
+               ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=36) (actual time=1580.770..1664.822 rows=812020 loops=1)
+                     Task Count: 32
+                     Tuple data received from nodes: 14 MB
+                     Tasks Shown: All
+                     ->  Task
+                           Tuple data received from node: 445 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2209.75..2541.58 rows=26546 width=36) (actual time=234.300..301.988 rows=25602 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102024 on lineitem_102024 lineitem  (cost=0.42..1834.64 rows=37511 width=16) (actual time=0.038..30.340 rows=35878 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.231 ms
+                               Execution Time: 326.035 ms
+                     ->  Task
+                           Tuple data received from node: 443 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2088.15..2414.05 rows=26072 width=36) (actual time=235.698..297.181 rows=25483 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102028 on lineitem_102028 lineitem  (cost=0.42..1720.24 rows=36791 width=16) (actual time=0.023..8.695 rows=35580 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.195 ms
+                               Execution Time: 323.127 ms
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2163.91..2485.91 rows=25760 width=36) (actual time=242.398..306.056 rows=25513 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102042 on lineitem_102042 lineitem  (cost=0.42..1800.08 rows=36383 width=16) (actual time=0.026..20.985 rows=35623 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.171 ms
+                               Execution Time: 317.918 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2079.58..2402.68 rows=25848 width=36) (actual time=227.050..286.896 rows=25405 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102030 on lineitem_102030 lineitem  (cost=0.42..1715.86 rows=36372 width=16) (actual time=0.034..31.520 rows=35483 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.180 ms
+                               Execution Time: 310.723 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1984.79..2310.51 rows=26057 width=36) (actual time=241.772..290.943 rows=25439 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102036 on lineitem_102036 lineitem  (cost=0.42..1618.00 rows=36679 width=16) (actual time=0.026..86.895 rows=35500 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.178 ms
+                               Execution Time: 308.840 ms
+                     ->  Task
+                           Tuple data received from node: 433 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2034.70..2344.27 rows=24766 width=36) (actual time=210.189..291.041 rows=24901 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 248kB
+                                 ->  Index Only Scan using q07i1_102014 on lineitem_102014 lineitem  (cost=0.42..1695.27 rows=33943 width=16) (actual time=0.037..47.850 rows=34533 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.214 ms
+                               Execution Time: 305.820 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1983.66..2298.65 rows=25199 width=36) (actual time=226.011..280.403 rows=25279 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102040 on lineitem_102040 lineitem  (cost=0.42..1634.58 rows=34908 width=16) (actual time=0.029..39.612 rows=35119 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.163 ms
+                               Execution Time: 304.328 ms
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1995.01..2315.86 rows=25668 width=36) (actual time=217.816..265.609 rows=25571 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102026 on lineitem_102026 lineitem  (cost=0.42..1635.48 rows=35953 width=16) (actual time=0.019..8.614 rows=35623 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.176 ms
+                               Execution Time: 296.044 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1770.83..2071.40 rows=24045 width=36) (actual time=213.211..263.468 rows=25087 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 248kB
+                                 ->  Index Only Scan using q07i1_102038 on lineitem_102038 lineitem  (cost=0.42..1443.36 rows=32747 width=16) (actual time=0.031..51.489 rows=34737 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.168 ms
+                               Execution Time: 278.377 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1975.98..2289.11 rows=25050 width=36) (actual time=225.045..266.103 rows=25446 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102029 on lineitem_102029 lineitem  (cost=0.42..1629.46 rows=34652 width=16) (actual time=0.031..35.227 rows=35413 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.154 ms
+                               Execution Time: 277.119 ms
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2063.73..2383.46 rows=25578 width=36) (actual time=216.294..262.281 rows=25538 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 264kB
+                                 ->  Index Only Scan using q07i1_102033 on lineitem_102033 lineitem  (cost=0.42..1707.96 rows=35577 width=16) (actual time=0.024..39.503 rows=35773 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.190 ms
+                               Execution Time: 276.429 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2081.61..2398.76 rows=25372 width=36) (actual time=243.588..267.978 rows=25377 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102034 on lineitem_102034 lineitem  (cost=0.42..1727.88 rows=35373 width=16) (actual time=0.037..85.643 rows=35429 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.180 ms
+                               Execution Time: 273.787 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1844.17..2158.54 rows=25149 width=36) (actual time=200.402..260.996 rows=25372 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102027 on lineitem_102027 lineitem  (cost=0.42..1498.92 rows=34525 width=16) (actual time=0.036..29.430 rows=35519 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.159 ms
+                               Execution Time: 272.120 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2030.80..2337.52 rows=24537 width=36) (actual time=223.221..255.355 rows=25179 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102019 on lineitem_102019 lineitem  (cost=0.42..1695.34 rows=33546 width=16) (actual time=0.027..55.856 rows=35081 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 6.560 ms
+                               Execution Time: 266.837 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2135.86..2455.74 rows=25590 width=36) (actual time=224.060..252.643 rows=25254 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102021 on lineitem_102021 lineitem  (cost=0.42..1777.38 rows=35848 width=16) (actual time=0.029..37.938 rows=35367 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.159 ms
+                               Execution Time: 264.110 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2017.96..2332.98 rows=25201 width=36) (actual time=204.309..243.452 rows=25207 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102023 on lineitem_102023 lineitem  (cost=0.42..1666.78 rows=35118 width=16) (actual time=0.030..23.362 rows=35103 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.178 ms
+                               Execution Time: 256.883 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2022.62..2337.87 rows=25220 width=36) (actual time=205.350..226.331 rows=25069 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102017 on lineitem_102017 lineitem  (cost=0.42..1671.22 rows=35140 width=16) (actual time=0.022..38.207 rows=34917 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.157 ms
+                               Execution Time: 232.277 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1902.98..2223.32 rows=25627 width=36) (actual time=196.150..216.122 rows=25081 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102022 on lineitem_102022 lineitem  (cost=0.42..1547.46 rows=35552 width=16) (actual time=0.025..32.362 rows=34652 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.177 ms
+                               Execution Time: 224.931 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2077.40..2388.98 rows=24926 width=36) (actual time=195.277..216.861 rows=25406 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102041 on lineitem_102041 lineitem  (cost=0.42..1731.74 rows=34566 width=16) (actual time=0.033..32.101 rows=35430 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.167 ms
+                               Execution Time: 223.417 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1855.04..2162.56 rows=24601 width=36) (actual time=94.121..153.736 rows=25408 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102020 on lineitem_102020 lineitem  (cost=0.42..1519.50 rows=33554 width=16) (actual time=0.025..15.474 rows=35451 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.156 ms
+                               Execution Time: 186.564 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2012.54..2339.14 rows=26128 width=36) (actual time=156.073..178.099 rows=25399 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102037 on lineitem_102037 lineitem  (cost=0.42..1644.50 rows=36804 width=16) (actual time=0.023..8.332 rows=35554 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.167 ms
+                               Execution Time: 183.991 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1941.24..2262.48 rows=25699 width=36) (actual time=155.975..176.386 rows=25214 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102015 on lineitem_102015 lineitem  (cost=0.42..1582.30 rows=35894 width=16) (actual time=0.018..39.366 rows=35240 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.192 ms
+                               Execution Time: 182.079 ms
+                     ->  Task
+                           Tuple data received from node: 440 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1875.74..2193.46 rows=25418 width=36) (actual time=116.320..154.935 rows=25337 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102012 on lineitem_102012 lineitem  (cost=0.42..1523.96 rows=35177 width=16) (actual time=0.024..17.366 rows=35495 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.157 ms
+                               Execution Time: 169.865 ms
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2203.53..2534.45 rows=26473 width=36) (actual time=109.117..151.655 rows=25633 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102016 on lineitem_102016 lineitem  (cost=0.42..1825.16 rows=37837 width=16) (actual time=0.029..23.861 rows=35863 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.203 ms
+                               Execution Time: 163.670 ms
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1946.86..2269.54 rows=25814 width=36) (actual time=111.998..131.438 rows=25685 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 264kB
+                                 ->  Index Only Scan using q07i1_102032 on lineitem_102032 lineitem  (cost=0.42..1587.38 rows=35948 width=16) (actual time=0.068..19.431 rows=35838 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.477 ms
+                               Execution Time: 138.769 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1943.83..2254.73 rows=24872 width=36) (actual time=94.497..115.770 rows=25224 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102025 on lineitem_102025 lineitem  (cost=0.42..1601.36 rows=34247 width=16) (actual time=0.023..20.014 rows=35182 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.138 ms
+                               Execution Time: 121.835 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1954.15..2278.44 rows=25943 width=36) (actual time=100.138..113.955 rows=25395 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102031 on lineitem_102031 lineitem  (cost=0.42..1588.24 rows=36591 width=16) (actual time=0.069..17.167 rows=35450 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.439 ms
+                               Execution Time: 119.248 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2148.22..2471.20 rows=25839 width=36) (actual time=91.651..112.326 rows=25359 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102013 on lineitem_102013 lineitem  (cost=0.42..1785.62 rows=36260 width=16) (actual time=0.031..21.269 rows=35524 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.157 ms
+                               Execution Time: 118.217 ms
+                     ->  Task
+                           Tuple data received from node: 448 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1947.67..2261.50 rows=25106 width=36) (actual time=53.073..74.685 rows=25762 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 392kB
+                                 ->  Index Only Scan using q07i1_102018 on lineitem_102018 lineitem  (cost=0.42..1599.92 rows=34775 width=16) (actual time=0.028..9.070 rows=36107 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.187 ms
+                               Execution Time: 80.928 ms
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1883.71..2198.21 rows=25160 width=36) (actual time=50.259..71.317 rows=25629 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 264kB
+                                 ->  Index Only Scan using q07i1_102011 on lineitem_102011 lineitem  (cost=0.42..1537.28 rows=34643 width=16) (actual time=0.014..8.567 rows=35712 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.216 ms
+                               Execution Time: 76.712 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1996.17..2299.72 rows=24284 width=36) (actual time=54.977..66.179 rows=25391 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102039 on lineitem_102039 lineitem  (cost=0.42..1664.25 rows=33192 width=16) (actual time=0.094..9.154 rows=35533 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.814 ms
+                               Execution Time: 69.430 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2075.77..2389.47 rows=25096 width=36) (actual time=24.331..35.008 rows=25375 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102035 on lineitem_102035 lineitem  (cost=0.42..1729.32 rows=34645 width=16) (actual time=0.015..4.109 rows=35302 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.110 ms
+                               Execution Time: 37.801 ms
+         Planning Time: 0.000 ms
+         Execution Time: 2027.081 ms
+   ->  Distributed Subplan 1_2
+         Subplan Duration: 53.63 ms
+         Intermediate Data Size: 20 bytes
+         Result destination: Send to 3 nodes
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=0 width=0) (actual time=25.950..25.951 rows=1 loops=1)
+               Task Count: 1
+               Tuple data received from nodes: 14 bytes
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 14 bytes
+                     Node: host=localhost port=5432 dbname=tpch
+                     ->  Aggregate  (cost=420.89..420.90 rows=1 width=32) (actual time=23.763..23.763 rows=1 loops=1)
+                           ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..337.56 rows=33333 width=32) (actual time=15.307..17.916 rows=50000 loops=1)
+                         Planning Time: 0.038 ms
+                         Execution Time: 24.185 ms
+         Planning Time: 0.000 ms
+         Execution Time: 25.973 ms
+   ->  Distributed Subplan 1_3
+         Subplan Duration: 2074.61 ms
+         Intermediate Data Size: 1367 kB
+         Result destination: Send to 3 nodes
+         ->  HashAggregate  (cost=500.00..502.50 rows=200 width=36) (actual time=1848.734..1992.741 rows=50000 loops=1)
+               Group Key: remote_scan.supplier_no
+               Batches: 5  Memory Usage: 8257kB  Disk Usage: 15968kB
+               ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=36) (actual time=1565.181..1649.933 rows=812020 loops=1)
+                     Task Count: 32
+                     Tuple data received from nodes: 14 MB
+                     Tasks Shown: All
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1855.04..2162.56 rows=24601 width=36) (actual time=245.064..364.754 rows=25408 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102020 on lineitem_102020 lineitem  (cost=0.42..1519.50 rows=33554 width=16) (actual time=0.017..30.915 rows=35451 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.356 ms
+                               Execution Time: 383.094 ms
+                     ->  Task
+                           Tuple data received from node: 445 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2209.75..2541.58 rows=26546 width=36) (actual time=250.189..284.994 rows=25602 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102024 on lineitem_102024 lineitem  (cost=0.42..1834.64 rows=37511 width=16) (actual time=0.020..71.896 rows=35878 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.162 ms
+                               Execution Time: 364.064 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1983.66..2298.65 rows=25199 width=36) (actual time=250.806..304.090 rows=25279 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102040 on lineitem_102040 lineitem  (cost=0.42..1634.58 rows=34908 width=16) (actual time=0.017..44.764 rows=35119 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.162 ms
+                               Execution Time: 359.428 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1902.98..2223.32 rows=25627 width=36) (actual time=272.792..328.806 rows=25081 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102022 on lineitem_102022 lineitem  (cost=0.42..1547.46 rows=35552 width=16) (actual time=0.015..26.905 rows=34652 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.162 ms
+                               Execution Time: 347.861 ms
+                     ->  Task
+                           Tuple data received from node: 448 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1947.67..2261.50 rows=25106 width=36) (actual time=227.575..304.414 rows=25762 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 392kB
+                                 ->  Index Only Scan using q07i1_102018 on lineitem_102018 lineitem  (cost=0.42..1599.92 rows=34775 width=16) (actual time=0.013..28.852 rows=36107 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.858 ms
+                               Execution Time: 345.312 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2081.61..2398.76 rows=25372 width=36) (actual time=258.019..335.185 rows=25377 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102034 on lineitem_102034 lineitem  (cost=0.42..1727.88 rows=35373 width=16) (actual time=0.019..35.913 rows=35429 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.171 ms
+                               Execution Time: 341.815 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2079.58..2402.68 rows=25848 width=36) (actual time=219.437..304.346 rows=25405 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102030 on lineitem_102030 lineitem  (cost=0.42..1715.86 rows=36372 width=16) (actual time=0.027..22.730 rows=35483 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.203 ms
+                               Execution Time: 321.937 ms
+                     ->  Task
+                           Tuple data received from node: 443 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2088.15..2414.05 rows=26072 width=36) (actual time=224.898..313.725 rows=25483 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102028 on lineitem_102028 lineitem  (cost=0.42..1720.24 rows=36791 width=16) (actual time=0.018..59.963 rows=35580 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.742 ms
+                               Execution Time: 320.456 ms
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2163.91..2485.91 rows=25760 width=36) (actual time=230.663..298.340 rows=25513 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102042 on lineitem_102042 lineitem  (cost=0.42..1800.08 rows=36383 width=16) (actual time=0.014..41.717 rows=35623 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.165 ms
+                               Execution Time: 310.110 ms
+                     ->  Task
+                           Tuple data received from node: 433 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2034.70..2344.27 rows=24766 width=36) (actual time=216.028..270.389 rows=24901 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 248kB
+                                 ->  Index Only Scan using q07i1_102014 on lineitem_102014 lineitem  (cost=0.42..1695.27 rows=33943 width=16) (actual time=0.017..8.327 rows=34533 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.858 ms
+                               Execution Time: 309.935 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2030.80..2337.52 rows=24537 width=36) (actual time=220.419..259.198 rows=25179 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102019 on lineitem_102019 lineitem  (cost=0.42..1695.34 rows=33546 width=16) (actual time=0.020..27.375 rows=35081 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.606 ms
+                               Execution Time: 287.977 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2135.86..2455.74 rows=25590 width=36) (actual time=222.423..259.635 rows=25254 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102021 on lineitem_102021 lineitem  (cost=0.42..1777.38 rows=35848 width=16) (actual time=0.017..37.324 rows=35367 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.156 ms
+                               Execution Time: 283.828 ms
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1995.01..2315.86 rows=25668 width=36) (actual time=196.360..255.929 rows=25571 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102026 on lineitem_102026 lineitem  (cost=0.42..1635.48 rows=35953 width=16) (actual time=0.015..23.631 rows=35623 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.587 ms
+                               Execution Time: 279.657 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1984.79..2310.51 rows=26057 width=36) (actual time=183.100..251.991 rows=25439 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102036 on lineitem_102036 lineitem  (cost=0.42..1618.00 rows=36679 width=16) (actual time=0.013..20.580 rows=35500 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.160 ms
+                               Execution Time: 276.598 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1770.83..2071.40 rows=24045 width=36) (actual time=174.168..263.722 rows=25087 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 248kB
+                                 ->  Index Only Scan using q07i1_102038 on lineitem_102038 lineitem  (cost=0.42..1443.36 rows=32747 width=16) (actual time=0.016..26.287 rows=34737 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.169 ms
+                               Execution Time: 269.361 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1943.83..2254.73 rows=24872 width=36) (actual time=222.173..257.855 rows=25224 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102025 on lineitem_102025 lineitem  (cost=0.42..1601.36 rows=34247 width=16) (actual time=0.011..34.325 rows=35182 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.153 ms
+                               Execution Time: 263.608 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2012.54..2339.14 rows=26128 width=36) (actual time=199.652..248.130 rows=25399 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102037 on lineitem_102037 lineitem  (cost=0.42..1644.50 rows=36804 width=16) (actual time=0.015..20.400 rows=35554 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.157 ms
+                               Execution Time: 256.889 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2077.40..2388.98 rows=24926 width=36) (actual time=199.532..241.652 rows=25406 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102041 on lineitem_102041 lineitem  (cost=0.42..1731.74 rows=34566 width=16) (actual time=0.016..23.475 rows=35430 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.159 ms
+                               Execution Time: 253.598 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2148.22..2471.20 rows=25839 width=36) (actual time=226.077..247.071 rows=25359 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102013 on lineitem_102013 lineitem  (cost=0.42..1785.62 rows=36260 width=16) (actual time=0.090..56.530 rows=35524 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.573 ms
+                               Execution Time: 252.715 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1975.98..2289.11 rows=25050 width=36) (actual time=152.106..220.725 rows=25446 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102029 on lineitem_102029 lineitem  (cost=0.42..1629.46 rows=34652 width=16) (actual time=0.020..26.491 rows=35413 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.606 ms
+                               Execution Time: 236.840 ms
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2063.73..2383.46 rows=25578 width=36) (actual time=184.681..206.017 rows=25538 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 264kB
+                                 ->  Index Only Scan using q07i1_102033 on lineitem_102033 lineitem  (cost=0.42..1707.96 rows=35577 width=16) (actual time=0.011..32.617 rows=35773 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.167 ms
+                               Execution Time: 211.917 ms
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1883.71..2198.21 rows=25160 width=36) (actual time=152.540..189.863 rows=25629 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 264kB
+                                 ->  Index Only Scan using q07i1_102011 on lineitem_102011 lineitem  (cost=0.42..1537.28 rows=34643 width=16) (actual time=0.017..29.440 rows=35712 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.599 ms
+                               Execution Time: 208.599 ms
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2203.53..2534.45 rows=26473 width=36) (actual time=115.829..155.133 rows=25633 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102016 on lineitem_102016 lineitem  (cost=0.42..1825.16 rows=37837 width=16) (actual time=0.011..17.612 rows=35863 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.857 ms
+                               Execution Time: 176.982 ms
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1946.86..2269.54 rows=25814 width=36) (actual time=87.146..144.554 rows=25685 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 264kB
+                                 ->  Index Only Scan using q07i1_102032 on lineitem_102032 lineitem  (cost=0.42..1587.38 rows=35948 width=16) (actual time=0.023..20.293 rows=35838 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.168 ms
+                               Execution Time: 163.128 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1941.24..2262.48 rows=25699 width=36) (actual time=102.175..152.977 rows=25214 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102015 on lineitem_102015 lineitem  (cost=0.42..1582.30 rows=35894 width=16) (actual time=0.054..16.320 rows=35240 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.598 ms
+                               Execution Time: 161.397 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2017.96..2332.98 rows=25201 width=36) (actual time=93.286..135.774 rows=25207 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102023 on lineitem_102023 lineitem  (cost=0.42..1666.78 rows=35118 width=16) (actual time=0.015..14.096 rows=35103 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.607 ms
+                               Execution Time: 159.690 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1844.17..2158.54 rows=25149 width=36) (actual time=95.489..136.333 rows=25372 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102027 on lineitem_102027 lineitem  (cost=0.42..1498.92 rows=34525 width=16) (actual time=0.021..23.232 rows=35519 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.607 ms
+                               Execution Time: 154.368 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2022.62..2337.87 rows=25220 width=36) (actual time=96.077..137.360 rows=25069 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102017 on lineitem_102017 lineitem  (cost=0.42..1671.22 rows=35140 width=16) (actual time=0.015..20.040 rows=34917 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.598 ms
+                               Execution Time: 152.877 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1996.17..2299.72 rows=24284 width=36) (actual time=87.207..101.070 rows=25391 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102039 on lineitem_102039 lineitem  (cost=0.42..1664.25 rows=33192 width=16) (actual time=0.055..14.727 rows=35533 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.474 ms
+                               Execution Time: 105.275 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1954.15..2278.44 rows=25943 width=36) (actual time=61.761..90.404 rows=25395 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102031 on lineitem_102031 lineitem  (cost=0.42..1588.24 rows=36591 width=16) (actual time=0.017..10.456 rows=35450 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.164 ms
+                               Execution Time: 98.484 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=2075.77..2389.47 rows=25096 width=36) (actual time=54.019..79.795 rows=25375 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102035 on lineitem_102035 lineitem  (cost=0.42..1729.32 rows=34645 width=16) (actual time=0.023..9.179 rows=35302 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.166 ms
+                               Execution Time: 87.159 ms
+                     ->  Task
+                           Tuple data received from node: 440 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate  (cost=1875.74..2193.46 rows=25418 width=36) (actual time=51.901..72.779 rows=25337 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 256kB
+                                 ->  Index Only Scan using q07i1_102012 on lineitem_102012 lineitem  (cost=0.42..1523.96 rows=35177 width=16) (actual time=0.058..8.943 rows=35495 loops=1)
+                                       Index Cond: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                       Heap Fetches: 0
+                               Planning Time: 0.857 ms
+                               Execution Time: 80.600 ms
+         Planning Time: 0.000 ms
+         Execution Time: 1999.527 ms
+   Task Count: 1
+   Tuple data received from nodes: 84 bytes
+   Tasks Shown: All
+   ->  Task
+         Tuple data received from node: 84 bytes
+         Node: host=192.168.1.19 port=5432 dbname=tpch
+         ->  Sort  (cost=2720.12..2720.13 rows=5 width=103) (actual time=63.018..63.020 rows=1 loops=1)
+               Sort Key: supplier.s_suppkey
+               Sort Method: quicksort  Memory: 25kB
+               InitPlan 1 (returns $0)
+                 ->  Function Scan on read_intermediate_result intermediate_result_1  (cost=0.00..0.00 rows=1 width=32) (actual time=0.051..0.052 rows=1 loops=1)
+               ->  Hash Join  (cost=2241.00..2720.06 rows=5 width=103) (actual time=59.003..62.966 rows=1 loops=1)
+                     Hash Cond: (intermediate_result.supplier_no = supplier.s_suppkey)
+                     ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..399.15 rows=30434 width=36) (actual time=23.632..27.593 rows=1 loops=1)
+                           Filter: (total_revenue = $0)
+                           Rows Removed by Filter: 49999
+                     ->  Hash  (cost=1616.00..1616.00 rows=50000 width=71) (actual time=35.059..35.060 rows=50000 loops=1)
+                           Buckets: 65536  Batches: 1  Memory Usage: 5591kB
+                           ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=71) (actual time=0.871..23.031 rows=50000 loops=1)
+             Planning Time: 3.227 ms
+             Execution Time: 63.853 ms
+ Planning Time: 4.034 ms
+ Execution Time: 4272.160 ms
+(771 rows)
+
+DROP VIEW

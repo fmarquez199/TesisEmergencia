@@ -1,0 +1,707 @@
+SET
+                                                                     QUERY PLAN                                                                     
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort (actual rows=5 loops=1)
+   Sort Key: remote_scan.o_orderpriority
+   Sort Method: quicksort  Memory: 25kB
+   ->  HashAggregate (actual rows=5 loops=1)
+         Group Key: remote_scan.o_orderpriority
+         Batches: 1  Memory Usage: 40kB
+         ->  Custom Scan (Citus Adaptive) (actual rows=160 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 3680 bytes
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8281 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 579kB
+                                             ->  Nested Loop Semi Join (actual rows=8281 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102082 orders (actual rows=8979 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225587
+                                                   ->  Index Scan using lineitem_pkey_102018 on lineitem_102018 lineitem (actual rows=1 loops=8979)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8215 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 577kB
+                                             ->  Nested Loop Semi Join (actual rows=8215 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102090 orders (actual rows=8994 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225037
+                                                   ->  Index Scan using lineitem_pkey_102026 on lineitem_102026 lineitem (actual rows=1 loops=8994)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8119 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 383kB
+                                             ->  Nested Loop Semi Join (actual rows=8119 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102094 orders (actual rows=8856 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 224800
+                                                   ->  Index Scan using lineitem_pkey_102030 on lineitem_102030 lineitem (actual rows=1 loops=8856)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8140 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 383kB
+                                             ->  Nested Loop Semi Join (actual rows=8140 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102092 orders (actual rows=8926 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225247
+                                                   ->  Index Scan using lineitem_pkey_102028 on lineitem_102028 lineitem (actual rows=1 loops=8926)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8096 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 382kB
+                                             ->  Nested Loop Semi Join (actual rows=8096 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102096 orders (actual rows=8804 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225993
+                                                   ->  Index Scan using lineitem_pkey_102032 on lineitem_102032 lineitem (actual rows=1 loops=8804)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8115 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 383kB
+                                             ->  Nested Loop Semi Join (actual rows=8115 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102100 orders (actual rows=8880 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225430
+                                                   ->  Index Scan using lineitem_pkey_102036 on lineitem_102036 lineitem (actual rows=1 loops=8880)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8322 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 580kB
+                                             ->  Nested Loop Semi Join (actual rows=8322 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102098 orders (actual rows=9049 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225785
+                                                   ->  Index Scan using lineitem_pkey_102034 on lineitem_102034 lineitem (actual rows=1 loops=9049)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8251 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 578kB
+                                             ->  Nested Loop Semi Join (actual rows=8251 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102104 orders (actual rows=8972 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225221
+                                                   ->  Index Scan using lineitem_pkey_102040 on lineitem_102040 lineitem (actual rows=1 loops=8972)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8223 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 577kB
+                                             ->  Nested Loop Semi Join (actual rows=8223 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102089 orders (actual rows=8937 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 224850
+                                                   ->  Index Scan using lineitem_pkey_102025 on lineitem_102025 lineitem (actual rows=1 loops=8937)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8203 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 577kB
+                                             ->  Nested Loop Semi Join (actual rows=8203 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102093 orders (actual rows=8984 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225253
+                                                   ->  Index Scan using lineitem_pkey_102029 on lineitem_102029 lineitem (actual rows=1 loops=8984)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8267 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 578kB
+                                             ->  Nested Loop Semi Join (actual rows=8267 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102102 orders (actual rows=8980 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225100
+                                                   ->  Index Scan using lineitem_pkey_102038 on lineitem_102038 lineitem (actual rows=1 loops=8980)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8263 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 578kB
+                                             ->  Nested Loop Semi Join (actual rows=8263 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102088 orders (actual rows=8960 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225179
+                                                   ->  Index Scan using lineitem_pkey_102024 on lineitem_102024 lineitem (actual rows=1 loops=8960)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8179 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 384kB
+                                             ->  Nested Loop Semi Join (actual rows=8179 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102084 orders (actual rows=8962 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 226152
+                                                   ->  Index Scan using lineitem_pkey_102020 on lineitem_102020 lineitem (actual rows=1 loops=8962)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8139 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 383kB
+                                             ->  Nested Loop Semi Join (actual rows=8139 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102081 orders (actual rows=8891 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 224959
+                                                   ->  Index Scan using lineitem_pkey_102017 on lineitem_102017 lineitem (actual rows=1 loops=8891)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8094 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 382kB
+                                             ->  Nested Loop Semi Join (actual rows=8094 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102083 orders (actual rows=8772 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225244
+                                                   ->  Index Scan using lineitem_pkey_102019 on lineitem_102019 lineitem (actual rows=1 loops=8772)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8252 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 578kB
+                                             ->  Nested Loop Semi Join (actual rows=8252 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102086 orders (actual rows=8997 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225585
+                                                   ->  Index Scan using lineitem_pkey_102022 on lineitem_102022 lineitem (actual rows=1 loops=8997)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8498 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 584kB
+                                             ->  Nested Loop Semi Join (actual rows=8498 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102091 orders (actual rows=9243 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225644
+                                                   ->  Index Scan using lineitem_pkey_102027 on lineitem_102027 lineitem (actual rows=1 loops=9243)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8207 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 577kB
+                                             ->  Nested Loop Semi Join (actual rows=8207 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102106 orders (actual rows=8967 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225072
+                                                   ->  Index Scan using lineitem_pkey_102042 on lineitem_102042 lineitem (actual rows=1 loops=8967)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8360 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 580kB
+                                             ->  Nested Loop Semi Join (actual rows=8360 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102095 orders (actual rows=9120 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225621
+                                                   ->  Index Scan using lineitem_pkey_102031 on lineitem_102031 lineitem (actual rows=1 loops=9120)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8276 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 578kB
+                                             ->  Nested Loop Semi Join (actual rows=8276 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102085 orders (actual rows=8988 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225318
+                                                   ->  Index Scan using lineitem_pkey_102021 on lineitem_102021 lineitem (actual rows=1 loops=8988)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=15 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Partial GroupAggregate (actual rows=5 loops=3)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=2724 loops=3)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 170kB
+                                             Worker 0:  Sort Method: quicksort  Memory: 163kB
+                                             Worker 1:  Sort Method: quicksort  Memory: 148kB
+                                             ->  Nested Loop Semi Join (actual rows=2724 loops=3)
+                                                   ->  Parallel Seq Scan on orders_102078 orders (actual rows=2976 loops=3)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 74958
+                                                   ->  Index Scan using lineitem_pkey_102014 on lineitem_102014 lineitem (actual rows=1 loops=8927)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=15 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Partial GroupAggregate (actual rows=5 loops=3)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=2727 loops=3)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 158kB
+                                             Worker 0:  Sort Method: quicksort  Memory: 166kB
+                                             Worker 1:  Sort Method: quicksort  Memory: 157kB
+                                             ->  Nested Loop Semi Join (actual rows=2727 loops=3)
+                                                   ->  Parallel Seq Scan on orders_102080 orders (actual rows=2969 loops=3)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 75479
+                                                   ->  Index Scan using lineitem_pkey_102016 on lineitem_102016 lineitem (actual rows=1 loops=8907)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=15 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Partial GroupAggregate (actual rows=5 loops=3)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=2734 loops=3)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 163kB
+                                             Worker 0:  Sort Method: quicksort  Memory: 166kB
+                                             Worker 1:  Sort Method: quicksort  Memory: 153kB
+                                             ->  Nested Loop Semi Join (actual rows=2734 loops=3)
+                                                   ->  Parallel Seq Scan on orders_102076 orders (actual rows=2988 loops=3)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 75116
+                                                   ->  Index Scan using lineitem_pkey_102012 on lineitem_102012 lineitem (actual rows=1 loops=8963)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=15 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Partial GroupAggregate (actual rows=5 loops=3)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=2791 loops=3)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 173kB
+                                             Worker 0:  Sort Method: quicksort  Memory: 151kB
+                                             Worker 1:  Sort Method: quicksort  Memory: 162kB
+                                             ->  Nested Loop Semi Join (actual rows=2791 loops=3)
+                                                   ->  Parallel Seq Scan on orders_102097 orders (actual rows=3055 loops=3)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 75139
+                                                   ->  Index Scan using lineitem_pkey_102033 on lineitem_102033 lineitem (actual rows=1 loops=9166)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=15 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Partial GroupAggregate (actual rows=5 loops=3)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=2776 loops=3)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 160kB
+                                             Worker 0:  Sort Method: quicksort  Memory: 165kB
+                                             Worker 1:  Sort Method: quicksort  Memory: 160kB
+                                             ->  Nested Loop Semi Join (actual rows=2776 loops=3)
+                                                   ->  Parallel Seq Scan on orders_102099 orders (actual rows=3029 loops=3)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 75202
+                                                   ->  Index Scan using lineitem_pkey_102035 on lineitem_102035 lineitem (actual rows=1 loops=9087)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8318 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 579kB
+                                             ->  Nested Loop Semi Join (actual rows=8318 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102105 orders (actual rows=9066 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225194
+                                                   ->  Index Scan using lineitem_pkey_102041 on lineitem_102041 lineitem (actual rows=1 loops=9066)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=5 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate (actual rows=5 loops=1)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=8176 loops=1)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 384kB
+                                             ->  Nested Loop Semi Join (actual rows=8176 loops=1)
+                                                   ->  Parallel Seq Scan on orders_102103 orders (actual rows=8892 loops=1)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 225129
+                                                   ->  Index Scan using lineitem_pkey_102039 on lineitem_102039 lineitem (actual rows=1 loops=8892)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=15 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Partial GroupAggregate (actual rows=5 loops=3)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=2776 loops=3)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 181kB
+                                             Worker 0:  Sort Method: quicksort  Memory: 150kB
+                                             Worker 1:  Sort Method: quicksort  Memory: 153kB
+                                             ->  Nested Loop Semi Join (actual rows=2776 loops=3)
+                                                   ->  Parallel Seq Scan on orders_102079 orders (actual rows=3015 loops=3)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 75238
+                                                   ->  Index Scan using lineitem_pkey_102015 on lineitem_102015 lineitem (actual rows=1 loops=9045)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=15 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Partial GroupAggregate (actual rows=5 loops=3)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=2717 loops=3)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 158kB
+                                             Worker 0:  Sort Method: quicksort  Memory: 155kB
+                                             Worker 1:  Sort Method: quicksort  Memory: 168kB
+                                             ->  Nested Loop Semi Join (actual rows=2717 loops=3)
+                                                   ->  Parallel Seq Scan on orders_102087 orders (actual rows=3003 loops=3)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 75376
+                                                   ->  Index Scan using lineitem_pkey_102023 on lineitem_102023 lineitem (actual rows=1 loops=9008)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=15 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Partial GroupAggregate (actual rows=5 loops=3)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=2721 loops=3)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 164kB
+                                             Worker 0:  Sort Method: quicksort  Memory: 152kB
+                                             Worker 1:  Sort Method: quicksort  Memory: 165kB
+                                             ->  Nested Loop Semi Join (actual rows=2721 loops=3)
+                                                   ->  Parallel Seq Scan on orders_102077 orders (actual rows=2957 loops=3)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 75110
+                                                   ->  Index Scan using lineitem_pkey_102013 on lineitem_102013 lineitem (actual rows=1 loops=8871)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=15 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Partial GroupAggregate (actual rows=5 loops=3)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=2811 loops=3)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 156kB
+                                             Worker 0:  Sort Method: quicksort  Memory: 179kB
+                                             Worker 1:  Sort Method: quicksort  Memory: 152kB
+                                             ->  Nested Loop Semi Join (actual rows=2811 loops=3)
+                                                   ->  Parallel Seq Scan on orders_102101 orders (actual rows=3066 loops=3)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 75147
+                                                   ->  Index Scan using lineitem_pkey_102037 on lineitem_102037 lineitem (actual rows=1 loops=9197)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Gather Merge (actual rows=15 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Partial GroupAggregate (actual rows=5 loops=3)
+                                       Group Key: orders.o_orderpriority
+                                       ->  Sort (actual rows=2712 loops=3)
+                                             Sort Key: orders.o_orderpriority
+                                             Sort Method: quicksort  Memory: 160kB
+                                             Worker 0:  Sort Method: quicksort  Memory: 167kB
+                                             Worker 1:  Sort Method: quicksort  Memory: 153kB
+                                             ->  Nested Loop Semi Join (actual rows=2712 loops=3)
+                                                   ->  Parallel Seq Scan on orders_102075 orders (actual rows=2953 loops=3)
+                                                         Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                                         Rows Removed by Filter: 75018
+                                                   ->  Index Scan using lineitem_pkey_102011 on lineitem_102011 lineitem (actual rows=1 loops=8860)
+                                                         Index Cond: (l_orderkey = orders.o_orderkey)
+                                                         Filter: (l_commitdate < l_receiptdate)
+                                                         Rows Removed by Filter: 1
+(702 rows)
+

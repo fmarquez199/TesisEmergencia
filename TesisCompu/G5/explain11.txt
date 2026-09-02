@@ -1,0 +1,1465 @@
+SET
+                                                                                        QUERY PLAN                                                                                         
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=11041.82..11291.82 rows=100000 width=36) (actual time=444.071..444.072 rows=0 loops=1)
+   Sort Key: remote_scan.value DESC
+   Sort Method: quicksort  Memory: 25kB
+   ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=36) (actual time=444.027..444.027 rows=0 loops=1)
+         ->  Distributed Subplan 1_1
+               Subplan Duration: 1366.35 ms
+               Intermediate Data Size: 22 bytes
+               Result destination: Send to 2 nodes
+               ->  Aggregate  (cost=250.00..250.01 rows=1 width=32) (actual time=420.445..420.446 rows=1 loops=1)
+                     ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=32) (actual time=420.426..420.430 rows=32 loops=1)
+                           Task Count: 32
+                           Tuple data received from nodes: 512 bytes
+                           Tasks Shown: All
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6377.68..6377.69 rows=1 width=32) (actual time=351.482..351.485 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6340.18 rows=4999 width=10) (actual time=145.345..330.617 rows=4967 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102215 partsupp  (cost=0.00..4025.72 rows=124972 width=14) (actual time=0.010..106.727 rows=124972 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=145.325..145.327 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.043..144.381 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..79.853 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.016..0.017 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.007..0.011 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.337 ms
+                                     Execution Time: 351.521 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6376.80..6376.81 rows=1 width=32) (actual time=350.834..350.836 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6339.32 rows=4996 width=10) (actual time=112.410..347.868 rows=4940 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102211 partsupp  (cost=0.00..4025.12 rows=124912 width=14) (actual time=0.015..183.263 rows=124912 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=112.309..112.311 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.046..105.325 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.007..46.278 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.015..0.016 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.007..0.011 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.305 ms
+                                     Execution Time: 350.869 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6380.87..6380.88 rows=1 width=32) (actual time=350.089..350.093 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6343.39 rows=4997 width=10) (actual time=132.636..338.247 rows=4954 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102217 partsupp  (cost=0.00..4029.16 rows=124916 width=14) (actual time=0.012..134.594 rows=124916 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=132.599..132.602 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.055..119.653 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.011..84.253 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.018..0.019 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.009..0.013 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.297 ms
+                                     Execution Time: 350.126 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6387.51..6387.52 rows=1 width=32) (actual time=348.883..348.886 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6349.89 rows=5015 width=10) (actual time=135.418..345.978 rows=5111 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102207 partsupp  (cost=0.00..4033.76 rows=125376 width=14) (actual time=0.010..105.887 rows=125376 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=135.390..135.392 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.046..134.471 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.008..94.100 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.014..0.015 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.006..0.010 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 6.179 ms
+                                     Execution Time: 348.918 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6380.51..6380.52 rows=1 width=32) (actual time=347.551..347.555 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6342.95 rows=5007 width=10) (actual time=122.623..300.499 rows=5042 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102205 partsupp  (cost=0.00..4027.68 rows=125168 width=14) (actual time=0.011..98.731 rows=125168 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=122.600..122.602 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.057..109.485 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.008..67.449 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.017..0.018 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.007..0.011 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 2.679 ms
+                                     Execution Time: 347.592 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6379.83..6379.84 rows=1 width=32) (actual time=346.563..346.566 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6342.37 rows=4994 width=10) (actual time=129.290..343.668 rows=4966 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102213 partsupp  (cost=0.00..4028.44 rows=124844 width=14) (actual time=0.018..103.849 rows=124844 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=129.258..129.260 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.049..128.319 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.009..80.701 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.013..0.014 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.005..0.009 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.350 ms
+                                     Execution Time: 346.686 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6379.94..6379.95 rows=1 width=32) (actual time=346.357..346.360 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6342.48 rows=4994 width=10) (actual time=130.622..343.381 rows=5119 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102229 partsupp  (cost=0.00..4028.52 rows=124852 width=14) (actual time=0.018..151.543 rows=124852 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=130.593..130.595 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.049..129.664 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.003..79.452 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.018..0.019 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.009..0.013 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.350 ms
+                                     Execution Time: 346.396 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6385.19..6385.20 rows=1 width=32) (actual time=345.562..345.564 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6347.54 rows=5020 width=10) (actual time=111.039..342.629 rows=4920 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102221 partsupp  (cost=0.00..4030.92 rows=125492 width=14) (actual time=0.095..115.603 rows=125492 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=110.924..110.926 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.057..109.966 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.009..77.942 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.014..0.015 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.006..0.010 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.298 ms
+                                     Execution Time: 345.598 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6399.42..6399.43 rows=1 width=32) (actual time=342.277..342.280 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6361.55 rows=5048 width=10) (actual time=138.482..339.437 rows=5043 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102203 partsupp  (cost=0.00..4042.00 rows=126200 width=14) (actual time=0.016..125.592 rows=126200 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=138.420..138.423 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.039..137.529 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.003..78.108 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.014..0.015 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.006..0.010 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 2.247 ms
+                                     Execution Time: 342.316 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6381.90..6381.91 rows=1 width=32) (actual time=337.089..337.092 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6344.31 rows=5011 width=10) (actual time=117.319..334.124 rows=5043 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102225 partsupp  (cost=0.00..4028.64 rows=125264 width=14) (actual time=0.010..128.599 rows=125264 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=117.281..117.284 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.058..107.274 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.010..48.491 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.018..0.019 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.008..0.013 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.369 ms
+                                     Execution Time: 337.136 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6380.38..6380.39 rows=1 width=32) (actual time=336.378..336.381 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6342.84 rows=5006 width=10) (actual time=112.064..324.082 rows=5007 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102223 partsupp  (cost=0.00..4027.60 rows=125160 width=14) (actual time=0.019..82.433 rows=125160 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=112.033..112.035 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.054..102.023 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.003..71.116 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.024..0.025 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.007..0.012 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.344 ms
+                                     Execution Time: 336.421 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6365.58..6365.59 rows=1 width=32) (actual time=335.889..335.892 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6328.34 rows=4965 width=10) (actual time=129.235..323.973 rows=4950 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102227 partsupp  (cost=0.00..4017.36 rows=124136 width=14) (actual time=0.016..89.253 rows=124136 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=129.209..129.211 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.042..113.267 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.003..92.207 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.015..0.016 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.007..0.011 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.291 ms
+                                     Execution Time: 335.931 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6379.52..6379.53 rows=1 width=32) (actual time=332.091..332.094 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6341.99 rows=5004 width=10) (actual time=127.409..300.181 rows=5016 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102233 partsupp  (cost=0.00..4027.00 rows=125100 width=14) (actual time=0.011..122.360 rows=125100 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=127.375..127.378 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.055..126.408 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.009..98.326 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.017..0.018 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.007..0.012 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.361 ms
+                                     Execution Time: 332.135 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6284.88..6284.89 rows=1 width=32) (actual time=331.958..331.960 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6247.99 rows=4919 width=10) (actual time=120.784..329.053 rows=4957 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102209 partsupp  (cost=0.00..3941.80 rows=122980 width=14) (actual time=0.019..163.577 rows=122980 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=120.654..120.656 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.059..119.664 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.011..51.128 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.019..0.020 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.009..0.013 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.577 ms
+                                     Execution Time: 332.033 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6378.24..6378.25 rows=1 width=32) (actual time=331.929..331.932 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6340.74 rows=5000 width=10) (actual time=132.707..319.977 rows=5066 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102219 partsupp  (cost=0.00..4026.12 rows=125012 width=14) (actual time=0.019..107.972 rows=125012 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=132.681..132.684 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.055..131.784 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.008..65.396 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.014..0.015 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.006..0.010 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.297 ms
+                                     Execution Time: 331.970 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.19 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6382.59..6382.60 rows=1 width=32) (actual time=326.516..326.519 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1795.83..6345.08 rows=5001 width=10) (actual time=127.571..321.425 rows=4989 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102231 partsupp  (cost=0.00..4030.36 rows=125036 width=14) (actual time=0.011..115.262 rows=125036 loops=1)
+                                             ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=127.547..127.549 rows=2003 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.049..126.608 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.008..103.160 rows=50000 loops=1)
+                                                         ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.016..0.017 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.007..0.011 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.297 ms
+                                     Execution Time: 326.556 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6271.34..6271.35 rows=1 width=32) (actual time=279.566..279.569 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6269.74 rows=213 width=10) (actual time=105.506..276.715 rows=5062 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102234 partsupp  (cost=0.00..4030.52 rows=125452 width=14) (actual time=0.009..103.560 rows=125452 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=105.484..105.486 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.029..105.045 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..87.814 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.009..0.010 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.005..0.008 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.257 ms
+                                     Execution Time: 279.605 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6254.26..6254.27 rows=1 width=32) (actual time=276.867..276.870 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6252.67 rows=211 width=10) (actual time=101.859..248.681 rows=5046 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102232 partsupp  (cost=0.00..4018.12 rows=124212 width=14) (actual time=0.015..49.496 rows=124212 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=101.826..101.828 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.032..101.370 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.003..62.328 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.011..0.012 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.007..0.010 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.254 ms
+                                     Execution Time: 276.918 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6265.75..6265.76 rows=1 width=32) (actual time=275.987..275.990 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6264.16 rows=211 width=10) (actual time=104.234..273.202 rows=4951 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102222 partsupp  (cost=0.00..4027.56 rows=124756 width=14) (actual time=0.010..90.875 rows=124756 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=104.218..104.220 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.032..103.757 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..40.815 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.010..0.011 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.006..0.009 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.278 ms
+                                     Execution Time: 276.024 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6260.15..6260.16 rows=1 width=32) (actual time=268.070..268.072 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6258.57 rows=211 width=10) (actual time=101.705..259.247 rows=5043 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102212 partsupp  (cost=0.00..4022.40 rows=124640 width=14) (actual time=0.015..71.657 rows=124640 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=101.678..101.679 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.029..101.209 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..20.992 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.009..0.009 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.005..0.008 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.263 ms
+                                     Execution Time: 268.101 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6188.21..6188.22 rows=1 width=32) (actual time=267.811..267.815 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6186.64 rows=210 width=10) (actual time=60.366..264.978 rows=5033 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102230 partsupp  (cost=0.00..3952.64 rows=124064 width=14) (actual time=0.009..141.783 rows=124064 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=60.349..60.352 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.028..59.892 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..32.857 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.009..0.010 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.005..0.008 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.235 ms
+                                     Execution Time: 267.849 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6270.74..6270.75 rows=1 width=32) (actual time=264.764..264.767 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6269.14 rows=213 width=10) (actual time=66.213..243.629 rows=5035 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102220 partsupp  (cost=0.00..4030.08 rows=125408 width=14) (actual time=0.014..90.667 rows=125408 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=66.165..66.167 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.027..65.736 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..5.777 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.009..0.010 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.005..0.008 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.247 ms
+                                     Execution Time: 264.802 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6272.55..6272.56 rows=1 width=32) (actual time=263.793..263.797 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6270.95 rows=213 width=10) (actual time=59.466..261.024 rows=4909 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102204 partsupp  (cost=0.00..4031.40 rows=125540 width=14) (actual time=0.019..115.732 rows=125540 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=59.432..59.435 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.052..58.959 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.003..32.784 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.015..0.016 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.008..0.012 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.220 ms
+                                     Execution Time: 263.838 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6267.79..6267.80 rows=1 width=32) (actual time=260.377..260.380 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6266.20 rows=212 width=10) (actual time=96.126..257.311 rows=5039 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102216 partsupp  (cost=0.00..4029.04 rows=124904 width=14) (actual time=0.013..75.144 rows=124904 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=96.097..96.099 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.029..83.190 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..33.464 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.010..0.011 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.006..0.009 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.286 ms
+                                     Execution Time: 260.419 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6267.46..6267.47 rows=1 width=32) (actual time=257.309..257.313 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6265.87 rows=212 width=10) (actual time=90.052..239.518 rows=4860 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102206 partsupp  (cost=0.00..4028.80 rows=124880 width=14) (actual time=0.019..79.158 rows=124880 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=90.020..90.023 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.030..89.550 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..5.917 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.010..0.011 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.005..0.009 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.278 ms
+                                     Execution Time: 257.353 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6268.09..6268.10 rows=1 width=32) (actual time=243.940..243.944 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6266.50 rows=212 width=10) (actual time=63.800..224.942 rows=4977 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102218 partsupp  (cost=0.00..4028.16 rows=125216 width=14) (actual time=0.014..106.805 rows=125216 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=63.766..63.769 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.033..51.335 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.003..5.746 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.009..0.011 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.005..0.008 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.253 ms
+                                     Execution Time: 247.502 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6269.28..6269.29 rows=1 width=32) (actual time=245.720..245.723 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6267.69 rows=212 width=10) (actual time=104.442..224.786 rows=5187 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102226 partsupp  (cost=0.00..4030.12 rows=125012 width=14) (actual time=0.009..74.565 rows=125012 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=104.427..104.429 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.029..103.953 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..20.899 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.009..0.010 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.005..0.008 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.249 ms
+                                     Execution Time: 245.761 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6266.27..6266.28 rows=1 width=32) (actual time=188.696..188.699 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6264.68 rows=212 width=10) (actual time=82.578..176.436 rows=5077 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102214 partsupp  (cost=0.00..4026.84 rows=125084 width=14) (actual time=0.016..52.644 rows=125084 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=82.549..82.551 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.028..82.100 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..35.830 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.010..0.011 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.005..0.009 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.264 ms
+                                     Execution Time: 188.740 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6279.48..6279.49 rows=1 width=32) (actual time=164.288..164.292 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6277.88 rows=213 width=10) (actual time=29.834..161.431 rows=5003 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102228 partsupp  (cost=0.00..4037.52 rows=125752 width=14) (actual time=0.015..83.820 rows=125752 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=29.808..29.810 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.033..29.395 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..8.764 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.010..0.011 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.006..0.009 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.267 ms
+                                     Execution Time: 164.332 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6266.38..6266.39 rows=1 width=32) (actual time=154.964..154.967 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6264.79 rows=212 width=10) (actual time=29.631..145.963 rows=5016 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102210 partsupp  (cost=0.00..4026.92 rows=125092 width=14) (actual time=0.009..60.144 rows=125092 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=29.615..29.616 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.039..29.204 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..5.694 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.008..0.009 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.004..0.007 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.266 ms
+                                     Execution Time: 155.004 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6276.83..6276.84 rows=1 width=32) (actual time=153.975..153.978 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6275.23 rows=213 width=10) (actual time=29.356..145.160 rows=4951 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102208 partsupp  (cost=0.00..4035.60 rows=125560 width=14) (actual time=0.017..70.249 rows=125560 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=29.330..29.332 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.032..28.897 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..14.713 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.012..0.012 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.007..0.010 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.266 ms
+                                     Execution Time: 154.017 ms
+                           ->  Task
+                                 Tuple data received from node: 16 bytes
+                                 Node: host=192.168.1.58 port=5432 dbname=tpch
+                                 ->  Aggregate  (cost=6269.23..6269.24 rows=1 width=32) (actual time=118.035..118.038 rows=1 loops=1)
+                                       ->  Hash Join  (cost=1766.65..6267.64 rows=212 width=10) (actual time=29.216..109.215 rows=4961 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102224 partsupp  (cost=0.00..4030.08 rows=125008 width=14) (actual time=0.015..35.028 rows=125008 loops=1)
+                                             ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=29.170..29.172 rows=2003 loops=1)
+                                                   Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                                   ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.033..22.745 rows=2003 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.002..8.171 rows=50000 loops=1)
+                                                         ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.010..0.011 rows=1 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.006..0.009 rows=1 loops=1)
+                                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                                     Rows Removed by Filter: 24
+                                     Planning Time: 0.267 ms
+                                     Execution Time: 118.079 ms
+               Planning Time: 0.000 ms
+               Execution Time: 420.508 ms
+         Task Count: 32
+         Tuple data received from nodes: 0 bytes
+         Tasks Shown: All
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6266.72..6272.52 rows=70 width=36) (actual time=415.912..415.916 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4730
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.073..0.074 rows=1 loops=1)
+                     ->  Sort  (cost=6266.71..6267.24 rows=211 width=14) (actual time=400.019..400.465 rows=5043 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 389kB
+                           ->  Hash Join  (cost=1766.65..6258.57 rows=211 width=14) (actual time=154.429..397.801 rows=5043 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102212 partsupp  (cost=0.00..4022.40 rows=124640 width=18) (actual time=0.043..135.513 rows=124640 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=154.246..154.248 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.308..139.635 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.033..48.811 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.075..0.075 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.034..0.052 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 8.445 ms
+                   Execution Time: 416.361 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6274.06..6279.89 rows=71 width=36) (actual time=415.937..415.939 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4590
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.068..0.068 rows=1 loops=1)
+                     ->  Sort  (cost=6274.06..6274.59 rows=212 width=14) (actual time=411.905..412.133 rows=4860 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 382kB
+                           ->  Hash Join  (cost=1766.65..6265.87 rows=212 width=14) (actual time=158.405..409.742 rows=4860 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102206 partsupp  (cost=0.00..4028.80 rows=124880 width=18) (actual time=0.051..131.474 rows=124880 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=158.230..158.232 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.342..156.936 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.013..106.207 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.071..0.072 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.032..0.049 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 11.307 ms
+                   Execution Time: 416.346 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6279.19..6285.05 rows=71 width=36) (actual time=413.574..413.578 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4659
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.090..0.091 rows=1 loops=1)
+                     ->  Sort  (cost=6279.19..6279.72 rows=213 width=14) (actual time=406.426..406.811 rows=4909 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 384kB
+                           ->  Hash Join  (cost=1766.65..6270.95 rows=213 width=14) (actual time=161.885..404.278 rows=4909 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102204 partsupp  (cost=0.00..4031.40 rows=125540 width=18) (actual time=0.042..149.213 rows=125540 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=161.725..161.727 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=9.291..160.456 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.012..65.886 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.088..0.089 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.060..0.074 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 2.177 ms
+                   Execution Time: 414.010 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6275.83..6281.66 rows=71 width=36) (actual time=411.706..411.709 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4664
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.089..0.090 rows=1 loops=1)
+                     ->  Sort  (cost=6275.83..6276.36 rows=212 width=14) (actual time=405.434..405.785 rows=4961 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 386kB
+                           ->  Hash Join  (cost=1766.65..6267.64 rows=212 width=14) (actual time=155.032..403.308 rows=4961 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102224 partsupp  (cost=0.00..4030.08 rows=125008 width=18) (actual time=0.039..166.948 rows=125008 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=154.866..154.867 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.215..153.621 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.028..40.749 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.051..0.051 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.021..0.035 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 10.957 ms
+                   Execution Time: 412.040 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6286.12..6291.98 rows=71 width=36) (actual time=410.459..410.462 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4740
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.088..0.089 rows=1 loops=1)
+                     ->  Sort  (cost=6286.11..6286.65 rows=213 width=14) (actual time=402.994..403.413 rows=5003 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 388kB
+                           ->  Hash Join  (cost=1766.65..6277.88 rows=213 width=14) (actual time=160.812..388.694 rows=5003 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102228 partsupp  (cost=0.00..4037.52 rows=125752 width=18) (actual time=0.035..119.813 rows=125752 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=160.703..160.704 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.210..159.462 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.020..53.334 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.052..0.053 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.023..0.037 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 11.041 ms
+                   Execution Time: 410.823 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6277.38..6283.24 rows=71 width=36) (actual time=406.233..406.236 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4738
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.076..0.076 rows=1 loops=1)
+                     ->  Sort  (cost=6277.37..6277.91 rows=213 width=14) (actual time=385.746..386.163 rows=5035 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 389kB
+                           ->  Hash Join  (cost=1766.65..6269.14 rows=213 width=14) (actual time=161.226..377.529 rows=5035 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102220 partsupp  (cost=0.00..4030.08 rows=125408 width=18) (actual time=0.038..121.646 rows=125408 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=161.064..161.066 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.302..156.785 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.012..74.476 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.078..0.079 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.031..0.049 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 11.238 ms
+                   Execution Time: 406.675 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6277.98..6283.84 rows=71 width=36) (actual time=399.970..399.974 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4766
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.094..0.094 rows=1 loops=1)
+                     ->  Sort  (cost=6277.98..6278.51 rows=213 width=14) (actual time=385.214..385.669 rows=5062 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 390kB
+                           ->  Hash Join  (cost=1766.65..6269.74 rows=213 width=14) (actual time=155.370..364.065 rows=5062 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102234 partsupp  (cost=0.00..4030.52 rows=125452 width=18) (actual time=0.042..107.430 rows=125452 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=155.241..155.244 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.254..147.692 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.023..74.084 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.072..0.073 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.034..0.051 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 8.285 ms
+                   Execution Time: 400.430 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6275.89..6281.72 rows=71 width=36) (actual time=397.362..397.366 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4909
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.081..0.081 rows=1 loops=1)
+                     ->  Sort  (cost=6275.88..6276.41 rows=212 width=14) (actual time=384.402..384.834 rows=5187 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 395kB
+                           ->  Hash Join  (cost=1766.65..6267.69 rows=212 width=14) (actual time=163.407..376.057 rows=5187 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102226 partsupp  (cost=0.00..4030.12 rows=125012 width=18) (actual time=0.056..151.595 rows=125012 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=163.259..163.261 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.217..162.150 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.020..57.965 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.051..0.052 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.022..0.037 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 14.029 ms
+                   Execution Time: 397.728 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6272.99..6278.82 rows=71 width=36) (actual time=393.523..393.527 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4726
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.101..0.102 rows=1 loops=1)
+                     ->  Sort  (cost=6272.98..6273.51 rows=212 width=14) (actual time=380.026..380.414 rows=5016 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 388kB
+                           ->  Hash Join  (cost=1766.65..6264.79 rows=212 width=14) (actual time=151.479..371.903 rows=5016 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102210 partsupp  (cost=0.00..4026.92 rows=125092 width=18) (actual time=0.043..130.523 rows=125092 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=151.319..151.321 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.304..149.792 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.014..60.219 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.086..0.087 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.035..0.053 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 8.547 ms
+                   Execution Time: 393.960 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6274.69..6280.52 rows=71 width=36) (actual time=393.263..393.267 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4701
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.081..0.081 rows=1 loops=1)
+                     ->  Sort  (cost=6274.69..6275.22 rows=212 width=14) (actual time=382.871..383.289 rows=4977 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 387kB
+                           ->  Hash Join  (cost=1766.65..6266.50 rows=212 width=14) (actual time=149.136..368.684 rows=4977 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102218 partsupp  (cost=0.00..4028.16 rows=125216 width=18) (actual time=0.052..125.611 rows=125216 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=148.969..148.971 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.237..147.825 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.011..34.287 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.062..0.063 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.022..0.036 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 2.183 ms
+                   Execution Time: 393.680 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6272.88..6278.71 rows=71 width=36) (actual time=389.323..389.327 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4781
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.080..0.080 rows=1 loops=1)
+                     ->  Sort  (cost=6272.87..6273.40 rows=212 width=14) (actual time=381.555..382.004 rows=5077 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 391kB
+                           ->  Hash Join  (cost=1766.65..6264.68 rows=212 width=14) (actual time=161.496..366.711 rows=5077 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102214 partsupp  (cost=0.00..4026.84 rows=125084 width=18) (actual time=0.042..147.950 rows=125084 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=161.330..161.332 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.297..160.080 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.013..38.505 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.079..0.080 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.031..0.046 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 11.249 ms
+                   Execution Time: 389.779 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6283.47..6289.33 rows=71 width=36) (actual time=380.665..380.669 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4667
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.114..0.115 rows=1 loops=1)
+                     ->  Sort  (cost=6283.46..6284.00 rows=213 width=14) (actual time=364.167..364.595 rows=4951 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 386kB
+                           ->  Hash Join  (cost=1766.65..6275.23 rows=213 width=14) (actual time=161.177..361.949 rows=4951 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102208 partsupp  (cost=0.00..4035.60 rows=125560 width=18) (actual time=0.049..137.874 rows=125560 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=161.028..161.030 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=12.278..138.843 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.017..39.584 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.066..0.067 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.037..0.052 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 2.019 ms
+                   Execution Time: 381.122 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6260.82..6266.62 rows=70 width=36) (actual time=378.067..378.071 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4757
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.095..0.095 rows=1 loops=1)
+                     ->  Sort  (cost=6260.82..6261.34 rows=211 width=14) (actual time=358.601..359.019 rows=5046 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 390kB
+                           ->  Hash Join  (cost=1766.65..6252.67 rows=211 width=14) (actual time=155.354..356.603 rows=5046 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102232 partsupp  (cost=0.00..4018.12 rows=124212 width=18) (actual time=0.034..128.877 rows=124212 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=155.243..155.245 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.236..136.042 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.049..58.779 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.052..0.053 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.023..0.037 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 13.877 ms
+                   Execution Time: 378.451 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6194.74..6200.52 rows=70 width=36) (actual time=350.483..350.487 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4771
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.123..0.124 rows=1 loops=1)
+                     ->  Sort  (cost=6194.74..6195.26 rows=210 width=14) (actual time=319.917..320.365 rows=5033 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 389kB
+                           ->  Hash Join  (cost=1766.65..6186.64 rows=210 width=14) (actual time=161.054..317.735 rows=5033 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102230 partsupp  (cost=0.00..3952.64 rows=124064 width=18) (actual time=0.068..118.995 rows=124064 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=160.843..160.845 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.271..153.572 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.027..43.996 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.074..0.075 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.033..0.051 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 11.148 ms
+                   Execution Time: 350.906 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6400.05..6475.28 rows=1672 width=36) (actual time=342.195..342.199 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4815
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.097..0.097 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6349.89 rows=5015 width=14) (actual time=112.185..318.023 rows=5111 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102207 partsupp  (cost=0.00..4033.76 rows=125376 width=18) (actual time=0.027..114.897 rows=125376 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=112.091..112.093 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.159..111.399 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.013..54.096 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.052..0.053 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.019..0.027 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 0.998 ms
+                   Execution Time: 343.010 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6272.31..6278.11 rows=70 width=36) (actual time=340.115..340.119 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4701
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.111..0.112 rows=1 loops=1)
+                     ->  Sort  (cost=6272.31..6272.83 rows=211 width=14) (actual time=323.424..323.855 rows=4951 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 386kB
+                           ->  Hash Join  (cost=1766.65..6264.16 rows=211 width=14) (actual time=156.705..321.122 rows=4951 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102222 partsupp  (cost=0.00..4027.56 rows=124756 width=18) (actual time=0.055..119.609 rows=124756 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=156.547..156.549 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.270..155.451 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.011..69.790 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.066..0.067 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.028..0.047 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 15.146 ms
+                   Execution Time: 340.548 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6392.90..6467.99 rows=1669 width=36) (actual time=324.980..324.983 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4726
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.110..0.111 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6342.84 rows=5006 width=14) (actual time=90.995..278.275 rows=5007 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102223 partsupp  (cost=0.00..4027.60 rows=125160 width=18) (actual time=0.038..116.487 rows=125160 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=90.882..90.884 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.136..90.266 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.014..38.006 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.045..0.046 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.016..0.026 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 1.170 ms
+                   Execution Time: 337.852 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6412.04..6487.76 rows=1683 width=36) (actual time=328.380..328.384 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4753
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.134..0.135 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6361.55 rows=5048 width=14) (actual time=74.121..288.596 rows=5043 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102203 partsupp  (cost=0.00..4042.00 rows=126200 width=18) (actual time=0.045..131.676 rows=126200 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=73.986..73.988 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.152..73.282 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.014..25.686 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.051..0.052 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.018..0.027 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 1.188 ms
+                   Execution Time: 335.320 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6378.00..6452.48 rows=1655 width=36) (actual time=317.963..317.967 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4686
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.101..0.102 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6328.34 rows=4965 width=14) (actual time=82.200..296.747 rows=4950 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102227 partsupp  (cost=0.00..4017.36 rows=124136 width=18) (actual time=0.034..138.312 rows=124136 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=82.106..82.108 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.146..72.476 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.013..38.227 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.043..0.043 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.014..0.023 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 1.139 ms
+                   Execution Time: 330.837 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6392.43..6467.34 rows=1665 width=36) (actual time=318.266..318.270 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4820
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.100..0.101 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6342.48 rows=4994 width=14) (actual time=78.699..298.727 rows=5119 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102229 partsupp  (cost=0.00..4028.52 rows=124852 width=18) (actual time=0.033..78.960 rows=124852 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=78.608..78.610 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.130..77.999 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.014..43.763 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.040..0.041 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.013..0.022 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 1.098 ms
+                   Execution Time: 330.106 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6389.29..6464.23 rows=1665 width=36) (actual time=329.022..329.026 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4677
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.152..0.153 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6339.32 rows=4996 width=14) (actual time=83.600..307.970 rows=4940 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102211 partsupp  (cost=0.00..4025.12 rows=124912 width=18) (actual time=0.043..132.123 rows=124912 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=83.440..83.443 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.155..82.668 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.014..34.755 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.053..0.054 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.018..0.030 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 1.017 ms
+                   Execution Time: 329.934 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6393.37..6468.32 rows=1666 width=36) (actual time=326.040..326.043 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4670
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.100..0.101 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6343.39 rows=4997 width=14) (actual time=72.915..290.643 rows=4954 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102217 partsupp  (cost=0.00..4029.16 rows=124916 width=18) (actual time=0.057..125.449 rows=124916 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=72.789..72.791 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.163..72.140 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.014..43.190 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.051..0.052 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.022..0.030 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 7.208 ms
+                   Execution Time: 326.929 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6297.19..6370.97 rows=1640 width=36) (actual time=323.212..323.216 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4696
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.087..0.088 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6247.99 rows=4919 width=14) (actual time=83.578..292.695 rows=4957 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102209 partsupp  (cost=0.00..3941.80 rows=122980 width=18) (actual time=0.025..102.959 rows=122980 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=83.448..83.450 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.155..82.769 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.013..35.482 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.050..0.051 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.018..0.027 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 4.297 ms
+                   Execution Time: 324.078 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6397.75..6473.05 rows=1673 width=36) (actual time=316.808..316.811 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4661
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.123..0.123 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6347.54 rows=5020 width=14) (actual time=73.110..270.078 rows=4920 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102221 partsupp  (cost=0.00..4030.92 rows=125492 width=18) (actual time=0.036..135.840 rows=125492 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=72.999..73.001 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.133..72.336 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.014..29.312 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.042..0.044 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.015..0.025 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 4.181 ms
+                   Execution Time: 323.699 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6395.10..6470.11 rows=1667 width=36) (actual time=307.650..307.655 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4713
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.139..0.140 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6345.08 rows=5001 width=14) (actual time=83.031..266.038 rows=4989 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102231 partsupp  (cost=0.00..4030.36 rows=125036 width=18) (actual time=0.017..126.364 rows=125036 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=82.957..82.960 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.096..82.377 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.010..36.527 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.030..0.031 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.010..0.017 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 1.227 ms
+                   Execution Time: 320.456 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.58 port=5432 dbname=tpch
+               ->  GroupAggregate  (cost=6274.39..6280.22 rows=71 width=36) (actual time=315.660..315.664 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Rows Removed by Filter: 4742
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.137..0.138 rows=1 loops=1)
+                     ->  Sort  (cost=6274.39..6274.92 rows=212 width=14) (actual time=298.665..299.109 rows=5039 loops=1)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 389kB
+                           ->  Hash Join  (cost=1766.65..6266.20 rows=212 width=14) (actual time=155.298..287.557 rows=5039 loops=1)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Seq Scan on partsupp_102216 partsupp  (cost=0.00..4029.04 rows=124904 width=18) (actual time=0.037..66.624 rows=124904 loops=1)
+                                 ->  Hash  (cost=1765.58..1765.58 rows=85 width=4) (actual time=155.163..155.164 rows=2003 loops=1)
+                                       Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 87kB
+                                       ->  Hash Join  (cost=17.39..1765.58 rows=85 width=4) (actual time=0.267..132.016 rows=2003 loops=1)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.011..55.162 rows=50000 loops=1)
+                                             ->  Hash  (cost=17.38..17.38 rows=1 width=4) (actual time=0.068..0.068 rows=1 loops=1)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation_102008 nation  (cost=0.00..17.38 rows=1 width=4) (actual time=0.027..0.040 rows=1 loops=1)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+                   Planning Time: 2.240 ms
+                   Execution Time: 316.111 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6390.75..6465.75 rows=1667 width=36) (actual time=297.196..297.200 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4781
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.153..0.154 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6340.74 rows=5000 width=14) (actual time=72.365..244.288 rows=5066 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102219 partsupp  (cost=0.00..4026.12 rows=125012 width=18) (actual time=0.035..84.525 rows=125012 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=72.272..72.274 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.133..71.624 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.013..25.050 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.044..0.045 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.015..0.024 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 1.159 ms
+                   Execution Time: 313.214 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6392.04..6467.10 rows=1668 width=36) (actual time=304.614..304.618 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4739
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.147..0.148 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6341.99 rows=5004 width=14) (actual time=81.299..251.706 rows=5016 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102233 partsupp  (cost=0.00..4027.00 rows=125100 width=18) (actual time=0.039..101.812 rows=125100 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=72.158..72.160 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.136..71.514 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.017..42.980 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.041..0.042 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.014..0.022 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 1.094 ms
+                   Execution Time: 305.496 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6392.32..6467.23 rows=1665 width=36) (actual time=301.713..301.716 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4679
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.129..0.130 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6342.37 rows=4994 width=14) (actual time=83.650..264.203 rows=4966 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102213 partsupp  (cost=0.00..4028.44 rows=124844 width=18) (actual time=0.057..102.034 rows=124844 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=83.515..83.517 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.143..82.820 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.014..40.492 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.049..0.050 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.017..0.026 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 6.941 ms
+                   Execution Time: 302.647 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6394.43..6469.60 rows=1670 width=36) (actual time=289.780..289.784 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4750
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.150..0.151 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6344.31 rows=5011 width=14) (actual time=57.174..250.422 rows=5043 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102225 partsupp  (cost=0.00..4028.64 rows=125264 width=18) (actual time=0.035..133.815 rows=125264 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=57.069..57.071 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.151..56.433 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.014..19.743 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.046..0.047 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.017..0.026 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 1.216 ms
+                   Execution Time: 295.755 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6390.18..6465.16 rows=1666 width=36) (actual time=284.681..284.686 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4673
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.155..0.156 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6340.18 rows=4999 width=14) (actual time=70.122..254.910 rows=4967 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102215 partsupp  (cost=0.00..4025.72 rows=124972 width=18) (actual time=0.043..136.615 rows=124972 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=63.950..63.953 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.151..63.212 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.014..29.495 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.052..0.053 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.018..0.030 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 1.000 ms
+                   Execution Time: 285.639 ms
+         ->  Task
+               Tuple data received from node: 0 bytes
+               Node: host=192.168.1.19 port=5432 dbname=tpch
+               ->  HashAggregate  (cost=6393.03..6468.14 rows=1669 width=36) (actual time=278.045..278.050 rows=0 loops=1)
+                     Group Key: partsupp.ps_partkey
+                     Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $0)
+                     Batches: 1  Memory Usage: 2001kB
+                     Rows Removed by Filter: 4734
+                     InitPlan 1 (returns $0)
+                       ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.172..0.173 rows=1 loops=1)
+                     ->  Hash Join  (cost=1795.83..6342.95 rows=5007 width=14) (actual time=70.171..232.393 rows=5042 loops=1)
+                           Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                           ->  Seq Scan on partsupp_102205 partsupp  (cost=0.00..4027.68 rows=125168 width=18) (actual time=0.040..81.347 rows=125168 loops=1)
+                           ->  Hash  (cost=1770.83..1770.83 rows=2000 width=4) (actual time=70.054..70.056 rows=2003 loops=1)
+                                 Buckets: 2048  Batches: 1  Memory Usage: 87kB
+                                 ->  Hash Join  (cost=1.32..1770.83 rows=2000 width=4) (actual time=0.137..69.331 rows=2003 loops=1)
+                                       Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                       ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=8) (actual time=0.013..34.492 rows=50000 loops=1)
+                                       ->  Hash  (cost=1.31..1.31 rows=1 width=4) (actual time=0.047..0.048 rows=1 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on nation_102008 nation  (cost=0.00..1.31 rows=1 width=4) (actual time=0.016..0.026 rows=1 loops=1)
+                                                   Filter: (n_name = 'GERMANY'::bpchar)
+                                                   Rows Removed by Filter: 24
+                   Planning Time: 1.145 ms
+                   Execution Time: 278.934 ms
+ Planning Time: 6.757 ms
+ Execution Time: 1810.556 ms
+(1460 rows)
+

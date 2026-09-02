@@ -1,0 +1,35 @@
+                                                                                       QUERY PLAN                                                                                        
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=3267.64..3268.14 rows=200 width=248) (actual time=380.533..380.534 rows=4 loops=1)
+   Sort Key: remote_scan.l_returnflag, remote_scan.l_linestatus
+   Sort Method: quicksort  Memory: 25kB
+   ->  HashAggregate  (cost=3250.00..3260.00 rows=200 width=248) (actual time=380.493..380.500 rows=4 loops=1)
+         Group Key: remote_scan.l_returnflag, remote_scan.l_linestatus
+         Batches: 1  Memory Usage: 48kB
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=272) (actual time=380.388..380.395 rows=128 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 17 kB
+               Tasks Shown: One of 32
+               ->  Task
+                     Tuple data received from node: 534 bytes
+                     Node: host=159.90.9.12 port=5432 dbname=raw_tpch
+                     ->  Finalize GroupAggregate  (cost=8789.12..8791.13 rows=6 width=260) (actual time=278.488..278.539 rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge  (cost=8789.12..8790.52 rows=12 width=196) (actual time=278.481..278.526 rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort  (cost=7789.09..7789.11 rows=6 width=196) (actual time=277.895..277.896 rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate  (cost=7788.88..7789.01 rows=6 width=196) (actual time=277.873..277.876 rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 32kB
+                                             ->  Parallel Seq Scan on lineitem_102352 lineitem  (cost=0.00..4511.36 rows=77118 width=25) (actual time=0.012..41.011 rows=185337 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 2701
+                         Planning Time: 0.491 ms
+                         Execution Time: 278.654 ms
+ Planning Time: 2.478 ms
+ Execution Time: 380.648 ms
+(31 filas)
+

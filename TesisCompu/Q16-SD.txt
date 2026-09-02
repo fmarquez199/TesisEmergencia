@@ -1,0 +1,689 @@
+SET
+                                                                                               QUERY PLAN                                                                                                
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort (actual rows=27724 loops=1)
+   Sort Key: (count(DISTINCT remote_scan.supplier_cnt)) DESC, remote_scan.p_brand, remote_scan.p_type, remote_scan.p_size
+   Sort Method: quicksort  Memory: 2716kB
+   ->  GroupAggregate (actual rows=27724 loops=1)
+         Group Key: remote_scan.p_brand, remote_scan.p_type, remote_scan.p_size
+         ->  Sort (actual rows=592666 loops=1)
+               Sort Key: remote_scan.p_brand, remote_scan.p_type, remote_scan.p_size, remote_scan.supplier_cnt
+               Sort Method: external merge  Disk: 30272kB
+               ->  Custom Scan (Citus Adaptive) (actual rows=592666 loops=1)
+                     Task Count: 32
+                     Tuple data received from nodes: 22 MB
+                     Tasks Shown: All
+                     ->  Task
+                           Tuple data received from node: 698 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18533 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18533 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102210 on partsupp_102210 partsupp (actual rows=125020 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 72
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4637 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 400kB
+                                             ->  Seq Scan on part_102178 part (actual rows=4637 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26636
+                     ->  Task
+                           Tuple data received from node: 684 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18166 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2065kB
+                                 ->  Hash Join (actual rows=18167 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102222 on partsupp_102222 partsupp (actual rows=124686 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 70
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4546 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 393kB
+                                             ->  Seq Scan on part_102190 part (actual rows=4546 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26643
+                     ->  Task
+                           Tuple data received from node: 696 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18458 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18458 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102220 on partsupp_102220 partsupp (actual rows=125357 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 51
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4616 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 399kB
+                                             ->  Seq Scan on part_102188 part (actual rows=4616 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26736
+                     ->  Task
+                           Tuple data received from node: 686 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18199 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18199 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102214 on partsupp_102214 partsupp (actual rows=125003 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 81
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4552 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 394kB
+                                             ->  Seq Scan on part_102182 part (actual rows=4552 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26719
+                     ->  Task
+                           Tuple data received from node: 702 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18652 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18652 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102218 on partsupp_102218 partsupp (actual rows=125161 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 55
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4666 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 402kB
+                                             ->  Seq Scan on part_102186 part (actual rows=4666 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26638
+                     ->  Task
+                           Tuple data received from node: 692 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18351 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18351 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102224 on partsupp_102224 partsupp (actual rows=124956 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 52
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4589 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 397kB
+                                             ->  Seq Scan on part_102192 part (actual rows=4589 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26663
+                     ->  Task
+                           Tuple data received from node: 700 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18568 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18568 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102216 on partsupp_102216 partsupp (actual rows=124834 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 70
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4644 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 400kB
+                                             ->  Seq Scan on part_102184 part (actual rows=4644 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26582
+                     ->  Task
+                           Tuple data received from node: 696 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18448 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18448 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102232 on partsupp_102232 partsupp (actual rows=124147 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 65
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4614 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 398kB
+                                             ->  Seq Scan on part_102200 part (actual rows=4614 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26439
+                     ->  Task
+                           Tuple data received from node: 719 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=19037 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=19037 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102226 on partsupp_102226 partsupp (actual rows=124952 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 60
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4762 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 409kB
+                                             ->  Seq Scan on part_102194 part (actual rows=4762 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26491
+                     ->  Task
+                           Tuple data received from node: 713 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18917 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18917 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102234 on partsupp_102234 partsupp (actual rows=125393 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 59
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4731 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 407kB
+                                             ->  Seq Scan on part_102202 part (actual rows=4731 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26632
+                     ->  Task
+                           Tuple data received from node: 686 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18204 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18204 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102230 on partsupp_102230 partsupp (actual rows=123988 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 76
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4554 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 394kB
+                                             ->  Seq Scan on part_102198 part (actual rows=4554 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26462
+                     ->  Task
+                           Tuple data received from node: 692 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18378 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18378 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102228 on partsupp_102228 partsupp (actual rows=125692 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 60
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4596 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 397kB
+                                             ->  Seq Scan on part_102196 part (actual rows=4596 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26842
+                     ->  Task
+                           Tuple data received from node: 693 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18392 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18392 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102212 on partsupp_102212 partsupp (actual rows=124584 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 56
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4601 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 397kB
+                                             ->  Seq Scan on part_102180 part (actual rows=4601 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26559
+                     ->  Task
+                           Tuple data received from node: 694 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18431 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18431 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102206 on partsupp_102206 partsupp (actual rows=124804 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 76
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4610 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 398kB
+                                             ->  Seq Scan on part_102174 part (actual rows=4610 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26610
+                     ->  Task
+                           Tuple data received from node: 701 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18617 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18617 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102204 on partsupp_102204 partsupp (actual rows=125477 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 63
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4656 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 401kB
+                                             ->  Seq Scan on part_102172 part (actual rows=4656 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26729
+                     ->  Task
+                           Tuple data received from node: 704 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18666 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18666 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102208 on partsupp_102208 partsupp (actual rows=125501 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 59
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4668 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 402kB
+                                             ->  Seq Scan on part_102176 part (actual rows=4668 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26722
+                     ->  Task
+                           Tuple data received from node: 693 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18396 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18396 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102221 on partsupp_102221 partsupp (actual rows=125429 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 63
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4602 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 397kB
+                                             ->  Seq Scan on part_102189 part (actual rows=4602 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26771
+                     ->  Task
+                           Tuple data received from node: 697 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18506 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18506 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102213 on partsupp_102213 partsupp (actual rows=124753 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 91
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4630 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 399kB
+                                             ->  Seq Scan on part_102181 part (actual rows=4630 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26581
+                     ->  Task
+                           Tuple data received from node: 713 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18904 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18904 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102223 on partsupp_102223 partsupp (actual rows=125098 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 62
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4728 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 407kB
+                                             ->  Seq Scan on part_102191 part (actual rows=4728 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26562
+                     ->  Task
+                           Tuple data received from node: 700 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18587 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18588 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102219 on partsupp_102219 partsupp (actual rows=124951 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 61
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4650 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 401kB
+                                             ->  Seq Scan on part_102187 part (actual rows=4650 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26603
+                     ->  Task
+                           Tuple data received from node: 692 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18355 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18356 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102233 on partsupp_102233 partsupp (actual rows=125032 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 68
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4592 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 397kB
+                                             ->  Seq Scan on part_102201 part (actual rows=4592 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26683
+                     ->  Task
+                           Tuple data received from node: 700 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18607 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18608 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102229 on partsupp_102229 partsupp (actual rows=124785 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 67
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4655 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 401kB
+                                             ->  Seq Scan on part_102197 part (actual rows=4655 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26558
+                     ->  Task
+                           Tuple data received from node: 704 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18685 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18685 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102217 on partsupp_102217 partsupp (actual rows=124833 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 83
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4674 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 402kB
+                                             ->  Seq Scan on part_102185 part (actual rows=4674 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26555
+                     ->  Task
+                           Tuple data received from node: 705 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18712 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18712 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102227 on partsupp_102227 partsupp (actual rows=124087 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 49
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4679 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 403kB
+                                             ->  Seq Scan on part_102195 part (actual rows=4679 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26355
+                     ->  Task
+                           Tuple data received from node: 698 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18495 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18495 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102215 on partsupp_102215 partsupp (actual rows=124897 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 75
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4626 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 399kB
+                                             ->  Seq Scan on part_102183 part (actual rows=4626 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26617
+                     ->  Task
+                           Tuple data received from node: 686 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18193 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18193 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102225 on partsupp_102225 partsupp (actual rows=125214 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 50
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4551 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 394kB
+                                             ->  Seq Scan on part_102193 part (actual rows=4551 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26765
+                     ->  Task
+                           Tuple data received from node: 694 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18443 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18443 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102231 on partsupp_102231 partsupp (actual rows=124983 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 53
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4613 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 398kB
+                                             ->  Seq Scan on part_102199 part (actual rows=4613 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26646
+                     ->  Task
+                           Tuple data received from node: 689 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18298 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18298 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102211 on partsupp_102211 partsupp (actual rows=124843 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 69
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4577 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 396kB
+                                             ->  Seq Scan on part_102179 part (actual rows=4577 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26651
+                     ->  Task
+                           Tuple data received from node: 699 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18524 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18524 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102209 on partsupp_102209 partsupp (actual rows=122912 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 68
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4632 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 400kB
+                                             ->  Seq Scan on part_102177 part (actual rows=4632 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26113
+                     ->  Task
+                           Tuple data received from node: 689 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18261 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18261 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102205 on partsupp_102205 partsupp (actual rows=125096 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 72
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4568 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 395kB
+                                             ->  Seq Scan on part_102173 part (actual rows=4568 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26724
+                     ->  Task
+                           Tuple data received from node: 706 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18733 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18733 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102207 on partsupp_102207 partsupp (actual rows=125309 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 67
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4687 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 404kB
+                                             ->  Seq Scan on part_102175 part (actual rows=4687 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26657
+                     ->  Task
+                           Tuple data received from node: 714 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  HashAggregate (actual rows=18950 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 2321kB
+                                 ->  Hash Join (actual rows=18950 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Index Only Scan using partsupp_pkey_102203 on partsupp_102203 partsupp (actual rows=126143 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 57
+                                             Heap Fetches: 0
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102010 supplier (actual rows=26 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 49974
+                                       ->  Hash (actual rows=4740 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 407kB
+                                             ->  Seq Scan on part_102171 part (actual rows=4740 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 26810
+(684 rows)
+

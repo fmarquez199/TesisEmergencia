@@ -1,0 +1,1069 @@
+SET
+                                                                                 QUERY PLAN                                                                                  
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit (actual rows=3 loops=1)
+   ->  Sort (actual rows=3 loops=1)
+         Sort Key: remote_scan.o_totalprice DESC, remote_scan.o_orderdate
+         Sort Method: quicksort  Memory: 25kB
+         ->  Custom Scan (Citus Adaptive) (actual rows=3 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 162 bytes
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102114 on orders_by_customer_102114 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102082 on orders_102082 o (actual rows=67579 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 67578
+                                                                           ->  Index Only Scan using q18i1_102018 on lineitem_102018 lineitem_1 (actual rows=270327 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102018 on lineitem_102018 lineitem (actual rows=270320 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102146 on customer_102146 customer (actual rows=23415 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102126 on orders_by_customer_102126 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102094 on orders_102094 o (actual rows=87509 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 87508
+                                                                           ->  Index Only Scan using q18i1_102030 on lineitem_102030 lineitem_1 (actual rows=350100 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102030 on lineitem_102030 lineitem (actual rows=350093 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102158 on customer_102158 customer (actual rows=23431 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 54 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=1 loops=1)
+                           ->  Sort (actual rows=1 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=1 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=49 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102120 on orders_by_customer_102120 oc (actual rows=230992 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=7 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 257kB
+                                                   ->  Merge Join (actual rows=7 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=8 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=2 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102088 on orders_102088 o (actual rows=23750 loops=1)
+                                                                     ->  GroupAggregate (actual rows=2 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 23748
+                                                                           ->  Index Only Scan using q18i1_102024 on lineitem_102024 lineitem_1 (actual rows=94701 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102024 on lineitem_102024 lineitem (actual rows=94694 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102152 on customer_102152 customer (actual rows=23455 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102138 on orders_by_customer_102138 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102106 on orders_102106 o (actual rows=59008 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 59007
+                                                                           ->  Index Only Scan using q18i1_102042 on lineitem_102042 lineitem_1 (actual rows=236247 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102042 on lineitem_102042 lineitem (actual rows=236240 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102170 on customer_102170 customer (actual rows=23578 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102115 on orders_by_customer_102115 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102083 on orders_102083 o (actual rows=64913 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 64912
+                                                                           ->  Index Only Scan using q18i1_102019 on lineitem_102019 lineitem_1 (actual rows=259681 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102019 on lineitem_102019 lineitem (actual rows=259674 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102147 on customer_102147 customer (actual rows=23501 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102134 on orders_by_customer_102134 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102102 on orders_102102 o (actual rows=39959 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 39958
+                                                                           ->  Index Only Scan using q18i1_102038 on lineitem_102038 lineitem_1 (actual rows=159512 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102038 on lineitem_102038 lineitem (actual rows=159505 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102166 on customer_102166 customer (actual rows=23282 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102122 on orders_by_customer_102122 oc (actual rows=236228 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=7 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 257kB
+                                                   ->  Merge Join (actual rows=7 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=8 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=2 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102090 on orders_102090 o (actual rows=23362 loops=1)
+                                                                     ->  GroupAggregate (actual rows=2 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 23360
+                                                                           ->  Index Only Scan using q18i1_102026 on lineitem_102026 lineitem_1 (actual rows=93812 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102026 on lineitem_102026 lineitem (actual rows=93805 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102154 on customer_102154 customer (actual rows=23609 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102108 on orders_by_customer_102108 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102076 on orders_102076 o (actual rows=42669 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 42668
+                                                                           ->  Index Only Scan using q18i1_102012 on lineitem_102012 lineitem_1 (actual rows=171014 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102012 on lineitem_102012 lineitem (actual rows=171007 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102140 on customer_102140 customer (actual rows=23598 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102127 on orders_by_customer_102127 oc (actual rows=234314 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=7 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 257kB
+                                                   ->  Merge Join (actual rows=7 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=8 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=2 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102095 on orders_102095 o (actual rows=54156 loops=1)
+                                                                     ->  GroupAggregate (actual rows=2 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 54154
+                                                                           ->  Index Only Scan using q18i1_102031 on lineitem_102031 lineitem_1 (actual rows=215402 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102031 on lineitem_102031 lineitem (actual rows=215395 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102159 on customer_102159 customer (actual rows=23427 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 108 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=2 loops=1)
+                           ->  Sort (actual rows=2 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=2 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=189 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102119 on orders_by_customer_102119 oc (actual rows=236473 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=14 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 258kB
+                                                   ->  Merge Join (actual rows=14 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=15 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=3 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102087 on orders_102087 o (actual rows=46973 loops=1)
+                                                                     ->  GroupAggregate (actual rows=3 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 46970
+                                                                           ->  Index Only Scan using q18i1_102023 on lineitem_102023 lineitem_1 (actual rows=187852 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102023 on lineitem_102023 lineitem (actual rows=187845 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102151 on customer_102151 customer (actual rows=23443 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102136 on orders_by_customer_102136 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102104 on orders_102104 o (actual rows=18141 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 18140
+                                                                           ->  Index Only Scan using q18i1_102040 on lineitem_102040 lineitem_1 (actual rows=72384 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102040 on lineitem_102040 lineitem (actual rows=72377 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102168 on customer_102168 customer (actual rows=23200 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102116 on orders_by_customer_102116 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102084 on orders_102084 o (actual rows=20768 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 20767
+                                                                           ->  Index Only Scan using q18i1_102020 on lineitem_102020 lineitem_1 (actual rows=83404 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102020 on lineitem_102020 lineitem (actual rows=83397 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102148 on customer_102148 customer (actual rows=23285 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102110 on orders_by_customer_102110 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102078 on orders_102078 o (actual rows=15514 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 15513
+                                                                           ->  Index Only Scan using q18i1_102014 on lineitem_102014 lineitem_1 (actual rows=62092 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102014 on lineitem_102014 lineitem (actual rows=62085 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102142 on customer_102142 customer (actual rows=23451 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102128 on orders_by_customer_102128 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102096 on orders_102096 o (actual rows=16440 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 16439
+                                                                           ->  Index Only Scan using q18i1_102032 on lineitem_102032 lineitem_1 (actual rows=65670 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102032 on lineitem_102032 lineitem (actual rows=65663 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102160 on customer_102160 customer (actual rows=23475 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102137 on orders_by_customer_102137 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102105 on orders_102105 o (actual rows=56808 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 56807
+                                                                           ->  Index Only Scan using q18i1_102041 on lineitem_102041 lineitem_1 (actual rows=227323 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102041 on lineitem_102041 lineitem (actual rows=227316 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102169 on customer_102169 customer (actual rows=23450 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102133 on orders_by_customer_102133 oc (actual rows=233434 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=7 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 257kB
+                                                   ->  Merge Join (actual rows=7 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=8 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=2 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102101 on orders_102101 o (actual rows=29252 loops=1)
+                                                                     ->  GroupAggregate (actual rows=2 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 29250
+                                                                           ->  Index Only Scan using q18i1_102037 on lineitem_102037 lineitem_1 (actual rows=116660 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102037 on lineitem_102037 lineitem (actual rows=116653 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102165 on customer_102165 customer (actual rows=23402 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102125 on orders_by_customer_102125 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102093 on orders_102093 o (actual rows=37231 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 37230
+                                                                           ->  Index Only Scan using q18i1_102029 on lineitem_102029 lineitem_1 (actual rows=148804 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102029 on lineitem_102029 lineitem (actual rows=148797 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102157 on customer_102157 customer (actual rows=23484 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102132 on orders_by_customer_102132 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102100 on orders_102100 o (actual rows=12162 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 12161
+                                                                           ->  Index Only Scan using q18i1_102036 on lineitem_102036 lineitem_1 (actual rows=48532 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102036 on lineitem_102036 lineitem (actual rows=48525 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102164 on customer_102164 customer (actual rows=23644 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102135 on orders_by_customer_102135 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102103 on orders_102103 o (actual rows=33350 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 33349
+                                                                           ->  Index Only Scan using q18i1_102039 on lineitem_102039 lineitem_1 (actual rows=133831 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102039 on lineitem_102039 lineitem (actual rows=133824 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102167 on customer_102167 customer (actual rows=23425 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102124 on orders_by_customer_102124 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102092 on orders_102092 o (actual rows=11690 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 11689
+                                                                           ->  Index Only Scan using q18i1_102028 on lineitem_102028 lineitem_1 (actual rows=46776 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102028 on lineitem_102028 lineitem (actual rows=46769 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102156 on customer_102156 customer (actual rows=23413 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102112 on orders_by_customer_102112 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102080 on orders_102080 o (actual rows=14333 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 14332
+                                                                           ->  Index Only Scan using q18i1_102016 on lineitem_102016 lineitem_1 (actual rows=57350 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102016 on lineitem_102016 lineitem (actual rows=57343 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102144 on customer_102144 customer (actual rows=23524 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102129 on orders_by_customer_102129 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102097 on orders_102097 o (actual rows=30351 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 30350
+                                                                           ->  Index Only Scan using q18i1_102033 on lineitem_102033 lineitem_1 (actual rows=121230 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102033 on lineitem_102033 lineitem (actual rows=121223 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102161 on customer_102161 customer (actual rows=23518 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102130 on orders_by_customer_102130 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102098 on orders_102098 o (actual rows=13495 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 13494
+                                                                           ->  Index Only Scan using q18i1_102034 on lineitem_102034 lineitem_1 (actual rows=54088 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102034 on lineitem_102034 lineitem (actual rows=54081 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102162 on customer_102162 customer (actual rows=23430 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102121 on orders_by_customer_102121 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102089 on orders_102089 o (actual rows=22874 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 22873
+                                                                           ->  Index Only Scan using q18i1_102025 on lineitem_102025 lineitem_1 (actual rows=91572 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102025 on lineitem_102025 lineitem (actual rows=91565 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102153 on customer_102153 customer (actual rows=23286 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102131 on orders_by_customer_102131 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102099 on orders_102099 o (actual rows=17576 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 17575
+                                                                           ->  Index Only Scan using q18i1_102035 on lineitem_102035 lineitem_1 (actual rows=70606 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102035 on lineitem_102035 lineitem (actual rows=70599 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102163 on customer_102163 customer (actual rows=23138 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102111 on orders_by_customer_102111 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102079 on orders_102079 o (actual rows=45780 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 45779
+                                                                           ->  Index Only Scan using q18i1_102015 on lineitem_102015 lineitem_1 (actual rows=182676 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102015 on lineitem_102015 lineitem (actual rows=182669 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102143 on customer_102143 customer (actual rows=23496 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102113 on orders_by_customer_102113 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102081 on orders_102081 o (actual rows=36876 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 36875
+                                                                           ->  Index Only Scan using q18i1_102017 on lineitem_102017 lineitem_1 (actual rows=147752 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102017 on lineitem_102017 lineitem (actual rows=147745 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102145 on customer_102145 customer (actual rows=23014 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102117 on orders_by_customer_102117 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102085 on orders_102085 o (actual rows=7517 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 7516
+                                                                           ->  Index Only Scan using q18i1_102021 on lineitem_102021 lineitem_1 (actual rows=30190 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102021 on lineitem_102021 lineitem (actual rows=30183 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102149 on customer_102149 customer (actual rows=23396 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102107 on orders_by_customer_102107 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102075 on orders_102075 o (actual rows=35222 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 35221
+                                                                           ->  Index Only Scan using q18i1_102011 on lineitem_102011 lineitem_1 (actual rows=140755 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102011 on lineitem_102011 lineitem (actual rows=140748 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102139 on customer_102139 customer (actual rows=23707 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102123 on orders_by_customer_102123 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102091 on orders_102091 o (actual rows=7752 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 7751
+                                                                           ->  Index Only Scan using q18i1_102027 on lineitem_102027 lineitem_1 (actual rows=31237 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102027 on lineitem_102027 lineitem (actual rows=31230 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102155 on customer_102155 customer (actual rows=23484 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102118 on orders_by_customer_102118 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102086 on orders_102086 o (actual rows=6690 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 6689
+                                                                           ->  Index Only Scan using q18i1_102022 on lineitem_102022 lineitem_1 (actual rows=26605 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102022 on lineitem_102022 lineitem (actual rows=26598 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102150 on customer_102150 customer (actual rows=23560 loops=1)
+                                                               Heap Fetches: 0
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=0 loops=1)
+                           ->  Sort (actual rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate (actual rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join (actual rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102109 on orders_by_customer_102109 oc (actual rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash (actual rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join (actual rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join (actual rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join (actual rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102077 on orders_102077 o (actual rows=9811 loops=1)
+                                                                     ->  GroupAggregate (actual rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 9810
+                                                                           ->  Index Only Scan using q18i1_102013 on lineitem_102013 lineitem_1 (actual rows=39216 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102013 on lineitem_102013 lineitem (actual rows=39209 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102141 on customer_102141 customer (actual rows=23479 loops=1)
+                                                               Heap Fetches: 0
+(1064 rows)
+

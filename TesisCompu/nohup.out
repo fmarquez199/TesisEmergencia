@@ -1,0 +1,11 @@
+scaphandre::sensors: Sysinfo sees 12
+Scaphandre prometheus exporter
+Sending ⚡ metrics
+Press CTRL-C to stop scaphandre
+scaphandre::sensors: Not enough records for socket
+scaphandre::sensors: Sysinfo sees 12
+Scaphandre prometheus exporter
+Sending ⚡ metrics
+Press CTRL-C to stop scaphandre
+scaphandre::sensors: Not enough records for socket
+./scripts/metrics.sh: 12: formatted_results+=(.consumption | tostring) + " # " + (.time | tostring): not found

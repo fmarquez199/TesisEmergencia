@@ -1,0 +1,31 @@
+                                                                                            QUERY PLAN                                                                                            
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=186108458277.96..186108458278.00 rows=15 width=51)
+   Sort Key: supplier.s_name
+   ->  Nested Loop  (cost=1000.00..186108458277.67 rows=15 width=51)
+         Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+         ->  Nested Loop Semi Join  (cost=1000.00..186108458226.35 rows=2613 width=55)
+               Join Filter: (supplier.s_suppkey = ps.ps_suppkey)
+               ->  Seq Scan on supplier  (cost=0.00..323.00 rows=10000 width=59)
+               ->  Materialize  (cost=1000.00..186108065959.88 rows=2613 width=4)
+                     ->  Nested Loop Semi Join  (cost=1000.00..186108065946.82 rows=2613 width=4)
+                           Join Filter: (ps.ps_partkey = part.p_partkey)
+                           ->  Seq Scan on partsupp ps  (cost=0.00..186099979560.00 rows=266667 width=8)
+                                 Filter: ((ps_availqty)::numeric > (SubPlan 1))
+                                 SubPlan 1
+                                   ->  Aggregate  (cost=232624.92..232624.94 rows=1 width=32)
+                                         ->  Seq Scan on lineitem  (cost=0.00..232624.92 rows=1 width=5)
+                                               Filter: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_partkey = ps.ps_partkey) AND (l_suppkey = ps.ps_suppkey))
+                           ->  Materialize  (cost=1000.00..6381.77 rows=2020 width=4)
+                                 ->  Gather  (cost=1000.00..6371.67 rows=2020 width=4)
+                                       Workers Planned: 2
+                                       ->  Parallel Seq Scan on part  (cost=0.00..5169.67 rows=842 width=4)
+                                             Filter: ((p_name)::text ~~ 'forest%'::text)
+         ->  Materialize  (cost=0.00..12.13 rows=1 width=4)
+               ->  Seq Scan on nation  (cost=0.00..12.12 rows=1 width=4)
+                     Filter: (n_name = 'CANADA'::bpchar)
+ JIT:
+   Functions: 32
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(27 rows)
+

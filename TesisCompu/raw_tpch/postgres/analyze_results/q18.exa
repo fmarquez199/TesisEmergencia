@@ -1,0 +1,60 @@
+                                                                                                                   QUERY PLAN                                                                                                                   
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=3821.93..3822.18 rows=100 width=130) (actual time=231.171..231.172 rows=1 loops=1)
+   ->  Sort  (cost=3821.93..4071.93 rows=100000 width=130) (actual time=231.170..231.171 rows=1 loops=1)
+         Sort Key: remote_scan.o_totalprice DESC, remote_scan.o_orderdate
+         Sort Method: quicksort  Memory: 25kB
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=130) (actual time=231.147..231.149 rows=1 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 54 bytes
+               Tasks Shown: One of 32
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=159.90.9.10 port=5432 dbname=raw_tpch
+                     ->  Limit  (cost=25627.34..25630.09 rows=100 width=71) (actual time=163.091..163.142 rows=0 loops=1)
+                           ->  GroupAggregate  (cost=25627.34..25772.43 rows=5276 width=71) (actual time=163.091..163.141 rows=0 loops=1)
+                                 Group Key: o.o_totalprice, o.o_orderdate, customer.c_name, customer.c_custkey
+                                 ->  Sort  (cost=25627.34..25640.53 rows=5276 width=44) (actual time=163.090..163.141 rows=0 loops=1)
+                                       Sort Key: o.o_totalprice DESC, o.o_orderdate, customer.c_name, customer.c_custkey
+                                       Sort Method: quicksort  Memory: 25kB
+                                       ->  Hash Join  (cost=19056.41..25301.14 rows=5276 width=44) (actual time=163.061..163.111 rows=0 loops=1)
+                                             Hash Cond: (lineitem.l_orderkey = o.o_orderkey)
+                                             ->  Seq Scan on lineitem_102362 lineitem  (cost=0.00..5483.98 rows=188798 width=9) (actual time=0.016..0.016 rows=1 loops=1)
+                                             ->  Hash  (cost=19039.93..19039.93 rows=1318 width=47) (actual time=163.030..163.080 rows=0 loops=1)
+                                                   Buckets: 2048  Batches: 1  Memory Usage: 16kB
+                                                   ->  Hash Join  (cost=17542.26..19039.93 rows=1318 width=47) (actual time=163.029..163.079 rows=0 loops=1)
+                                                         Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                                         ->  Seq Scan on orders_by_customer_102490 oc  (cost=0.00..1308.72 rows=46872 width=4) (actual time=0.009..0.010 rows=1 loops=1)
+                                                         ->  Hash  (cost=17525.69..17525.69 rows=1326 width=43) (actual time=163.006..163.055 rows=0 loops=1)
+                                                               Buckets: 2048  Batches: 1  Memory Usage: 16kB
+                                                               ->  Merge Join  (cost=17200.00..17525.69 rows=1326 width=43) (actual time=163.005..163.054 rows=0 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                                     ->  Merge Join  (cost=16752.62..28638.85 rows=13285 width=20) (actual time=161.631..161.679 rows=1 loops=1)
+                                                                           Merge Cond: (lineitem_1.l_orderkey = o.o_orderkey)
+                                                                           ->  Finalize GroupAggregate  (cost=11779.59..23263.93 rows=13285 width=4) (actual time=148.448..148.496 rows=1 loops=1)
+                                                                                 Group Key: lineitem_1.l_orderkey
+                                                                                 Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                                 Rows Removed by Filter: 33349
+                                                                                 ->  Gather Merge  (cost=11779.59..22068.28 rows=79710 width=36) (actual time=85.485..128.609 rows=33351 loops=1)
+                                                                                       Workers Planned: 2
+                                                                                       Workers Launched: 0
+                                                                                       ->  Partial GroupAggregate  (cost=10779.56..11867.74 rows=39855 width=36) (actual time=84.976..126.219 rows=33351 loops=1)
+                                                                                             Group Key: lineitem_1.l_orderkey
+                                                                                             ->  Sort  (cost=10779.56..10976.23 rows=78666 width=9) (actual time=84.970..95.901 rows=133835 loops=1)
+                                                                                                   Sort Key: lineitem_1.l_orderkey
+                                                                                                   Sort Method: external merge  Disk: 3528kB
+                                                                                                   ->  Parallel Seq Scan on lineitem_102362 lineitem_1  (cost=0.00..4382.66 rows=78666 width=9) (actual time=0.002..43.673 rows=188798 loops=1)
+                                                                           ->  Sort  (cost=4973.03..5090.94 rows=47166 width=16) (actual time=10.996..11.913 rows=33350 loops=1)
+                                                                                 Sort Key: o.o_orderkey
+                                                                                 Sort Method: quicksort  Memory: 3571kB
+                                                                                 ->  Seq Scan on orders_102458 o  (cost=0.00..1311.66 rows=47166 width=16) (actual time=0.011..5.483 rows=47166 loops=1)
+                                                                     ->  Sort  (cost=447.37..459.14 rows=4709 width=23) (actual time=1.052..1.178 rows=4709 loops=1)
+                                                                           Sort Key: customer.c_custkey
+                                                                           Sort Method: quicksort  Memory: 413kB
+                                                                           ->  Seq Scan on customer_102586 customer  (cost=0.00..160.09 rows=4709 width=23) (actual time=0.007..0.591 rows=4709 loops=1)
+                         Planning Time: 2.137 ms
+                         Execution Time: 163.761 ms
+ Planning Time: 4.431 ms
+ Execution Time: 231.257 ms
+(56 filas)
+

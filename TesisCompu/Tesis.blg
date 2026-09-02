@@ -1,0 +1,63 @@
+This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Tesis.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated field_info (elt_size=4) to 10980 items from 5000.
+Database file #1: Refs.bib
+Repeated entry---line 1593 of file Refs.bib
+ : @article{chaudhuri1998overview
+ :                               ,
+I'm skipping whatever remains of this entry
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--missing publisher in chaudhuri1998overview
+
+Done.
+You've used 131 entries,
+            4087 wiz_defined-function locations,
+            1549 strings with 32330 characters,
+and the built_in function-call counts, 83826 in all, are:
+= -- 6701
+> -- 1805
+< -- 576
++ -- 933
+- -- 324
+* -- 3981
+:= -- 13215
+add.period$ -- 267
+call.type$ -- 131
+change.case$ -- 122
+chr.to.int$ -- 1362
+cite$ -- 132
+duplicate$ -- 6214
+empty$ -- 7175
+format.name$ -- 399
+if$ -- 19334
+int.to.chr$ -- 0
+int.to.str$ -- 131
+missing$ -- 1144
+newline$ -- 562
+num.names$ -- 143
+pop$ -- 2834
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 6353
+stack$ -- 0
+substring$ -- 3126
+swap$ -- 4724
+text.length$ -- 122
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 131
+warning$ -- 1
+while$ -- 375
+width$ -- 134
+write$ -- 1367
+(There was 1 error message)

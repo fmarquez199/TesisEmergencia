@@ -1,0 +1,40 @@
+                                                                                               QUERY PLAN                                                                                                
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=15717.46..15717.96 rows=200 width=124) (actual time=883.529..884.016 rows=18314 loops=1)
+   Sort Key: (count(DISTINCT remote_scan.supplier_cnt)) DESC, remote_scan.p_brand, remote_scan.p_type, remote_scan.p_size
+   Sort Method: quicksort  Memory: 2055kB
+   ->  GroupAggregate  (cost=14457.82..15709.82 rows=200 width=124) (actual time=802.273..849.344 rows=18314 loops=1)
+         Group Key: remote_scan.p_brand, remote_scan.p_type, remote_scan.p_size
+         ->  Sort  (cost=14457.82..14707.82 rows=100000 width=120) (actual time=802.264..833.555 rows=118273 loops=1)
+               Sort Key: remote_scan.p_brand, remote_scan.p_type, remote_scan.p_size, remote_scan.supplier_cnt
+               Sort Method: external merge  Disk: 6040kB
+               ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=120) (actual time=536.186..543.842 rows=118273 loops=1)
+                     Task Count: 32
+                     Tuple data received from nodes: 4457 kB
+                     Tasks Shown: One of 32
+                     ->  Task
+                           Tuple data received from node: 140 kB
+                           Node: host=159.90.9.13 port=5432 dbname=raw_tpch
+                           ->  HashAggregate  (cost=1602.27..1620.95 rows=1868 width=40) (actual time=75.022..76.543 rows=3730 loops=1)
+                                 Group Key: part.p_brand, part.p_type, part.p_size, partsupp.ps_suppkey
+                                 Batches: 1  Memory Usage: 721kB
+                                 ->  Hash Join  (cost=647.63..1583.59 rows=1868 width=40) (actual time=28.698..67.740 rows=3730 loops=1)
+                                       Hash Cond: (partsupp.ps_partkey = part.p_partkey)
+                                       ->  Seq Scan on partsupp_102509 partsupp  (cost=348.00..1217.90 rows=12636 width=8) (actual time=15.530..42.733 rows=25263 loops=1)
+                                             Filter: (NOT (hashed SubPlan 1))
+                                             Rows Removed by Filter: 9
+                                             SubPlan 1
+                                               ->  Seq Scan on supplier_102333 supplier  (cost=0.00..348.00 rows=1 width=4) (actual time=0.583..15.409 rows=4 loops=1)
+                                                     Filter: ((s_comment)::text ~~ '%Customer%Complaints%'::text)
+                                                     Rows Removed by Filter: 9996
+                                       ->  Hash  (cost=287.95..287.95 rows=934 width=40) (actual time=13.050..13.051 rows=933 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 76kB
+                                             ->  Seq Scan on part_102541 part  (cost=0.00..287.95 rows=934 width=40) (actual time=0.080..11.829 rows=933 loops=1)
+                                                   Filter: ((p_brand <> 'Brand#45'::bpchar) AND ((p_type)::text !~~ 'MEDIUM POLISHED%'::text) AND (p_size = ANY ('{49,14,23,45,19,3,36,9}'::integer[])))
+                                                   Rows Removed by Filter: 5385
+                               Planning Time: 3.915 ms
+                               Execution Time: 78.837 ms
+ Planning Time: 3.354 ms
+ Execution Time: 886.013 ms
+(36 filas)
+

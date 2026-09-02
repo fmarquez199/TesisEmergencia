@@ -1,0 +1,55 @@
+                                                                              QUERY PLAN                                                                              
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=47881.15..47885.07 rows=1569 width=36) (actual time=244.804..245.849 rows=1048 loops=1)
+   Sort Key: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric))) DESC
+   Sort Method: quicksort  Memory: 89kB
+   InitPlan 1 (returns $1)
+     ->  Finalize Aggregate  (cost=23551.90..23551.91 rows=1 width=32) (actual time=98.759..98.837 rows=1 loops=1)
+           ->  Gather  (cost=23551.68..23551.89 rows=2 width=32) (actual time=98.647..98.825 rows=3 loops=1)
+                 Workers Planned: 2
+                 Workers Launched: 2
+                 ->  Partial Aggregate  (cost=22551.68..22551.69 rows=1 width=32) (actual time=95.183..95.186 rows=1 loops=3)
+                       ->  Hash Join  (cost=373.96..22536.97 rows=1961 width=10) (actual time=3.314..89.888 rows=10560 loops=3)
+                             Hash Cond: (partsupp_1.ps_suppkey = supplier_1.s_suppkey)
+                             ->  Parallel Seq Scan on partsupp partsupp_1  (cost=0.00..20893.33 rows=333333 width=14) (actual time=0.032..45.566 rows=266667 loops=3)
+                             ->  Hash  (cost=373.23..373.23 rows=59 width=4) (actual time=3.111..3.113 rows=396 loops=3)
+                                   Buckets: 1024  Batches: 1  Memory Usage: 22kB
+                                   ->  Hash Join  (cost=12.14..373.23 rows=59 width=4) (actual time=0.082..3.006 rows=396 loops=3)
+                                         Hash Cond: (supplier_1.s_nationkey = nation_1.n_nationkey)
+                                         ->  Seq Scan on supplier supplier_1  (cost=0.00..323.00 rows=10000 width=8) (actual time=0.015..1.137 rows=10000 loops=3)
+                                         ->  Hash  (cost=12.12..12.12 rows=1 width=4) (actual time=0.035..0.036 rows=1 loops=3)
+                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                               ->  Seq Scan on nation nation_1  (cost=0.00..12.12 rows=1 width=4) (actual time=0.018..0.022 rows=1 loops=3)
+                                                     Filter: (n_name = 'GERMANY'::bpchar)
+                                                     Rows Removed by Filter: 24
+   ->  Finalize GroupAggregate  (cost=23644.23..24245.96 rows=1569 width=36) (actual time=195.894..245.127 rows=1048 loops=1)
+         Group Key: partsupp.ps_partkey
+         Filter: (sum((partsupp.ps_supplycost * (partsupp.ps_availqty)::numeric)) > $1)
+         Rows Removed by Filter: 28770
+         ->  Gather Merge  (cost=23644.23..24145.95 rows=3922 width=36) (actual time=96.978..114.705 rows=29829 loops=1)
+               Workers Planned: 2
+               Workers Launched: 2
+               ->  Partial GroupAggregate  (cost=22644.21..22693.23 rows=1961 width=36) (actual time=93.084..106.635 rows=9943 loops=3)
+                     Group Key: partsupp.ps_partkey
+                     ->  Sort  (cost=22644.21..22649.11 rows=1961 width=14) (actual time=93.068..93.859 rows=10560 loops=3)
+                           Sort Key: partsupp.ps_partkey
+                           Sort Method: quicksort  Memory: 720kB
+                           Worker 0:  Sort Method: quicksort  Memory: 503kB
+                           Worker 1:  Sort Method: quicksort  Memory: 976kB
+                           ->  Hash Join  (cost=373.96..22536.97 rows=1961 width=14) (actual time=3.255..89.316 rows=10560 loops=3)
+                                 Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                 ->  Parallel Seq Scan on partsupp  (cost=0.00..20893.33 rows=333333 width=18) (actual time=0.038..45.161 rows=266667 loops=3)
+                                 ->  Hash  (cost=373.23..373.23 rows=59 width=4) (actual time=3.137..3.139 rows=396 loops=3)
+                                       Buckets: 1024  Batches: 1  Memory Usage: 22kB
+                                       ->  Hash Join  (cost=12.14..373.23 rows=59 width=4) (actual time=0.082..3.029 rows=396 loops=3)
+                                             Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                             ->  Seq Scan on supplier  (cost=0.00..323.00 rows=10000 width=8) (actual time=0.019..1.146 rows=10000 loops=3)
+                                             ->  Hash  (cost=12.12..12.12 rows=1 width=4) (actual time=0.035..0.035 rows=1 loops=3)
+                                                   Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                   ->  Seq Scan on nation  (cost=0.00..12.12 rows=1 width=4) (actual time=0.022..0.025 rows=1 loops=3)
+                                                         Filter: (n_name = 'GERMANY'::bpchar)
+                                                         Rows Removed by Filter: 24
+ Planning Time: 0.604 ms
+ Execution Time: 246.142 ms
+(51 rows)
+

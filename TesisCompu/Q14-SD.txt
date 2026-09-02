@@ -1,0 +1,16 @@
+SET
+                            QUERY PLAN                             
+-------------------------------------------------------------------
+ Aggregate (actual rows=1 loops=1)
+   ->  Custom Scan (Citus Adaptive) (actual rows=12 loops=1)
+         Task Count: 12
+         Tuple data received from nodes: 384 bytes
+         Tasks Shown: None, not supported for re-partition queries
+         ->  MapMergeJob
+               Map Task Count: 32
+               Merge Task Count: 12
+         ->  MapMergeJob
+               Map Task Count: 32
+               Merge Task Count: 12
+(11 rows)
+

@@ -1,0 +1,1186 @@
+SET
+CREATE VIEW
+                                                                                        QUERY PLAN                                                                                         
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=0 width=0) (actual time=59.710..59.711 rows=1 loops=1)
+   ->  Distributed Subplan 1_1
+         Subplan Duration: 2786.64 ms
+         Intermediate Data Size: 1367 kB
+         Result destination: Write locally
+         ->  HashAggregate  (cost=500.00..502.50 rows=200 width=36) (actual time=2619.615..2783.086 rows=50000 loops=1)
+               Group Key: remote_scan.supplier_no
+               Batches: 5  Memory Usage: 8257kB  Disk Usage: 19328kB
+               ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=36) (actual time=2342.471..2425.961 rows=812020 loops=1)
+                     Task Count: 32
+                     Tuple data received from nodes: 14 MB
+                     Tasks Shown: All
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28061.22..28383.22 rows=25760 width=36) (actual time=1732.078..1760.855 rows=25513 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24612.33..27833.83 rows=30320 width=36) (actual time=1528.809..1642.036 rows=25513 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23612.33..23801.83 rows=15160 width=36) (actual time=1528.459..1633.018 rows=25513 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102042 lineitem  (cost=0.00..23460.72 rows=15160 width=16) (actual time=0.043..1348.678 rows=35623 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900173
+                               Planning Time: 0.112 ms
+                               Execution Time: 1772.089 ms
+                     ->  Task
+                           Tuple data received from node: 448 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27914.24..28228.06 rows=25106 width=36) (actual time=1738.544..1760.318 rows=25762 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 720kB
+                                 ->  Gather  (cost=24617.76..27696.89 rows=28980 width=36) (actual time=1558.111..1631.157 rows=25762 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23617.76..23798.89 rows=14490 width=36) (actual time=1557.848..1628.373 rows=25762 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102018 lineitem  (cost=0.00..23472.86 rows=14490 width=16) (actual time=0.073..1295.254 rows=36107 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 901631
+                               Planning Time: 0.092 ms
+                               Execution Time: 1765.405 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27997.58..28317.91 rows=25627 width=36) (actual time=1717.994..1737.469 rows=25081 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24627.62..27775.38 rows=29626 width=36) (actual time=1522.667..1618.507 rows=25081 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23627.62..23812.78 rows=14813 width=36) (actual time=1522.336..1609.429 rows=25081 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102022 lineitem  (cost=0.00..23479.49 rows=14813 width=16) (actual time=0.051..1334.153 rows=34652 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 904146
+                               Planning Time: 0.091 ms
+                               Execution Time: 1744.370 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28050.04..28367.19 rows=25372 width=36) (actual time=1701.218..1731.418 rows=25377 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24696.92..27828.96 rows=29478 width=36) (actual time=1511.477..1592.904 rows=25377 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23696.92..23881.16 rows=14739 width=36) (actual time=1511.171..1584.027 rows=25377 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102034 lineitem  (cost=0.00..23549.53 rows=14739 width=16) (actual time=0.059..1283.497 rows=35429 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 904336
+                               Planning Time: 0.127 ms
+                               Execution Time: 1743.504 ms
+                     ->  Task
+                           Tuple data received from node: 433 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27820.04..28129.62 rows=24766 width=36) (actual time=1657.613..1712.458 rows=24901 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24602.51..27607.90 rows=28286 width=36) (actual time=1412.920..1517.989 rows=24901 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23602.51..23779.30 rows=14143 width=36) (actual time=1409.332..1502.835 rows=24901 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102014 lineitem  (cost=0.00..23461.08 rows=14143 width=16) (actual time=0.050..1220.876 rows=34533 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 901320
+                               Planning Time: 0.107 ms
+                               Execution Time: 1733.873 ms
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28031.51..28352.36 rows=25668 width=36) (actual time=1690.970..1711.366 rows=25571 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24623.56..27806.81 rows=29960 width=36) (actual time=1538.243..1611.097 rows=25571 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23623.56..23810.81 rows=14980 width=36) (actual time=1537.922..1602.183 rows=25571 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102026 lineitem  (cost=0.00..23473.76 rows=14980 width=16) (actual time=0.031..1304.969 rows=35623 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 902258
+                               Planning Time: 0.103 ms
+                               Execution Time: 1719.312 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27633.51..27934.08 rows=24045 width=36) (actual time=1624.195..1699.035 rows=25087 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24529.28..27428.84 rows=27290 width=36) (actual time=1443.091..1531.481 rows=25087 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23529.28..23699.84 rows=13645 width=36) (actual time=1442.794..1522.635 rows=25087 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102038 lineitem  (cost=0.00..23392.83 rows=13645 width=16) (actual time=0.068..1223.689 rows=34737 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900435
+                               Planning Time: 0.121 ms
+                               Execution Time: 1709.930 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27924.64..28239.63 rows=25199 width=36) (actual time=1621.754..1680.568 rows=25279 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24615.66..27706.47 rows=29090 width=36) (actual time=1439.648..1542.397 rows=25279 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23615.66..23797.47 rows=14545 width=36) (actual time=1430.840..1527.730 rows=25279 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 528kB
+                                             ->  Parallel Seq Scan on lineitem_102040 lineitem  (cost=0.00..23470.21 rows=14545 width=16) (actual time=0.035..1224.566 rows=35119 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 902194
+                               Planning Time: 0.091 ms
+                               Execution Time: 1696.408 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27983.22..28306.32 rows=25848 width=36) (actual time=1638.809..1683.607 rows=25405 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24535.46..27755.89 rows=30310 width=36) (actual time=1480.607..1549.364 rows=25405 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23535.46..23724.89 rows=15155 width=36) (actual time=1480.234..1534.456 rows=25405 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102030 lineitem  (cost=0.00..23383.91 rows=15155 width=16) (actual time=0.067..1338.262 rows=35483 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 898262
+                               Planning Time: 0.093 ms
+                               Execution Time: 1693.957 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27944.71..28259.96 rows=25220 width=36) (actual time=1585.009..1644.624 rows=25069 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24613.66..27725.08 rows=29284 width=36) (actual time=1327.237..1463.809 rows=25069 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23613.66..23796.68 rows=14642 width=36) (actual time=1327.010..1451.757 rows=25069 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 520kB
+                                             ->  Parallel Seq Scan on lineitem_102017 lineitem  (cost=0.00..23467.24 rows=14642 width=16) (actual time=0.028..1120.082 rows=34917 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 901921
+                               Planning Time: 0.095 ms
+                               Execution Time: 1653.514 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27880.21..28187.72 rows=24601 width=36) (actual time=1608.329..1640.562 rows=25408 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24699.53..27670.49 rows=27962 width=36) (actual time=1441.823..1525.858 rows=25408 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23699.53..23874.29 rows=13981 width=36) (actual time=1441.504..1517.021 rows=25408 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102020 lineitem  (cost=0.00..23559.72 rows=13981 width=16) (actual time=0.056..1254.689 rows=35451 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 905944
+                               Planning Time: 0.092 ms
+                               Execution Time: 1651.634 ms
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27987.41..28307.14 rows=25578 width=36) (actual time=1595.139..1621.281 rows=25538 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24614.95..27765.05 rows=29648 width=36) (actual time=1369.224..1447.119 rows=25538 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23614.95..23800.25 rows=14824 width=36) (actual time=1368.865..1439.672 rows=25538 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102033 lineitem  (cost=0.00..23466.71 rows=14824 width=16) (actual time=0.100..1209.854 rows=35773 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900981
+                               Planning Time: 9.106 ms
+                               Execution Time: 1641.863 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27898.86..28211.99 rows=25050 width=36) (actual time=1591.072..1626.128 rows=25446 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24614.22..27682.29 rows=28876 width=36) (actual time=1360.819..1496.850 rows=25446 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23614.22..23794.69 rows=14438 width=36) (actual time=1360.573..1493.614 rows=25446 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102029 lineitem  (cost=0.00..23469.84 rows=14438 width=16) (actual time=0.028..1122.307 rows=35413 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 901841
+                               Planning Time: 0.085 ms
+                               Execution Time: 1638.350 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27778.12..28084.83 rows=24537 width=36) (actual time=1518.105..1619.652 rows=25179 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24598.12..27568.45 rows=27956 width=36) (actual time=1318.949..1425.291 rows=25179 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23598.12..23772.85 rows=13978 width=36) (actual time=1318.659..1407.175 rows=25179 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102019 lineitem  (cost=0.00..23458.34 rows=13978 width=16) (actual time=0.021..1126.580 rows=35081 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900334
+                               Planning Time: 0.074 ms
+                               Execution Time: 1635.366 ms
+                     ->  Task
+                           Tuple data received from node: 443 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28111.52..28437.42 rows=26072 width=36) (actual time=1598.837..1620.534 rows=25483 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24623.94..27881.57 rows=30660 width=36) (actual time=1451.548..1523.861 rows=25483 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23623.94..23815.57 rows=15330 width=36) (actual time=1451.219..1509.010 rows=25483 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102028 lineitem  (cost=0.00..23470.64 rows=15330 width=16) (actual time=0.060..1278.241 rows=35580 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 901803
+                               Planning Time: 0.098 ms
+                               Execution Time: 1627.931 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27895.91..28210.28 rows=25149 width=36) (actual time=1557.479..1611.297 rows=25372 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24623.33..27680.14 rows=28770 width=36) (actual time=1365.833..1477.718 rows=25372 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23623.33..23803.14 rows=14385 width=36) (actual time=1365.583..1462.597 rows=25372 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102027 lineitem  (cost=0.00..23479.47 rows=14385 width=16) (actual time=0.026..1149.019 rows=35519 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 903277
+                               Planning Time: 0.060 ms
+                               Execution Time: 1617.314 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28118.00..28444.60 rows=26128 width=36) (actual time=1535.450..1581.129 rows=25399 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24629.29..27887.98 rows=30670 width=36) (actual time=1378.497..1451.965 rows=25399 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23629.29..23820.98 rows=15335 width=36) (actual time=1378.213..1445.690 rows=25399 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102037 lineitem  (cost=0.00..23475.94 rows=15335 width=16) (actual time=0.024..1207.584 rows=35554 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 902676
+                               Planning Time: 0.085 ms
+                               Execution Time: 1609.059 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28029.72..28350.96 rows=25699 width=36) (actual time=1534.809..1580.792 rows=25214 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 696kB
+                                 ->  Gather  (cost=24627.23..27805.38 rows=29912 width=36) (actual time=1346.364..1445.938 rows=25214 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23627.23..23814.18 rows=14956 width=36) (actual time=1346.114..1436.774 rows=25214 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102015 lineitem  (cost=0.00..23477.67 rows=14956 width=16) (actual time=0.022..1136.165 rows=35240 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 903268
+                               Planning Time: 0.084 ms
+                               Execution Time: 1604.094 ms
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28034.88..28357.56 rows=25814 width=36) (actual time=1499.135..1558.144 rows=25685 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 720kB
+                                 ->  Gather  (cost=24627.39..27810.21 rows=29956 width=36) (actual time=1356.588..1432.802 rows=25685 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23627.39..23814.61 rows=14978 width=36) (actual time=1356.271..1423.865 rows=25685 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102032 lineitem  (cost=0.00..23477.61 rows=14978 width=16) (actual time=0.044..1213.593 rows=35838 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 902659
+                               Planning Time: 0.111 ms
+                               Execution Time: 1574.135 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27881.46..28193.03 rows=24926 width=36) (actual time=1517.826..1564.566 rows=25406 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24605.00..27665.43 rows=28804 width=36) (actual time=1305.645..1411.396 rows=25406 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23605.00..23785.03 rows=14402 width=36) (actual time=1305.396..1399.249 rows=25406 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102041 lineitem  (cost=0.00..23460.98 rows=14402 width=16) (actual time=0.050..1130.764 rows=35430 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900407
+                               Planning Time: 0.083 ms
+                               Execution Time: 1573.759 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28050.53..28373.52 rows=25839 width=36) (actual time=1469.744..1530.807 rows=25359 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24613.46..27823.91 rows=30216 width=36) (actual time=1258.327..1372.192 rows=25359 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23613.46..23802.31 rows=15108 width=36) (actual time=1253.028..1364.189 rows=25359 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102013 lineitem  (cost=0.00..23462.38 rows=15108 width=16) (actual time=0.062..1080.900 rows=35524 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900537
+                               Planning Time: 0.099 ms
+                               Execution Time: 1559.850 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28094.87..28414.74 rows=25590 width=36) (actual time=1471.934..1517.133 rows=25254 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24696.70..27870.81 rows=29874 width=36) (actual time=1288.867..1372.240 rows=25254 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23696.70..23883.41 rows=14937 width=36) (actual time=1288.591..1369.122 rows=25254 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102021 lineitem  (cost=0.00..23547.33 rows=14937 width=16) (actual time=0.029..1173.574 rows=35367 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 904046
+                               Planning Time: 0.076 ms
+                               Execution Time: 1556.096 ms
+                     ->  Task
+                           Tuple data received from node: 445 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28175.69..28507.51 rows=26546 width=36) (actual time=1446.135..1503.365 rows=25602 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24619.86..27941.24 rows=31260 width=36) (actual time=1302.034..1361.546 rows=25602 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23619.86..23815.24 rows=15630 width=36) (actual time=1301.723..1352.577 rows=25602 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102024 lineitem  (cost=0.00..23463.56 rows=15630 width=16) (actual time=0.035..1146.586 rows=35878 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900372
+                               Planning Time: 0.106 ms
+                               Execution Time: 1538.960 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28028.31..28343.32 rows=25201 width=36) (actual time=1427.647..1505.640 rows=25207 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24699.53..27808.83 rows=29264 width=36) (actual time=1230.112..1316.275 rows=25207 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23699.53..23882.43 rows=14632 width=36) (actual time=1229.854..1304.357 rows=25207 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102023 lineitem  (cost=0.00..23553.21 rows=14632 width=16) (actual time=0.022..1034.281 rows=35103 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 905250
+                               Planning Time: 0.080 ms
+                               Execution Time: 1519.334 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28100.73..28425.01 rows=25943 width=36) (actual time=1403.427..1476.069 rows=25395 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24632.26..27872.04 rows=30492 width=36) (actual time=1213.712..1293.910 rows=25395 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23632.26..23822.84 rows=15246 width=36) (actual time=1213.450..1275.832 rows=25395 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102031 lineitem  (cost=0.00..23479.80 rows=15246 width=16) (actual time=0.036..1098.658 rows=35450 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 903398
+                               Planning Time: 0.106 ms
+                               Execution Time: 1496.088 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27746.25..28049.80 rows=24284 width=36) (actual time=1310.264..1361.017 rows=25391 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24599.92..27538.80 rows=27660 width=36) (actual time=1180.660..1246.402 rows=25391 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23599.92..23772.80 rows=13830 width=36) (actual time=1180.383..1243.467 rows=25391 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102039 lineitem  (cost=0.00..23461.62 rows=13830 width=16) (actual time=0.067..1033.983 rows=35533 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900407
+                               Planning Time: 0.088 ms
+                               Execution Time: 1388.655 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28107.36..28433.07 rows=26057 width=36) (actual time=921.559..1010.340 rows=25439 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 728kB
+                                 ->  Gather  (cost=24630.47..27878.11 rows=30566 width=36) (actual time=688.344..793.701 rows=31584 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23630.47..23821.51 rows=15283 width=36) (actual time=672.880..704.194 rows=10528 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 4369kB
+                                             Worker 0:  Batches: 1  Memory Usage: 5137kB
+                                             Worker 1:  Batches: 1  Memory Usage: 4625kB
+                                             ->  Parallel Seq Scan on lineitem_102036 lineitem  (cost=0.00..23477.64 rows=15283 width=16) (actual time=0.040..599.864 rows=11833 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 301001
+                               Planning Time: 0.098 ms
+                               Execution Time: 1027.483 ms
+                     ->  Task
+                           Tuple data received from node: 440 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27962.14..28279.86 rows=25418 width=36) (actual time=951.026..986.189 rows=25337 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 720kB
+                                 ->  Gather  (cost=24627.67..27742.28 rows=29314 width=36) (actual time=742.134..827.072 rows=31523 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23627.67..23810.88 rows=14657 width=36) (actual time=713.249..734.823 rows=10508 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 4753kB
+                                             Worker 0:  Batches: 1  Memory Usage: 3985kB
+                                             Worker 1:  Batches: 1  Memory Usage: 4497kB
+                                             ->  Parallel Seq Scan on lineitem_102012 lineitem  (cost=0.00..23481.10 rows=14657 width=16) (actual time=0.062..624.552 rows=11832 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 301187
+                               Planning Time: 0.235 ms
+                               Execution Time: 1000.603 ms
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28295.18..28626.09 rows=26473 width=36) (actual time=846.235..920.882 rows=25633 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 728kB
+                                 ->  Gather  (cost=24708.64..28058.71 rows=31530 width=36) (actual time=647.226..716.739 rows=31832 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23708.64..23905.71 rows=15765 width=36) (actual time=625.207..641.426 rows=10611 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 5137kB
+                                             Worker 0:  Batches: 1  Memory Usage: 4625kB
+                                             Worker 1:  Batches: 1  Memory Usage: 4625kB
+                                             ->  Parallel Seq Scan on lineitem_102016 lineitem  (cost=0.00..23550.99 rows=15765 width=16) (actual time=0.068..551.810 rows=11954 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 301379
+                               Planning Time: 0.097 ms
+                               Execution Time: 955.280 ms
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27820.54..28135.04 rows=25160 width=36) (actual time=812.513..920.758 rows=25629 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 728kB
+                                 ->  Gather  (cost=24536.58..27604.01 rows=28870 width=36) (actual time=623.650..688.011 rows=31800 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23536.58..23717.01 rows=14435 width=36) (actual time=600.257..622.977 rows=10600 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 5009kB
+                                             Worker 0:  Batches: 1  Memory Usage: 4241kB
+                                             Worker 1:  Batches: 1  Memory Usage: 4241kB
+                                             ->  Parallel Seq Scan on lineitem_102011 lineitem  (cost=0.00..23392.22 rows=14435 width=16) (actual time=0.040..550.676 rows=11904 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 299788
+                               Planning Time: 0.095 ms
+                               Execution Time: 938.301 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27976.39..28290.09 rows=25096 width=36) (actual time=795.172..816.524 rows=25375 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 720kB
+                                 ->  Gather  (cost=24692.43..27759.86 rows=28870 width=36) (actual time=625.335..645.484 rows=31459 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23692.43..23872.86 rows=14435 width=36) (actual time=595.451..602.774 rows=10486 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 4241kB
+                                             Worker 0:  Batches: 1  Memory Usage: 3985kB
+                                             Worker 1:  Batches: 1  Memory Usage: 5009kB
+                                             ->  Parallel Seq Scan on lineitem_102035 lineitem  (cost=0.00..23548.08 rows=14435 width=16) (actual time=0.040..542.345 rows=11767 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 301410
+                               Planning Time: 0.097 ms
+                               Execution Time: 822.598 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27773.35..28084.25 rows=24872 width=36) (actual time=701.261..747.067 rows=25224 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 720kB
+                                 ->  Gather  (cost=24526.92..27559.30 rows=28540 width=36) (actual time=490.005..556.043 rows=31371 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23526.92..23705.30 rows=14270 width=36) (actual time=465.410..486.866 rows=10457 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 4241kB
+                                             Worker 0:  Batches: 1  Memory Usage: 3985kB
+                                             Worker 1:  Batches: 1  Memory Usage: 4753kB
+                                             ->  Parallel Seq Scan on lineitem_102025 lineitem  (cost=0.00..23384.22 rows=14270 width=16) (actual time=0.036..417.004 rows=11727 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 299538
+                               Planning Time: 0.101 ms
+                               Execution Time: 779.385 ms
+         Planning Time: 0.000 ms
+         Execution Time: 2789.963 ms
+   ->  Distributed Subplan 1_2
+         Subplan Duration: 133.60 ms
+         Intermediate Data Size: 20 bytes
+         Result destination: Send to 3 nodes
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=0 width=0) (actual time=26.006..26.007 rows=1 loops=1)
+               Task Count: 1
+               Tuple data received from nodes: 14 bytes
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 14 bytes
+                     Node: host=localhost port=5432 dbname=tpch
+                     ->  Aggregate  (cost=420.89..420.90 rows=1 width=32) (actual time=23.868..23.869 rows=1 loops=1)
+                           ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..337.56 rows=33333 width=32) (actual time=15.499..18.071 rows=50000 loops=1)
+                         Planning Time: 0.045 ms
+                         Execution Time: 24.280 ms
+         Planning Time: 0.000 ms
+         Execution Time: 26.027 ms
+   ->  Distributed Subplan 1_3
+         Subplan Duration: 2903.81 ms
+         Intermediate Data Size: 1367 kB
+         Result destination: Send to 3 nodes
+         ->  HashAggregate  (cost=500.00..502.50 rows=200 width=36) (actual time=2707.442..2870.997 rows=50000 loops=1)
+               Group Key: remote_scan.supplier_no
+               Batches: 5  Memory Usage: 8257kB  Disk Usage: 19336kB
+               ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=36) (actual time=2435.561..2519.115 rows=812020 loops=1)
+                     Task Count: 32
+                     Tuple data received from nodes: 14 MB
+                     Tasks Shown: All
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27820.54..28135.04 rows=25160 width=36) (actual time=1831.327..1882.707 rows=25629 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24536.58..27604.01 rows=28870 width=36) (actual time=1637.170..1726.365 rows=25629 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23536.58..23717.01 rows=14435 width=36) (actual time=1636.873..1717.031 rows=25629 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102011 lineitem  (cost=0.00..23392.22 rows=14435 width=16) (actual time=0.028..1429.850 rows=35712 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 899364
+                               Planning Time: 0.090 ms
+                               Execution Time: 1889.747 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28094.87..28414.74 rows=25590 width=36) (actual time=1837.494..1867.855 rows=25254 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24696.70..27870.81 rows=29874 width=36) (actual time=1618.055..1727.958 rows=25254 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23696.70..23883.41 rows=14937 width=36) (actual time=1617.743..1712.723 rows=25254 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102021 lineitem  (cost=0.00..23547.33 rows=14937 width=16) (actual time=0.041..1400.703 rows=35367 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 904046
+                               Planning Time: 0.104 ms
+                               Execution Time: 1882.774 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28050.53..28373.52 rows=25839 width=36) (actual time=1798.341..1832.529 rows=25359 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24613.46..27823.91 rows=30216 width=36) (actual time=1571.533..1672.543 rows=25359 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23613.46..23802.31 rows=15108 width=36) (actual time=1571.199..1669.306 rows=25359 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102013 lineitem  (cost=0.00..23462.38 rows=15108 width=16) (actual time=0.085..1378.612 rows=35524 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900537
+                               Planning Time: 0.254 ms
+                               Execution Time: 1874.154 ms
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27987.41..28307.14 rows=25578 width=36) (actual time=1779.798..1850.386 rows=25538 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24614.95..27765.05 rows=29648 width=36) (actual time=1589.312..1674.858 rows=25538 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23614.95..23800.25 rows=14824 width=36) (actual time=1589.042..1665.638 rows=25538 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102033 lineitem  (cost=0.00..23466.71 rows=14824 width=16) (actual time=0.089..1360.054 rows=35773 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900981
+                               Planning Time: 0.098 ms
+                               Execution Time: 1865.440 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27773.35..28084.25 rows=24872 width=36) (actual time=1745.809..1827.060 rows=25224 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24526.92..27559.30 rows=28540 width=36) (actual time=1541.873..1641.867 rows=25224 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23526.92..23705.30 rows=14270 width=36) (actual time=1541.599..1620.629 rows=25224 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102025 lineitem  (cost=0.00..23384.22 rows=14270 width=16) (actual time=0.031..1269.038 rows=35182 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 898614
+                               Planning Time: 0.220 ms
+                               Execution Time: 1850.113 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28118.00..28444.60 rows=26128 width=36) (actual time=1754.738..1820.943 rows=25399 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24629.29..27887.98 rows=30670 width=36) (actual time=1509.900..1621.847 rows=25399 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23629.29..23820.98 rows=15335 width=36) (actual time=1509.598..1609.637 rows=25399 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102037 lineitem  (cost=0.00..23475.94 rows=15335 width=16) (actual time=0.033..1299.572 rows=35554 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 902676
+                               Planning Time: 0.114 ms
+                               Execution Time: 1847.755 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28028.31..28343.32 rows=25201 width=36) (actual time=1723.972..1812.546 rows=25207 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24699.53..27808.83 rows=29264 width=36) (actual time=1472.963..1608.030 rows=25207 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23699.53..23882.43 rows=14632 width=36) (actual time=1461.597..1567.701 rows=25207 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102023 lineitem  (cost=0.00..23553.21 rows=14632 width=16) (actual time=0.025..1289.595 rows=35103 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 905250
+                               Planning Time: 0.220 ms
+                               Execution Time: 1829.227 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27976.39..28290.09 rows=25096 width=36) (actual time=1730.552..1800.151 rows=25375 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24692.43..27759.86 rows=28870 width=36) (actual time=1541.002..1631.844 rows=25375 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23692.43..23872.86 rows=14435 width=36) (actual time=1540.732..1628.654 rows=25375 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102035 lineitem  (cost=0.00..23548.08 rows=14435 width=16) (actual time=0.025..1331.810 rows=35302 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 904230
+                               Planning Time: 0.090 ms
+                               Execution Time: 1821.173 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27778.12..28084.83 rows=24537 width=36) (actual time=1687.280..1793.000 rows=25179 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24598.12..27568.45 rows=27956 width=36) (actual time=1493.856..1599.854 rows=25179 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23598.12..23772.85 rows=13978 width=36) (actual time=1493.577..1584.615 rows=25179 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102019 lineitem  (cost=0.00..23458.34 rows=13978 width=16) (actual time=0.018..1330.708 rows=35081 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900334
+                               Planning Time: 0.110 ms
+                               Execution Time: 1808.242 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27746.25..28049.80 rows=24284 width=36) (actual time=1697.283..1792.905 rows=25391 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24599.92..27538.80 rows=27660 width=36) (actual time=1498.401..1592.072 rows=25391 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23599.92..23772.80 rows=13830 width=36) (actual time=1471.836..1556.500 rows=25391 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102039 lineitem  (cost=0.00..23461.62 rows=13830 width=16) (actual time=0.067..1270.802 rows=35533 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900407
+                               Planning Time: 0.266 ms
+                               Execution Time: 1806.107 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28100.73..28425.01 rows=25943 width=36) (actual time=1708.081..1795.318 rows=25395 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24632.26..27872.04 rows=30492 width=36) (actual time=1510.997..1620.457 rows=25395 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23632.26..23822.84 rows=15246 width=36) (actual time=1510.694..1605.138 rows=25395 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102031 lineitem  (cost=0.00..23479.80 rows=15246 width=16) (actual time=0.055..1260.098 rows=35450 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 903398
+                               Planning Time: 0.112 ms
+                               Execution Time: 1801.134 ms
+                     ->  Task
+                           Tuple data received from node: 438 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28029.72..28350.96 rows=25699 width=36) (actual time=1661.538..1732.206 rows=25214 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 696kB
+                                 ->  Gather  (cost=24627.23..27805.38 rows=29912 width=36) (actual time=1472.428..1579.084 rows=25214 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23627.23..23814.18 rows=14956 width=36) (actual time=1472.161..1569.797 rows=25214 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102015 lineitem  (cost=0.00..23477.67 rows=14956 width=16) (actual time=0.024..1294.685 rows=35240 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 903268
+                               Planning Time: 0.254 ms
+                               Execution Time: 1762.278 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27898.86..28211.99 rows=25050 width=36) (actual time=1659.707..1731.647 rows=25446 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24614.22..27682.29 rows=28876 width=36) (actual time=1470.120..1559.433 rows=25446 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23614.22..23794.69 rows=14438 width=36) (actual time=1469.842..1552.985 rows=25446 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102029 lineitem  (cost=0.00..23469.84 rows=14438 width=16) (actual time=0.035..1266.855 rows=35413 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 901841
+                               Planning Time: 0.099 ms
+                               Execution Time: 1749.958 ms
+                     ->  Task
+                           Tuple data received from node: 440 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27962.14..28279.86 rows=25418 width=36) (actual time=1545.667..1600.425 rows=25337 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24627.67..27742.28 rows=29314 width=36) (actual time=1372.914..1468.269 rows=25337 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23627.67..23810.88 rows=14657 width=36) (actual time=1372.651..1459.284 rows=25337 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102012 lineitem  (cost=0.00..23481.10 rows=14657 width=16) (actual time=0.018..1209.635 rows=35495 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 903561
+                               Planning Time: 0.279 ms
+                               Execution Time: 1637.857 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28107.36..28433.07 rows=26057 width=36) (actual time=1574.932..1611.389 rows=25439 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 720kB
+                                 ->  Gather  (cost=24630.47..27878.11 rows=30566 width=36) (actual time=1405.114..1488.556 rows=25439 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23630.47..23821.51 rows=15283 width=36) (actual time=1404.836..1479.696 rows=25439 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102036 lineitem  (cost=0.00..23477.64 rows=15283 width=16) (actual time=0.020..1165.483 rows=35500 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 903003
+                               Planning Time: 0.091 ms
+                               Execution Time: 1618.726 ms
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28034.88..28357.56 rows=25814 width=36) (actual time=1518.502..1597.854 rows=25685 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 720kB
+                                 ->  Gather  (cost=24627.39..27810.21 rows=29956 width=36) (actual time=1321.078..1450.546 rows=25685 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23627.39..23814.61 rows=14978 width=36) (actual time=1320.843..1438.714 rows=25685 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102032 lineitem  (cost=0.00..23477.61 rows=14978 width=16) (actual time=0.047..1081.793 rows=35838 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 902659
+                               Planning Time: 0.081 ms
+                               Execution Time: 1608.430 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28050.04..28367.19 rows=25372 width=36) (actual time=1528.074..1589.848 rows=25377 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24696.92..27828.96 rows=29478 width=36) (actual time=1338.952..1437.676 rows=25377 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23696.92..23881.16 rows=14739 width=36) (actual time=1338.689..1428.926 rows=25377 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102034 lineitem  (cost=0.00..23549.53 rows=14739 width=16) (actual time=0.047..1120.870 rows=35429 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 904336
+                               Planning Time: 0.085 ms
+                               Execution Time: 1606.882 ms
+                     ->  Task
+                           Tuple data received from node: 446 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28295.18..28626.09 rows=26473 width=36) (actual time=1501.462..1571.610 rows=25633 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 720kB
+                                 ->  Gather  (cost=24708.64..28058.71 rows=31530 width=36) (actual time=1331.512..1403.795 rows=25633 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23708.64..23905.71 rows=15765 width=36) (actual time=1331.273..1401.023 rows=25633 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102016 lineitem  (cost=0.00..23550.99 rows=15765 width=16) (actual time=0.060..1157.874 rows=35863 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 904136
+                               Planning Time: 0.303 ms
+                               Execution Time: 1603.523 ms
+                     ->  Task
+                           Tuple data received from node: 445 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28175.69..28507.51 rows=26546 width=36) (actual time=1509.775..1588.738 rows=25602 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24619.86..27941.24 rows=31260 width=36) (actual time=1335.917..1413.906 rows=25602 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23619.86..23815.24 rows=15630 width=36) (actual time=1335.650..1411.074 rows=25602 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102024 lineitem  (cost=0.00..23463.56 rows=15630 width=16) (actual time=0.034..1154.741 rows=35878 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900372
+                               Planning Time: 0.102 ms
+                               Execution Time: 1600.246 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27880.21..28187.72 rows=24601 width=36) (actual time=1517.637..1563.474 rows=25408 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24699.53..27670.49 rows=27962 width=36) (actual time=1345.621..1424.131 rows=25408 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23699.53..23874.29 rows=13981 width=36) (actual time=1317.375..1393.223 rows=25408 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102020 lineitem  (cost=0.00..23559.72 rows=13981 width=16) (actual time=0.033..1128.561 rows=35451 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 905944
+                               Planning Time: 0.320 ms
+                               Execution Time: 1579.534 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27633.51..27934.08 rows=24045 width=36) (actual time=1491.557..1560.429 rows=25087 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24529.28..27428.84 rows=27290 width=36) (actual time=1346.440..1407.981 rows=25087 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23529.28..23699.84 rows=13645 width=36) (actual time=1340.177..1399.182 rows=25087 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102038 lineitem  (cost=0.00..23392.83 rows=13645 width=16) (actual time=0.060..1132.428 rows=34737 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 900435
+                               Planning Time: 0.352 ms
+                               Execution Time: 1573.057 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27983.22..28306.32 rows=25848 width=36) (actual time=1482.865..1546.553 rows=25405 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24535.46..27755.89 rows=30310 width=36) (actual time=1353.813..1407.765 rows=25405 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23535.46..23724.89 rows=15155 width=36) (actual time=1353.552..1404.976 rows=25405 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102030 lineitem  (cost=0.00..23383.91 rows=15155 width=16) (actual time=0.059..1144.496 rows=35483 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 898262
+                               Planning Time: 0.092 ms
+                               Execution Time: 1563.566 ms
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28031.51..28352.36 rows=25668 width=36) (actual time=1482.808..1545.584 rows=25571 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24623.56..27806.81 rows=29960 width=36) (actual time=1258.066..1384.256 rows=25571 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23623.56..23810.81 rows=14980 width=36) (actual time=1257.808..1381.475 rows=25571 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102026 lineitem  (cost=0.00..23473.76 rows=14980 width=16) (actual time=0.019..1037.136 rows=35623 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 902258
+                               Planning Time: 0.089 ms
+                               Execution Time: 1560.515 ms
+                     ->  Task
+                           Tuple data received from node: 443 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28111.52..28437.42 rows=26072 width=36) (actual time=1473.718..1523.839 rows=25483 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24623.94..27881.57 rows=30660 width=36) (actual time=1300.946..1371.028 rows=25483 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23623.94..23815.57 rows=15330 width=36) (actual time=1300.729..1368.223 rows=25483 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 648kB
+                                             ->  Parallel Seq Scan on lineitem_102028 lineitem  (cost=0.00..23470.64 rows=15330 width=16) (actual time=0.039..1074.377 rows=35580 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 901803
+                               Planning Time: 0.084 ms
+                               Execution Time: 1540.113 ms
+                     ->  Task
+                           Tuple data received from node: 439 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27924.64..28239.63 rows=25199 width=36) (actual time=1386.316..1448.877 rows=25279 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 704kB
+                                 ->  Gather  (cost=24615.66..27706.47 rows=29090 width=36) (actual time=1208.503..1278.754 rows=25279 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23615.66..23797.47 rows=14545 width=36) (actual time=1207.240..1274.835 rows=25279 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 528kB
+                                             ->  Parallel Seq Scan on lineitem_102040 lineitem  (cost=0.00..23470.21 rows=14545 width=16) (actual time=0.025..1023.833 rows=35119 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 902194
+                               Planning Time: 0.085 ms
+                               Execution Time: 1466.201 ms
+                     ->  Task
+                           Tuple data received from node: 448 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27914.24..28228.06 rows=25106 width=36) (actual time=1313.406..1335.221 rows=25762 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8241kB  Disk Usage: 720kB
+                                 ->  Gather  (cost=24617.76..27696.89 rows=28980 width=36) (actual time=1243.329..1271.423 rows=25762 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 0
+                                       ->  Partial HashAggregate  (cost=23617.76..23798.89 rows=14490 width=36) (actual time=1243.032..1268.482 rows=25762 loops=1)
+                                             Group Key: l_suppkey
+                                             Batches: 5  Memory Usage: 8241kB  Disk Usage: 656kB
+                                             ->  Parallel Seq Scan on lineitem_102018 lineitem  (cost=0.00..23472.86 rows=14490 width=16) (actual time=0.092..1090.720 rows=36107 loops=1)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 901631
+                               Planning Time: 0.303 ms
+                               Execution Time: 1347.850 ms
+                     ->  Task
+                           Tuple data received from node: 442 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27881.46..28193.03 rows=24926 width=36) (actual time=952.338..1045.504 rows=25406 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 728kB
+                                 ->  Gather  (cost=24605.00..27665.43 rows=28804 width=36) (actual time=717.235..815.181 rows=31532 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23605.00..23785.03 rows=14402 width=36) (actual time=691.740..723.622 rows=10511 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 3985kB
+                                             Worker 0:  Batches: 1  Memory Usage: 4497kB
+                                             Worker 1:  Batches: 1  Memory Usage: 4753kB
+                                             ->  Parallel Seq Scan on lineitem_102041 lineitem  (cost=0.00..23460.98 rows=14402 width=16) (actual time=0.049..610.159 rows=11810 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 300136
+                               Planning Time: 0.241 ms
+                               Execution Time: 1059.273 ms
+                     ->  Task
+                           Tuple data received from node: 441 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27895.91..28210.28 rows=25149 width=36) (actual time=922.514..1008.530 rows=25372 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 728kB
+                                 ->  Gather  (cost=24623.33..27680.14 rows=28770 width=36) (actual time=670.959..756.872 rows=31664 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23623.33..23803.14 rows=14385 width=36) (actual time=664.001..695.736 rows=10555 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 4241kB
+                                             Worker 0:  Batches: 1  Memory Usage: 4497kB
+                                             Worker 1:  Batches: 1  Memory Usage: 4497kB
+                                             ->  Parallel Seq Scan on lineitem_102027 lineitem  (cost=0.00..23479.47 rows=14385 width=16) (actual time=1.073..577.129 rows=11840 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 301092
+                               Planning Time: 0.097 ms
+                               Execution Time: 1033.161 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.19 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27944.71..28259.96 rows=25220 width=36) (actual time=885.481..986.671 rows=25069 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 720kB
+                                 ->  Gather  (cost=24613.66..27725.08 rows=29284 width=36) (actual time=642.365..710.234 rows=31108 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23613.66..23796.68 rows=14642 width=36) (actual time=624.352..648.980 rows=10369 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 4241kB
+                                             Worker 0:  Batches: 1  Memory Usage: 3985kB
+                                             Worker 1:  Batches: 1  Memory Usage: 4753kB
+                                             ->  Parallel Seq Scan on lineitem_102017 lineitem  (cost=0.00..23467.24 rows=14642 width=16) (actual time=0.061..559.699 rows=11639 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 300640
+                               Planning Time: 0.255 ms
+                               Execution Time: 1006.584 ms
+                     ->  Task
+                           Tuple data received from node: 433 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27820.04..28129.62 rows=24766 width=36) (actual time=783.661..873.798 rows=24901 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 712kB
+                                 ->  Gather  (cost=24602.51..27607.90 rows=28286 width=36) (actual time=537.025..626.834 rows=30776 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23602.51..23779.30 rows=14143 width=36) (actual time=514.342..534.623 rows=10259 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 4241kB
+                                             Worker 0:  Batches: 1  Memory Usage: 4241kB
+                                             Worker 1:  Batches: 1  Memory Usage: 4241kB
+                                             ->  Parallel Seq Scan on lineitem_102014 lineitem  (cost=0.00..23461.08 rows=14143 width=16) (actual time=0.086..451.776 rows=11511 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 300440
+                               Planning Time: 0.303 ms
+                               Execution Time: 889.090 ms
+                     ->  Task
+                           Tuple data received from node: 444 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=28061.22..28383.22 rows=25760 width=36) (actual time=756.834..833.484 rows=25513 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 728kB
+                                 ->  Gather  (cost=24612.33..27833.83 rows=30320 width=36) (actual time=522.828..613.074 rows=31710 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23612.33..23801.83 rows=15160 width=36) (actual time=495.207..519.838 rows=10570 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 4881kB
+                                             Worker 0:  Batches: 1  Memory Usage: 4625kB
+                                             Worker 1:  Batches: 1  Memory Usage: 5137kB
+                                             ->  Parallel Seq Scan on lineitem_102042 lineitem  (cost=0.00..23460.72 rows=15160 width=16) (actual time=6.062..415.989 rows=11874 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 300058
+                               Planning Time: 0.058 ms
+                               Execution Time: 854.706 ms
+                     ->  Task
+                           Tuple data received from node: 436 kB
+                           Node: host=192.168.1.58 port=5432 dbname=tpch
+                           ->  Finalize HashAggregate  (cost=27997.58..28317.91 rows=25627 width=36) (actual time=747.486..819.629 rows=25081 loops=1)
+                                 Group Key: l_suppkey
+                                 Batches: 5  Memory Usage: 8497kB  Disk Usage: 720kB
+                                 ->  Gather  (cost=24627.62..27775.38 rows=29626 width=36) (actual time=564.269..618.569 rows=30972 loops=1)
+                                       Workers Planned: 2
+                                       Workers Launched: 2
+                                       ->  Partial HashAggregate  (cost=23627.62..23812.78 rows=14813 width=36) (actual time=546.630..558.776 rows=10324 loops=3)
+                                             Group Key: l_suppkey
+                                             Batches: 1  Memory Usage: 4625kB
+                                             Worker 0:  Batches: 1  Memory Usage: 4369kB
+                                             Worker 1:  Batches: 1  Memory Usage: 4881kB
+                                             ->  Parallel Seq Scan on lineitem_102022 lineitem  (cost=0.00..23479.49 rows=14813 width=16) (actual time=0.051..484.878 rows=11551 loops=3)
+                                                   Filter: ((l_shipdate >= '1996-01-01'::date) AND (l_shipdate < '1996-04-01'::date))
+                                                   Rows Removed by Filter: 301382
+                               Planning Time: 0.087 ms
+                               Execution Time: 837.750 ms
+         Planning Time: 0.000 ms
+         Execution Time: 2877.803 ms
+   Task Count: 1
+   Tuple data received from nodes: 84 bytes
+   Tasks Shown: All
+   ->  Task
+         Tuple data received from node: 84 bytes
+         Node: host=192.168.1.19 port=5432 dbname=tpch
+         ->  Sort  (cost=2720.12..2720.13 rows=5 width=103) (actual time=49.358..49.360 rows=1 loops=1)
+               Sort Key: supplier.s_suppkey
+               Sort Method: quicksort  Memory: 25kB
+               InitPlan 1 (returns $0)
+                 ->  Function Scan on read_intermediate_result intermediate_result_1  (cost=0.00..0.00 rows=1 width=32) (actual time=0.039..0.040 rows=1 loops=1)
+               ->  Hash Join  (cost=2241.00..2720.06 rows=5 width=103) (actual time=45.380..49.342 rows=1 loops=1)
+                     Hash Cond: (intermediate_result.supplier_no = supplier.s_suppkey)
+                     ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..399.15 rows=30434 width=36) (actual time=23.801..27.761 rows=1 loops=1)
+                           Filter: (total_revenue = $0)
+                           Rows Removed by Filter: 49999
+                     ->  Hash  (cost=1616.00..1616.00 rows=50000 width=71) (actual time=21.267..21.268 rows=50000 loops=1)
+                           Buckets: 65536  Batches: 1  Memory Usage: 5591kB
+                           ->  Seq Scan on supplier_102010 supplier  (cost=0.00..1616.00 rows=50000 width=71) (actual time=0.020..10.012 rows=50000 loops=1)
+             Planning Time: 0.561 ms
+             Execution Time: 50.186 ms
+ Planning Time: 3.347 ms
+ Execution Time: 5883.834 ms
+(1179 rows)
+
+DROP VIEW

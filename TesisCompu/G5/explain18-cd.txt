@@ -1,0 +1,1135 @@
+SET
+                                                                                                                 QUERY PLAN                                                                                                                 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=3821.93..3822.18 rows=100 width=130) (actual time=854.355..854.357 rows=3 loops=1)
+   ->  Sort  (cost=3821.93..4071.93 rows=100000 width=130) (actual time=854.354..854.355 rows=3 loops=1)
+         Sort Key: remote_scan.o_totalprice DESC, remote_scan.o_orderdate
+         Sort Method: quicksort  Memory: 25kB
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=130) (actual time=854.308..854.309 rows=3 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 162 bytes
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12068.02..12068.27 rows=100 width=71) (actual time=648.286..648.290 rows=0 loops=1)
+                           ->  Sort  (cost=12068.02..12126.55 rows=23415 width=71) (actual time=648.285..648.289 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10880.42..11173.11 rows=23415 width=71) (actual time=648.246..648.249 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3474.66..10756.35 rows=24814 width=44) (actual time=648.157..648.160 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102114 on orders_by_customer_102114 oc  (cost=0.42..6158.30 rows=233508 width=4) (actual time=7.357..7.357 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3162.66..3162.66 rows=24927 width=52) (actual time=640.601..640.603 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=3.04..3162.66 rows=24927 width=52) (actual time=640.590..640.592 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.04..81229.00 rows=249712 width=29) (actual time=636.052..636.053 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47656.59 rows=62463 width=20) (actual time=578.828..578.830 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102082 on orders_102082 o  (cost=0.42..10213.55 rows=234566 width=16) (actual time=3.579..93.809 rows=67579 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36075.83 rows=62463 width=4) (actual time=480.036..480.036 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 67578
+                                                                           ->  Index Only Scan using q18i1_102018 on lineitem_102018 lineitem_1  (cost=0.42..28576.31 rows=937738 width=9) (actual time=0.990..196.714 rows=270327 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102018 on lineitem_102018 lineitem  (cost=0.42..28576.31 rows=937738 width=9) (actual time=0.036..39.093 rows=270320 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102146 on customer_102146 customer  (cost=0.29..823.51 rows=23415 width=23) (actual time=0.033..3.545 rows=23415 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 33.771 ms
+                         Execution Time: 649.135 ms
+               ->  Task
+                     Tuple data received from node: 108 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12231.25..12231.50 rows=100 width=71) (actual time=620.368..620.373 rows=2 loops=1)
+                           ->  Sort  (cost=12231.25..12289.86 rows=23443 width=71) (actual time=620.367..620.371 rows=2 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=11042.24..11335.28 rows=23443 width=71) (actual time=620.301..620.360 rows=2 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3513.28..10914.79 rows=25490 width=44) (actual time=576.174..620.197 rows=189 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102119 on orders_by_customer_102119 oc  (cost=0.42..6260.25 rows=236473 width=4) (actual time=4.023..32.696 rows=236473 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3196.04..3196.04 rows=25346 width=52) (actual time=571.485..571.488 rows=14 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 258kB
+                                                   ->  Merge Join  (cost=3.97..3196.04 rows=25346 width=52) (actual time=8.211..571.471 rows=14 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=3.54..81597.01 rows=254224 width=29) (actual time=7.558..548.289 rows=15 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47860.12 rows=63569 width=20) (actual time=7.266..467.068 rows=3 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102087 on orders_102087 o  (cost=0.42..10229.72 rows=235136 width=16) (actual time=1.105..36.967 rows=46973 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36247.95 rows=63569 width=4) (actual time=6.032..414.097 rows=3 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 46970
+                                                                           ->  Index Only Scan using q18i1_102023 on lineitem_102023 lineitem_1  (cost=0.42..28685.59 rows=940353 width=9) (actual time=1.249..129.342 rows=187852 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102023 on lineitem_102023 lineitem  (cost=0.42..28685.59 rows=940353 width=9) (actual time=0.028..55.698 rows=187845 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102151 on customer_102151 customer  (cost=0.29..823.93 rows=23443 width=23) (actual time=0.029..20.949 rows=23443 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 14.664 ms
+                         Execution Time: 620.953 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12099.86..12100.11 rows=100 width=71) (actual time=607.251..607.256 rows=0 loops=1)
+                           ->  Sort  (cost=12099.86..12158.62 rows=23501 width=71) (actual time=607.250..607.254 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10907.91..11201.67 rows=23501 width=71) (actual time=607.210..607.214 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3492.25..10782.98 rows=24986 width=44) (actual time=607.100..607.104 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102115 on orders_by_customer_102115 oc  (cost=0.42..6168.00 rows=232879 width=4) (actual time=3.764..3.765 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3177.98..3177.98 rows=25108 width=52) (actual time=603.140..603.143 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=2.32..3177.98 rows=25108 width=52) (actual time=603.139..603.141 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.03..81231.92 rows=250019 width=29) (actual time=595.509..595.511 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47647.31 rows=62548 width=20) (actual time=484.561..484.562 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102083 on orders_102083 o  (cost=0.42..10195.34 rows=234016 width=16) (actual time=0.967..76.670 rows=64913 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36085.07 rows=62548 width=4) (actual time=394.938..394.939 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 64912
+                                                                           ->  Index Only Scan using q18i1_102019 on lineitem_102019 lineitem_1  (cost=0.42..28593.34 rows=935415 width=9) (actual time=0.755..112.389 rows=259681 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102019 on lineitem_102019 lineitem  (cost=0.42..28593.34 rows=935415 width=9) (actual time=0.049..81.000 rows=259674 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102147 on customer_102147 customer  (cost=0.29..824.80 rows=23501 width=23) (actual time=0.032..5.629 rows=23501 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 16.497 ms
+                         Execution Time: 608.156 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12142.54..12142.79 rows=100 width=71) (actual time=581.063..581.067 rows=0 loops=1)
+                           ->  Sort  (cost=12142.54..12201.12 rows=23431 width=71) (actual time=581.063..581.066 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10954.14..11247.03 rows=23431 width=71) (actual time=581.022..581.026 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3410.55..10826.27 rows=25573 width=44) (actual time=580.932..580.935 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102126 on orders_by_customer_102126 oc  (cost=0.42..6273.16 rows=236603 width=4) (actual time=6.963..6.963 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3094.45..3094.45 rows=25254 width=52) (actual time=573.760..573.762 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=4.84..3094.45 rows=25254 width=52) (actual time=573.759..573.761 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.79..81040.63 rows=251831 width=29) (actual time=569.019..569.021 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47551.20 rows=63017 width=20) (actual time=508.385..508.386 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102094 on orders_102094 o  (cost=0.42..10195.34 rows=233656 width=16) (actual time=5.618..105.358 rows=87509 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..35984.01 rows=63017 width=4) (actual time=394.910..394.910 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 87508
+                                                                           ->  Index Only Scan using q18i1_102030 on lineitem_102030 lineitem_1  (cost=0.42..28479.54 rows=933745 width=9) (actual time=1.809..161.073 rows=350100 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102030 on lineitem_102030 lineitem  (cost=0.42..28479.54 rows=933745 width=9) (actual time=0.051..41.796 rows=350093 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102158 on customer_102158 customer  (cost=0.29..823.75 rows=23431 width=23) (actual time=0.020..3.743 rows=23431 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 47.662 ms
+                         Execution Time: 593.028 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12238.67..12238.92 rows=100 width=71) (actual time=497.311..497.316 rows=0 loops=1)
+                           ->  Sort  (cost=12238.67..12297.67 rows=23598 width=71) (actual time=497.309..497.313 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=11041.80..11336.77 rows=23598 width=71) (actual time=497.089..497.094 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3501.67..10907.68 rows=26824 width=44) (actual time=496.976..496.980 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102108 on orders_by_customer_102108 oc  (cost=0.42..6245.15 rows=238142 width=4) (actual time=3.777..3.778 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3171.34..3171.34 rows=26393 width=52) (actual time=492.234..492.237 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=2.05..3171.34 rows=26393 width=52) (actual time=492.232..492.234 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=1.50..81498.90 rows=262061 width=29) (actual time=479.571..479.573 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47806.60 rows=65389 width=20) (actual time=403.629..403.631 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102076 on orders_102076 o  (cost=0.42..10205.09 rows=234312 width=16) (actual time=4.352..114.688 rows=42669 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36198.36 rows=65389 width=4) (actual time=283.424..283.425 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 42668
+                                                                           ->  Index Only Scan using q18i1_102012 on lineitem_102012 lineitem_1  (cost=0.42..28560.58 rows=939056 width=9) (actual time=0.911..94.753 rows=171014 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102012 on lineitem_102012 lineitem  (cost=0.42..28560.58 rows=939056 width=9) (actual time=0.020..49.129 rows=171007 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102140 on customer_102140 customer  (cost=0.29..830.26 rows=23598 width=23) (actual time=0.027..10.647 rows=23598 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 39.512 ms
+                         Execution Time: 500.988 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12163.86..12164.11 rows=100 width=71) (actual time=489.311..489.317 rows=0 loops=1)
+                           ->  Sort  (cost=12163.86..12222.43 rows=23427 width=71) (actual time=489.310..489.316 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10975.66..11268.49 rows=23427 width=71) (actual time=489.269..489.274 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3571.81..10851.24 rows=24883 width=44) (actual time=489.156..489.161 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102127 on orders_by_customer_102127 oc  (cost=0.42..6152.34 rows=234314 width=4) (actual time=4.527..52.336 rows=234314 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3259.79..3259.79 rows=24928 width=52) (actual time=409.671..409.675 rows=7 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 257kB
+                                                   ->  Merge Join  (cost=6.15..3259.79 rows=24928 width=52) (actual time=78.186..409.653 rows=7 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=5.86..81205.95 rows=249785 width=29) (actual time=58.551..388.263 rows=8 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47648.28 rows=62454 width=20) (actual time=45.951..323.122 rows=2 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102095 on orders_102095 o  (cost=0.42..10218.61 rows=234741 width=16) (actual time=1.836..26.685 rows=54156 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36062.14 rows=62454 width=4) (actual time=38.115..289.171 rows=2 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 54154
+                                                                           ->  Index Only Scan using q18i1_102031 on lineitem_102031 lineitem_1  (cost=0.42..28557.46 rows=938848 width=9) (actual time=0.477..112.314 rows=215402 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102031 on lineitem_102031 lineitem  (cost=0.42..28557.46 rows=938848 width=9) (actual time=0.027..45.728 rows=215395 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102159 on customer_102159 customer  (cost=0.29..823.69 rows=23427 width=23) (actual time=0.029..19.383 rows=23427 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 36.405 ms
+                         Execution Time: 490.510 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12171.47..12171.72 rows=100 width=71) (actual time=485.191..485.196 rows=0 loops=1)
+                           ->  Sort  (cost=12171.47..12230.09 rows=23450 width=71) (actual time=485.190..485.194 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10982.10..11275.23 rows=23450 width=71) (actual time=485.151..485.155 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3573.99..10853.51 rows=25719 width=44) (actual time=485.056..485.059 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102137 on orders_by_customer_102137 oc  (cost=0.42..6141.89 rows=234894 width=4) (actual time=3.748..3.748 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3252.94..3252.94 rows=25650 width=52) (actual time=481.121..481.124 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=5.22..3252.94 rows=25650 width=52) (actual time=481.120..481.122 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=3.06..81420.15 rows=256235 width=29) (actual time=475.407..475.409 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47760.86 rows=64141 width=20) (actual time=408.272..408.273 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102105 on orders_102105 o  (cost=0.42..10207.19 rows=234260 width=16) (actual time=2.111..43.418 rows=56808 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36166.26 rows=64141 width=4) (actual time=348.789..348.789 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 56807
+                                                                           ->  Index Only Scan using q18i1_102041 on lineitem_102041 lineitem_1  (cost=0.42..28600.73 rows=935837 width=9) (actual time=0.825..112.615 rows=227323 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102041 on lineitem_102041 lineitem  (cost=0.42..28600.73 rows=935837 width=9) (actual time=0.046..45.559 rows=227316 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102169 on customer_102169 customer  (cost=0.29..824.04 rows=23450 width=23) (actual time=0.026..4.760 rows=23450 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 31.826 ms
+                         Execution Time: 486.000 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12000.89..12001.14 rows=100 width=71) (actual time=469.907..469.912 rows=0 loops=1)
+                           ->  Sort  (cost=12000.89..12059.39 rows=23402 width=71) (actual time=469.906..469.911 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10813.95..11106.48 rows=23402 width=71) (actual time=469.868..469.873 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3411.65..10692.10 rows=24370 width=44) (actual time=469.772..469.777 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102133 on orders_by_customer_102133 oc  (cost=0.42..6161.81 rows=233434 width=4) (actual time=18.104..68.132 rows=233434 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3105.04..3105.04 rows=24495 width=52) (actual time=376.096..376.100 rows=7 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 257kB
+                                                   ->  Merge Join  (cost=8.17..3105.04 rows=24495 width=52) (actual time=6.406..376.085 rows=7 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=4.30..81103.63 rows=245599 width=29) (actual time=6.294..357.468 rows=8 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47586.13 rows=61421 width=20) (actual time=6.227..298.447 rows=2 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102101 on orders_102101 o  (cost=0.42..10212.75 rows=234639 width=16) (actual time=5.221..26.261 rows=29252 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36019.02 rows=61421 width=4) (actual time=0.981..257.825 rows=2 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 29250
+                                                                           ->  Index Only Scan using q18i1_102037 on lineitem_102037 lineitem_1  (cost=0.42..28563.94 rows=938230 width=9) (actual time=0.883..94.623 rows=116660 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102037 on lineitem_102037 lineitem  (cost=0.42..28563.94 rows=938230 width=9) (actual time=0.026..36.938 rows=116653 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102165 on customer_102165 customer  (cost=0.29..823.32 rows=23402 width=23) (actual time=0.034..13.543 rows=23402 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 40.736 ms
+                         Execution Time: 470.700 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=11988.14..11988.39 rows=100 width=71) (actual time=461.288..461.292 rows=0 loops=1)
+                           ->  Sort  (cost=11988.14..12047.08 rows=23578 width=71) (actual time=461.287..461.291 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10792.28..11087.00 rows=23578 width=71) (actual time=461.247..461.251 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3390.04..10664.35 rows=25585 width=44) (actual time=461.153..461.157 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102138 on orders_by_customer_102138 oc  (cost=0.42..6135.78 rows=235495 width=4) (actual time=10.210..10.210 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3071.80..3071.80 rows=25426 width=52) (actual time=450.745..450.747 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=8.04..3071.80 rows=25426 width=52) (actual time=450.744..450.746 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=4.24..81289.91 rows=252383 width=29) (actual time=446.189..446.190 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47681.71 rows=63120 width=20) (actual time=414.788..414.789 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102106 on orders_102106 o  (cost=0.42..10197.37 rows=234039 width=16) (actual time=4.043..82.069 rows=59008 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36110.25 rows=63120 width=4) (actual time=328.613..328.613 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 59007
+                                                                           ->  Index Only Scan using q18i1_102042 on lineitem_102042 lineitem_1  (cost=0.42..28590.87 rows=935796 width=9) (actual time=2.039..132.237 rows=236247 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102042 on lineitem_102042 lineitem  (cost=0.42..28590.87 rows=935796 width=9) (actual time=0.035..21.778 rows=236240 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102170 on customer_102170 customer  (cost=0.29..829.96 rows=23578 width=23) (actual time=0.020..3.570 rows=23578 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 27.376 ms
+                         Execution Time: 462.185 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=11982.21..11982.46 rows=100 width=71) (actual time=454.068..454.073 rows=0 loops=1)
+                           ->  Sort  (cost=11982.21..12039.74 rows=23014 width=71) (actual time=454.067..454.072 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10814.95..11102.63 rows=23014 width=71) (actual time=454.017..454.022 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3520.50..10694.69 rows=24053 width=44) (actual time=453.902..453.907 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102113 on orders_by_customer_102113 oc  (cost=0.42..6075.75 rows=228888 width=4) (actual time=1.077..1.077 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3212.90..3212.90 rows=24574 width=52) (actual time=452.621..452.625 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=4.15..3212.90 rows=24574 width=52) (actual time=452.620..452.623 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.80..81193.97 rows=249699 width=29) (actual time=434.784..434.787 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47622.79 rows=62329 width=20) (actual time=329.168..329.169 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102081 on orders_102081 o  (cost=0.42..10189.18 rows=233850 width=16) (actual time=1.374..47.463 rows=36876 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36069.87 rows=62329 width=4) (actual time=277.280..277.281 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 36875
+                                                                           ->  Index Only Scan using q18i1_102017 on lineitem_102017 lineitem_1  (cost=0.42..28580.87 rows=936838 width=9) (actual time=1.150..121.945 rows=147752 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102017 on lineitem_102017 lineitem  (cost=0.42..28580.87 rows=936838 width=9) (actual time=0.028..70.722 rows=147745 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102145 on customer_102145 customer  (cost=0.29..809.50 rows=23014 width=23) (actual time=0.029..9.841 rows=23014 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 22.133 ms
+                         Execution Time: 457.948 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12331.84..12332.09 rows=100 width=71) (actual time=450.307..450.312 rows=0 loops=1)
+                           ->  Sort  (cost=12331.84..12390.86 rows=23609 width=71) (actual time=450.306..450.310 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=11134.41..11429.52 rows=23609 width=71) (actual time=450.264..450.268 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3582.39..11005.46 rows=25789 width=44) (actual time=450.142..450.147 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102122 on orders_by_customer_102122 oc  (cost=0.42..6279.75 rows=236228 width=4) (actual time=5.863..158.320 rows=236228 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3262.61..3262.61 rows=25549 width=52) (actual time=242.975..242.978 rows=7 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 257kB
+                                                   ->  Merge Join  (cost=11.73..3262.61 rows=25549 width=52) (actual time=75.899..242.957 rows=7 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=5.75..81282.02 rows=253262 width=29) (actual time=57.063..223.986 rows=8 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47676.18 rows=63197 width=20) (actual time=47.639..174.617 rows=2 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102090 on orders_102090 o  (cost=0.42..10196.98 rows=234031 width=16) (actual time=1.675..36.932 rows=23362 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36104.16 rows=63197 width=4) (actual time=31.805..132.822 rows=2 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 23360
+                                                                           ->  Index Only Scan using q18i1_102026 on lineitem_102026 lineitem_1  (cost=0.42..28570.89 rows=937881 width=9) (actual time=3.001..59.325 rows=93812 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102026 on lineitem_102026 lineitem  (cost=0.42..28570.89 rows=937881 width=9) (actual time=0.026..27.009 rows=93805 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102154 on customer_102154 customer  (cost=0.29..830.42 rows=23609 width=23) (actual time=0.024..10.856 rows=23609 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 13.197 ms
+                         Execution Time: 451.944 ms
+               ->  Task
+                     Tuple data received from node: 54 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12166.60..12166.85 rows=100 width=71) (actual time=448.119..448.123 rows=1 loops=1)
+                           ->  Sort  (cost=12166.60..12225.23 rows=23455 width=71) (actual time=448.117..448.122 rows=1 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10976.98..11270.16 rows=23455 width=71) (actual time=447.993..448.084 rows=1 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3676.87..10849.75 rows=25446 width=44) (actual time=384.177..447.945 rows=49 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102120 on orders_by_customer_102120 oc  (cost=0.42..6052.63 rows=230992 width=4) (actual time=4.528..62.858 rows=230992 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3354.05..3354.05 rows=25792 width=52) (actual time=356.592..356.595 rows=7 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 257kB
+                                                   ->  Merge Join  (cost=4.96..3354.05 rows=25792 width=52) (actual time=107.855..356.569 rows=7 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=3.50..81440.18 rows=257472 width=29) (actual time=89.511..333.512 rows=8 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47765.86 rows=64389 width=20) (actual time=73.761..279.854 rows=2 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102088 on orders_102088 o  (cost=0.42..10198.16 rows=234139 width=16) (actual time=2.312..71.083 rows=23750 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36177.49 rows=64389 width=4) (actual time=52.318..205.994 rows=2 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 23748
+                                                                           ->  Index Only Scan using q18i1_102024 on lineitem_102024 lineitem_1  (cost=0.42..28598.74 rows=936250 width=9) (actual time=0.808..47.843 rows=94701 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102024 on lineitem_102024 lineitem  (cost=0.42..28598.74 rows=936250 width=9) (actual time=0.033..28.598 rows=94694 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102152 on customer_102152 customer  (cost=0.29..824.11 rows=23455 width=23) (actual time=0.025..20.961 rows=23455 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 27.785 ms
+                         Execution Time: 449.012 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12170.23..12170.48 rows=100 width=71) (actual time=426.981..426.987 rows=0 loops=1)
+                           ->  Sort  (cost=12170.23..12228.79 rows=23425 width=71) (actual time=426.980..426.986 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10982.13..11274.94 rows=23425 width=71) (actual time=426.933..426.939 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3561.17..10852.55 rows=25916 width=44) (actual time=426.818..426.824 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102135 on orders_by_customer_102135 oc  (cost=0.42..6154.68 rows=234121 width=4) (actual time=15.212..15.213 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3236.94..3236.94 rows=25905 width=52) (actual time=411.413..411.418 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=8.07..3236.94 rows=25905 width=52) (actual time=411.413..411.416 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=5.72..81481.66 rows=258792 width=29) (actual time=398.894..398.896 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47795.10 rows=64708 width=20) (actual time=326.268..326.270 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102103 on orders_102103 o  (cost=0.42..10209.66 rows=234021 width=16) (actual time=3.040..24.416 rows=33350 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36191.54 rows=64708 width=4) (actual time=288.807..288.807 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 33349
+                                                                           ->  Index Only Scan using q18i1_102039 on lineitem_102039 lineitem_1  (cost=0.42..28599.96 rows=935940 width=9) (actual time=2.586..93.840 rows=133831 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102039 on lineitem_102039 lineitem  (cost=0.42..28599.96 rows=935940 width=9) (actual time=0.028..51.129 rows=133824 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102167 on customer_102167 customer  (cost=0.29..823.66 rows=23425 width=23) (actual time=0.031..5.430 rows=23425 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 39.955 ms
+                         Execution Time: 427.976 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12115.80..12116.05 rows=100 width=71) (actual time=417.537..417.542 rows=0 loops=1)
+                           ->  Sort  (cost=12115.80..12174.01 rows=23285 width=71) (actual time=417.536..417.541 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10934.80..11225.86 rows=23285 width=71) (actual time=417.502..417.507 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3520.61..10813.27 rows=24306 width=44) (actual time=417.379..417.383 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102116 on orders_by_customer_102116 oc  (cost=0.42..6179.40 rows=232167 width=4) (actual time=8.526..8.526 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3212.52..3212.52 rows=24614 width=52) (actual time=408.545..408.549 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=6.47..3212.52 rows=24614 width=52) (actual time=408.544..408.547 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=5.13..81421.59 rows=248536 width=29) (actual time=390.697..390.699 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47760.25 rows=62072 width=20) (actual time=316.902..316.904 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102084 on orders_102084 o  (cost=0.42..10227.69 rows=235114 width=16) (actual time=2.591..85.241 rows=20768 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36168.88 rows=62072 width=4) (actual time=228.875..228.876 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 20767
+                                                                           ->  Index Only Scan using q18i1_102020 on lineitem_102020 lineitem_1  (cost=0.42..28668.66 rows=941395 width=9) (actual time=0.453..84.447 rows=83404 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102020 on lineitem_102020 lineitem  (cost=0.42..28668.66 rows=941395 width=9) (actual time=0.027..44.522 rows=83397 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102148 on customer_102148 customer  (cost=0.29..817.56 rows=23285 width=23) (actual time=0.036..15.850 rows=23285 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 26.004 ms
+                         Execution Time: 418.384 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12107.19..12107.44 rows=100 width=71) (actual time=406.234..406.239 rows=0 loops=1)
+                           ->  Sort  (cost=12107.19..12165.90 rows=23484 width=71) (actual time=406.233..406.238 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10916.10..11209.65 rows=23484 width=71) (actual time=406.193..406.197 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3388.36..10789.20 rows=25380 width=44) (actual time=406.084..406.088 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102125 on orders_by_customer_102125 oc  (cost=0.42..6257.90 rows=237215 width=4) (actual time=4.700..4.700 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3074.68..3074.68 rows=25061 width=52) (actual time=401.198..401.201 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=3.04..3074.68 rows=25061 width=52) (actual time=401.197..401.199 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.04..81224.87 rows=249962 width=29) (actual time=385.331..385.333 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47646.24 rows=62470 width=20) (actual time=285.857..285.858 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102093 on orders_102093 o  (cost=0.42..10201.10 rows=234237 width=16) (actual time=1.743..30.143 rows=37231 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36078.67 rows=62470 width=4) (actual time=248.259..248.260 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 37230
+                                                                           ->  Index Only Scan using q18i1_102029 on lineitem_102029 lineitem_1  (cost=0.42..28581.24 rows=937254 width=9) (actual time=1.878..100.453 rows=148804 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102029 on lineitem_102029 lineitem  (cost=0.42..28581.24 rows=937254 width=9) (actual time=0.034..50.608 rows=148797 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102157 on customer_102157 customer  (cost=0.29..824.55 rows=23484 width=23) (actual time=0.045..13.852 rows=23484 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 38.298 ms
+                         Execution Time: 411.783 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12302.39..12302.64 rows=100 width=71) (actual time=406.275..406.282 rows=0 loops=1)
+                           ->  Sort  (cost=12302.39..12361.18 rows=23518 width=71) (actual time=406.274..406.280 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=11109.57..11403.55 rows=23518 width=71) (actual time=400.151..400.157 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3576.99..10982.58 rows=25398 width=44) (actual time=400.041..400.046 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102129 on orders_by_customer_102129 oc  (cost=0.42..6264.60 rows=236649 width=4) (actual time=5.527..5.528 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3261.87..3261.87 rows=25176 width=52) (actual time=394.316..394.320 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=3.08..3261.87 rows=25176 width=52) (actual time=394.315..394.318 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.79..81288.31 rows=251125 width=29) (actual time=378.620..378.622 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47689.65 rows=62887 width=20) (actual time=292.653..292.655 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102097 on orders_102097 o  (cost=0.42..10214.56 rows=234583 width=16) (actual time=5.210..46.757 rows=30351 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36102.54 rows=62887 width=4) (actual time=238.639..238.640 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 30350
+                                                                           ->  Index Only Scan using q18i1_102033 on lineitem_102033 lineitem_1  (cost=0.42..28588.86 rows=936754 width=9) (actual time=1.085..101.620 rows=121230 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102033 on lineitem_102033 lineitem  (cost=0.42..28588.86 rows=936754 width=9) (actual time=0.027..69.318 rows=121223 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102161 on customer_102161 customer  (cost=0.29..825.06 rows=23518 width=23) (actual time=0.031..7.693 rows=23518 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 36.674 ms
+                         Execution Time: 407.088 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12108.50..12108.75 rows=100 width=71) (actual time=388.233..388.238 rows=0 loops=1)
+                           ->  Sort  (cost=12108.50..12166.71 rows=23282 width=71) (actual time=388.233..388.237 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10927.66..11218.68 rows=23282 width=71) (actual time=388.189..388.194 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3529.08..10800.91 rows=25349 width=44) (actual time=388.096..388.100 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102134 on orders_by_customer_102134 oc  (cost=0.42..6137.20 rows=235085 width=4) (actual time=9.137..9.138 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3213.16..3213.16 rows=25240 width=52) (actual time=378.732..378.736 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=3.09..3213.16 rows=25240 width=52) (actual time=378.731..378.734 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=1.86..81061.66 rows=253768 width=29) (actual time=364.623..364.624 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47569.70 rows=63520 width=20) (actual time=331.383..331.384 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102102 on orders_102102 o  (cost=0.42..10198.36 rows=234080 width=16) (actual time=2.297..48.774 rows=39959 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..35992.14 rows=63520 width=4) (actual time=277.889..277.890 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 39958
+                                                                           ->  Index Only Scan using q18i1_102038 on lineitem_102038 lineitem_1  (cost=0.42..28457.88 rows=935172 width=9) (actual time=1.083..96.970 rows=159512 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102038 on lineitem_102038 lineitem  (cost=0.42..28457.88 rows=935172 width=9) (actual time=0.042..22.138 rows=159505 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102166 on customer_102166 customer  (cost=0.29..817.52 rows=23282 width=23) (actual time=0.024..12.807 rows=23282 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 40.424 ms
+                         Execution Time: 395.778 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12195.12..12195.37 rows=100 width=71) (actual time=368.938..368.942 rows=0 loops=1)
+                           ->  Sort  (cost=12195.12..12253.86 rows=23496 width=71) (actual time=368.937..368.941 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=11003.42..11297.12 rows=23496 width=71) (actual time=368.883..368.887 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3601.23..10874.03 rows=25877 width=44) (actual time=368.772..368.776 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102111 on orders_by_customer_102111 oc  (cost=0.42..6131.89 rows=235348 width=4) (actual time=0.997..0.998 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3278.15..3278.15 rows=25813 width=52) (actual time=367.508..367.511 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=2.45..3278.15 rows=25813 width=52) (actual time=367.507..367.509 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.01..81411.98 rows=257904 width=29) (actual time=346.009..346.011 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47769.39 rows=64512 width=20) (actual time=196.594..196.595 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102079 on orders_102079 o  (cost=0.42..10222.28 rows=234758 width=16) (actual time=1.407..65.272 rows=45780 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36153.81 rows=64512 width=4) (actual time=125.433..125.434 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 45779
+                                                                           ->  Index Only Scan using q18i1_102015 on lineitem_102015 lineitem_1  (cost=0.42..28558.23 rows=938508 width=9) (actual time=0.787..44.128 rows=182676 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102015 on lineitem_102015 lineitem  (cost=0.42..28558.23 rows=938508 width=9) (actual time=0.030..106.931 rows=182669 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102143 on customer_102143 customer  (cost=0.29..824.73 rows=23496 width=23) (actual time=0.028..19.515 rows=23496 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 11.649 ms
+                         Execution Time: 369.977 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12337.60..12337.85 rows=100 width=71) (actual time=317.519..317.524 rows=0 loops=1)
+                           ->  Sort  (cost=12337.60..12396.87 rows=23707 width=71) (actual time=317.517..317.521 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=11135.20..11431.53 rows=23707 width=71) (actual time=317.446..317.450 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3599.18..11005.39 rows=25962 width=44) (actual time=317.336..317.341 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102107 on orders_by_customer_102107 oc  (cost=0.42..6257.67 rows=237153 width=4) (actual time=1.107..1.108 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3278.66..3278.66 rows=25608 width=52) (actual time=315.835..315.838 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=3.48..3278.66 rows=25608 width=52) (actual time=315.834..315.836 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.78..81021.90 rows=252664 width=29) (actual time=303.509..303.511 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47542.44 rows=63205 width=20) (actual time=213.329..213.330 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102075 on orders_102075 o  (cost=0.42..10188.63 rows=233913 width=16) (actual time=1.345..53.192 rows=35222 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..35978.97 rows=63205 width=4) (actual time=144.899..144.900 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 35221
+                                                                           ->  Index Only Scan using q18i1_102011 on lineitem_102011 lineitem_1  (cost=0.42..28459.38 rows=935076 width=9) (actual time=1.003..67.552 rows=140755 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102011 on lineitem_102011 lineitem  (cost=0.42..28459.38 rows=935076 width=9) (actual time=0.041..72.332 rows=140748 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102139 on customer_102139 customer  (cost=0.29..831.89 rows=23707 width=23) (actual time=0.028..10.317 rows=23707 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 22.299 ms
+                         Execution Time: 319.058 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12155.56..12155.81 rows=100 width=71) (actual time=298.036..298.042 rows=0 loops=1)
+                           ->  Sort  (cost=12155.56..12213.40 rows=23138 width=71) (actual time=298.035..298.040 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10982.01..11271.24 rows=23138 width=71) (actual time=297.994..297.999 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3567.14..10857.05 rows=24992 width=44) (actual time=297.876..297.881 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102131 on orders_by_customer_102131 oc  (cost=0.42..6166.36 rows=233079 width=4) (actual time=5.753..5.754 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3252.16..3252.16 rows=25165 width=52) (actual time=291.919..291.923 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=2.65..3252.16 rows=25165 width=52) (actual time=291.918..291.921 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.02..81638.91 rows=255254 width=29) (actual time=270.235..270.237 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47874.04 rows=63762 width=20) (actual time=215.374..215.375 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102099 on orders_102099 o  (cost=0.42..10215.80 rows=234693 width=16) (actual time=6.219..35.949 rows=17576 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36274.48 rows=63762 width=4) (actual time=171.305..171.306 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 17575
+                                                                           ->  Index Only Scan using q18i1_102035 on lineitem_102035 lineitem_1  (cost=0.42..28707.53 rows=939532 width=9) (actual time=1.856..76.722 rows=70606 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102035 on lineitem_102035 lineitem  (cost=0.42..28707.53 rows=939532 width=9) (actual time=0.029..48.719 rows=70599 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102163 on customer_102163 customer  (cost=0.29..811.36 rows=23138 width=23) (actual time=0.034..19.677 rows=23138 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 36.651 ms
+                         Execution Time: 301.889 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=11998.00..11998.25 rows=100 width=71) (actual time=290.768..290.773 rows=0 loops=1)
+                           ->  Sort  (cost=11998.00..12056.21 rows=23286 width=71) (actual time=290.767..290.772 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10816.95..11108.02 rows=23286 width=71) (actual time=290.715..290.720 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3417.38..10692.22 rows=24946 width=44) (actual time=290.585..290.590 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102121 on orders_by_customer_102121 oc  (cost=0.42..6148.89 rows=233845 width=4) (actual time=0.790..0.790 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3105.22..3105.22 rows=24939 width=52) (actual time=289.608..289.612 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=3.88..3105.22 rows=24939 width=52) (actual time=289.608..289.610 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=3.55..80987.51 rows=250385 width=29) (actual time=268.378..268.381 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47521.70 rows=62687 width=20) (actual time=206.784..206.786 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102089 on orders_102089 o  (cost=0.42..10192.70 rows=233787 width=16) (actual time=1.932..15.557 rows=22874 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..35960.95 rows=62687 width=4) (actual time=182.505..182.506 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 22873
+                                                                           ->  Index Only Scan using q18i1_102025 on lineitem_102025 lineitem_1  (cost=0.42..28471.05 rows=933796 width=9) (actual time=0.446..62.208 rows=91572 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102025 on lineitem_102025 lineitem  (cost=0.42..28471.05 rows=933796 width=9) (actual time=0.033..47.963 rows=91565 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102153 on customer_102153 customer  (cost=0.29..817.58 rows=23286 width=23) (actual time=0.026..19.250 rows=23286 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 32.752 ms
+                         Execution Time: 295.639 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12015.01..12015.26 rows=100 width=71) (actual time=285.682..285.688 rows=0 loops=1)
+                           ->  Sort  (cost=12015.01..12073.01 rows=23200 width=71) (actual time=285.682..285.687 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10838.32..11128.32 rows=23200 width=71) (actual time=285.638..285.643 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3552.14..10711.24 rows=25415 width=44) (actual time=285.533..285.537 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102136 on orders_by_customer_102136 oc  (cost=0.42..6036.05 rows=231821 width=4) (actual time=14.524..14.524 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3230.78..3230.78 rows=25675 width=52) (actual time=270.816..270.820 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=3.01..3230.78 rows=25675 width=52) (actual time=270.815..270.818 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=1.90..81461.30 rows=259178 width=29) (actual time=255.865..255.867 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47782.59 rows=64757 width=20) (actual time=208.541..208.542 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102104 on orders_102104 o  (cost=0.42..10204.88 rows=234193 width=16) (actual time=6.641..86.665 rows=18141 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36182.77 rows=64757 width=4) (actual time=119.667..119.668 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 18140
+                                                                           ->  Index Only Scan using q18i1_102040 on lineitem_102040 lineitem_1  (cost=0.42..28582.12 rows=937313 width=9) (actual time=2.518..33.470 rows=72384 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102040 on lineitem_102040 lineitem  (cost=0.42..28582.12 rows=937313 width=9) (actual time=0.045..27.115 rows=72377 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102168 on customer_102168 customer  (cost=0.29..816.29 rows=23200 width=23) (actual time=0.027..12.942 rows=23200 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 40.088 ms
+                         Execution Time: 286.567 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12112.48..12112.73 rows=100 width=71) (actual time=248.905..248.911 rows=0 loops=1)
+                           ->  Sort  (cost=12112.48..12171.59 rows=23644 width=71) (actual time=248.904..248.910 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10913.27..11208.82 rows=23644 width=71) (actual time=248.867..248.872 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3389.32..10784.54 rows=25746 width=44) (actual time=248.757..248.762 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102132 on orders_by_customer_102132 oc  (cost=0.42..6245.16 rows=238143 width=4) (actual time=7.084..7.085 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3072.26..3072.26 rows=25331 width=52) (actual time=241.437..241.441 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=2.62..3072.26 rows=25331 width=52) (actual time=241.436..241.439 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.03..81219.50 rows=251034 width=29) (actual time=222.377..222.379 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47646.64 rows=62674 width=20) (actual time=186.210..186.212 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102100 on orders_102100 o  (cost=0.42..10204.11 rows=234310 width=16) (actual time=5.296..64.250 rows=12162 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36073.33 rows=62674 width=4) (actual time=120.407..120.408 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 12161
+                                                                           ->  Index Only Scan using q18i1_102036 on lineitem_102036 lineitem_1  (cost=0.42..28560.47 rows=938503 width=9) (actual time=0.835..77.217 rows=48532 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102036 on lineitem_102036 lineitem  (cost=0.42..28560.47 rows=938503 width=9) (actual time=0.029..31.914 rows=48525 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102164 on customer_102164 customer  (cost=0.29..830.95 rows=23644 width=23) (actual time=0.024..11.060 rows=23644 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 54.639 ms
+                         Execution Time: 249.735 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12151.82..12152.07 rows=100 width=71) (actual time=236.470..236.477 rows=0 loops=1)
+                           ->  Sort  (cost=12151.82..12210.35 rows=23413 width=71) (actual time=236.469..236.475 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10964.33..11256.99 rows=23413 width=71) (actual time=236.427..236.433 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3539.01..10837.96 rows=25275 width=44) (actual time=236.291..236.297 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102124 on orders_by_customer_102124 oc  (cost=0.42..6172.14 rows=233194 width=4) (actual time=10.525..10.525 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3221.33..3221.33 rows=25381 width=52) (actual time=225.562..225.566 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=6.95..3221.33 rows=25381 width=52) (actual time=225.560..225.564 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=6.55..81320.93 rows=253855 width=29) (actual time=193.558..193.561 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47698.72 rows=63417 width=20) (actual time=160.906..160.908 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102092 on orders_102092 o  (cost=0.42..10196.71 rows=234173 width=16) (actual time=6.710..29.769 rows=11690 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36123.86 rows=63417 width=4) (actual time=129.742..129.743 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 11689
+                                                                           ->  Index Only Scan using q18i1_102028 on lineitem_102028 lineitem_1  (cost=0.42..28583.17 rows=937383 width=9) (actual time=0.794..28.544 rows=46776 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102028 on lineitem_102028 lineitem  (cost=0.42..28583.17 rows=937383 width=9) (actual time=0.033..28.447 rows=46769 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102156 on customer_102156 customer  (cost=0.29..823.48 rows=23413 width=23) (actual time=0.027..29.899 rows=23413 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 40.978 ms
+                         Execution Time: 247.455 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12014.50..12014.75 rows=100 width=71) (actual time=228.716..228.722 rows=0 loops=1)
+                           ->  Sort  (cost=12014.50..12073.08 rows=23430 width=71) (actual time=228.715..228.720 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10826.15..11119.02 rows=23430 width=71) (actual time=228.676..228.681 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3435.73..10705.30 rows=24170 width=44) (actual time=228.558..228.563 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102130 on orders_by_customer_102130 oc  (cost=0.42..6150.28 rows=234134 width=4) (actual time=16.944..16.944 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3132.29..3132.29 rows=24242 width=52) (actual time=211.418..211.422 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=4.26..3132.29 rows=24242 width=52) (actual time=211.417..211.420 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.85..81315.06 rows=242975 width=29) (actual time=181.506..181.508 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47693.36 rows=60716 width=20) (actual time=165.874..165.875 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102098 on orders_102098 o  (cost=0.42..10222.07 rows=234834 width=16) (actual time=3.791..43.076 rows=13495 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36125.26 rows=60716 width=4) (actual time=121.182..121.183 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 13494
+                                                                           ->  Index Only Scan using q18i1_102034 on lineitem_102034 lineitem_1  (cost=0.42..28694.21 rows=939765 width=9) (actual time=0.470..22.305 rows=54088 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102034 on lineitem_102034 lineitem  (cost=0.42..28694.21 rows=939765 width=9) (actual time=0.030..10.519 rows=54081 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102162 on customer_102162 customer  (cost=0.29..823.74 rows=23430 width=23) (actual time=0.031..24.882 rows=23430 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 40.242 ms
+                         Execution Time: 229.599 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12074.24..12074.49 rows=100 width=71) (actual time=179.079..179.084 rows=0 loops=1)
+                           ->  Sort  (cost=12074.24..12133.14 rows=23560 width=71) (actual time=179.078..179.082 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10879.30..11173.80 rows=23560 width=71) (actual time=179.037..179.042 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3463.24..10750.04 rows=25852 width=44) (actual time=178.913..178.917 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102118 on orders_by_customer_102118 oc  (cost=0.42..6151.66 rows=233877 width=4) (actual time=2.608..2.608 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3138.69..3138.69 rows=25930 width=52) (actual time=176.096..176.099 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=4.84..3138.69 rows=25930 width=52) (actual time=176.095..176.098 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=3.50..81399.15 rows=258181 width=29) (actual time=142.152..142.154 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47758.50 rows=64513 width=20) (actual time=98.281..98.282 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102086 on orders_102086 o  (cost=0.42..10213.54 rows=234582 width=16) (actual time=3.179..18.915 rows=6690 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36152.10 rows=64513 width=4) (actual time=78.514..78.514 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 6689
+                                                                           ->  Index Only Scan using q18i1_102022 on lineitem_102022 lineitem_1  (cost=0.42..28555.02 rows=938798 width=9) (actual time=7.118..20.648 rows=26605 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102022 on lineitem_102022 lineitem  (cost=0.42..28555.02 rows=938798 width=9) (actual time=0.027..17.246 rows=26598 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102150 on customer_102150 customer  (cost=0.29..829.69 rows=23560 width=23) (actual time=0.026..19.694 rows=23560 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 14.302 ms
+                         Execution Time: 180.010 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=11987.21..11987.46 rows=100 width=71) (actual time=157.078..157.083 rows=0 loops=1)
+                           ->  Sort  (cost=11987.21..12046.02 rows=23524 width=71) (actual time=157.076..157.081 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10794.09..11088.14 rows=23524 width=71) (actual time=156.994..156.998 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3399.20..10670.55 rows=24708 width=44) (actual time=156.884..156.888 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102112 on orders_by_customer_102112 oc  (cost=0.42..6145.43 rows=234471 width=4) (actual time=0.733..0.733 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3088.78..3088.78 rows=24800 width=52) (actual time=155.822..155.825 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=4.92..3088.78 rows=24800 width=52) (actual time=155.821..155.824 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=2.76..81472.69 rows=248111 width=29) (actual time=142.250..142.252 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47790.18 rows=62119 width=20) (actual time=104.473..104.474 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102080 on orders_102080 o  (cost=0.42..10232.87 rows=235345 width=16) (actual time=2.488..27.087 rows=14333 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36192.46 rows=62119 width=4) (actual time=75.730..75.731 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 14332
+                                                                           ->  Index Only Scan using q18i1_102016 on lineitem_102016 lineitem_1  (cost=0.42..28697.10 rows=939999 width=9) (actual time=5.338..40.475 rows=57350 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102016 on lineitem_102016 lineitem  (cost=0.42..28697.10 rows=939999 width=9) (actual time=0.027..28.430 rows=57343 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102144 on customer_102144 customer  (cost=0.29..825.15 rows=23524 width=23) (actual time=0.028..11.513 rows=23524 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 42.880 ms
+                         Execution Time: 161.766 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12153.17..12153.42 rows=100 width=71) (actual time=157.529..157.535 rows=0 loops=1)
+                           ->  Sort  (cost=12153.17..12211.86 rows=23475 width=71) (actual time=157.529..157.534 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10962.54..11255.98 rows=23475 width=71) (actual time=157.489..157.494 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3533.67..10835.79 rows=25350 width=44) (actual time=157.378..157.383 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102128 on orders_by_customer_102128 oc  (cost=0.42..6177.11 rows=232517 width=4) (actual time=12.282..12.283 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3213.27..3213.27 rows=25598 width=52) (actual time=144.895..144.898 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=1.67..3213.27 rows=25598 width=52) (actual time=144.894..144.897 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=1.30..81365.60 rows=256035 width=29) (actual time=121.159..121.161 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47739.97 rows=64056 width=20) (actual time=88.670..88.672 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102096 on orders_102096 o  (cost=0.42..10216.88 rows=234797 width=16) (actual time=2.017..27.032 rows=16440 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36135.40 rows=64056 width=4) (actual time=59.436..59.436 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 16439
+                                                                           ->  Index Only Scan using q18i1_102032 on lineitem_102032 lineitem_1  (cost=0.42..28560.38 rows=938497 width=9) (actual time=1.127..21.672 rows=65670 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102032 on lineitem_102032 lineitem  (cost=0.42..28560.38 rows=938497 width=9) (actual time=0.029..23.420 rows=65663 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102160 on customer_102160 customer  (cost=0.29..824.41 rows=23475 width=23) (actual time=0.028..20.997 rows=23475 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 26.622 ms
+                         Execution Time: 158.363 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit  (cost=12081.45..12081.70 rows=100 width=71) (actual time=152.297..152.302 rows=0 loops=1)
+                           ->  Sort  (cost=12081.45..12140.08 rows=23451 width=71) (actual time=152.295..152.299 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10892.03..11185.17 rows=23451 width=71) (actual time=152.149..152.153 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3475.75..10766.74 rows=25058 width=44) (actual time=152.044..152.048 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102110 on orders_by_customer_102110 oc  (cost=0.42..6166.70 rows=233102 width=4) (actual time=2.301..2.302 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3161.17..3161.17 rows=25133 width=52) (actual time=149.306..149.309 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=5.09..3161.17 rows=25133 width=52) (actual time=149.305..149.307 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=3.56..81250.97 rows=250566 width=29) (actual time=131.300..131.301 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47655.19 rows=62598 width=20) (actual time=81.619..81.620 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102078 on orders_102078 o  (cost=0.42..10197.98 rows=233801 width=16) (actual time=1.039..23.438 rows=15514 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36090.22 rows=62598 width=4) (actual time=56.316..56.316 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 15513
+                                                                           ->  Index Only Scan using q18i1_102014 on lineitem_102014 lineitem_1  (cost=0.42..28594.03 rows=935853 width=9) (actual time=0.548..19.772 rows=62092 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102014 on lineitem_102014 lineitem  (cost=0.42..28594.03 rows=935853 width=9) (actual time=0.030..30.164 rows=62085 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102142 on customer_102142 customer  (cost=0.29..824.05 rows=23451 width=23) (actual time=0.026..14.522 rows=23451 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 54.179 ms
+                         Execution Time: 154.563 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12133.92..12134.17 rows=100 width=71) (actual time=134.942..134.947 rows=0 loops=1)
+                           ->  Sort  (cost=12133.92..12192.63 rows=23484 width=71) (actual time=134.940..134.945 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10942.83..11236.38 rows=23484 width=71) (actual time=134.896..134.901 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3541.19..10815.33 rows=25500 width=44) (actual time=134.790..134.794 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102123 on orders_by_customer_102123 oc  (cost=0.42..6136.91 rows=235374 width=4) (actual time=0.755..0.756 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3222.68..3222.68 rows=25447 width=52) (actual time=133.842..133.845 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=5.24..3222.68 rows=25447 width=52) (actual time=133.841..133.843 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=4.28..81319.84 rows=254520 width=29) (actual time=107.679..107.681 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47716.52 rows=63681 width=20) (actual time=74.451..74.453 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102091 on orders_102091 o  (cost=0.42..10221.00 rows=234887 width=16) (actual time=7.699..14.577 rows=7752 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36112.29 rows=63681 width=4) (actual time=56.865..56.866 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 7751
+                                                                           ->  Index Only Scan using q18i1_102027 on lineitem_102027 lineitem_1  (cost=0.42..28552.68 rows=938796 width=9) (actual time=1.088..10.956 rows=31237 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102027 on lineitem_102027 lineitem  (cost=0.42..28552.68 rows=938796 width=9) (actual time=0.028..22.521 rows=31230 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102155 on customer_102155 customer  (cost=0.29..824.55 rows=23484 width=23) (actual time=0.028..24.186 rows=23484 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 38.826 ms
+                         Execution Time: 145.828 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12087.88..12088.13 rows=100 width=71) (actual time=129.342..129.347 rows=0 loops=1)
+                           ->  Sort  (cost=12087.88..12146.37 rows=23396 width=71) (actual time=129.341..129.346 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10901.25..11193.70 rows=23396 width=71) (actual time=129.303..129.308 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3626.53..10778.48 rows=24555 width=44) (actual time=129.203..129.208 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102117 on orders_by_customer_102117 oc  (cost=0.42..6037.20 rows=231898 width=4) (actual time=6.589..6.589 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3315.98..3315.98 rows=24810 width=52) (actual time=122.413..122.417 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=7.28..3315.98 rows=24810 width=52) (actual time=122.412..122.415 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=4.01..81444.85 rows=248463 width=29) (actual time=100.363..100.365 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47756.87 rows=61971 width=20) (actual time=73.053..73.054 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102085 on orders_102085 o  (cost=0.42..10209.60 rows=234306 width=16) (actual time=6.479..19.588 rows=7517 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36186.87 rows=61971 width=4) (actual time=52.490..52.490 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 7516
+                                                                           ->  Index Only Scan using q18i1_102021 on lineitem_102021 lineitem_1  (cost=0.42..28701.12 rows=939413 width=9) (actual time=0.897..14.374 rows=30190 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102021 on lineitem_102021 lineitem  (cost=0.42..28701.12 rows=939413 width=9) (actual time=0.040..24.460 rows=30183 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102149 on customer_102149 customer  (cost=0.29..823.23 rows=23396 width=23) (actual time=0.026..17.041 rows=23396 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 23.309 ms
+                         Execution Time: 130.168 ms
+               ->  Task
+                     Tuple data received from node: 0 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit  (cost=12160.86..12161.11 rows=100 width=71) (actual time=65.351..65.356 rows=0 loops=1)
+                           ->  Sort  (cost=12160.86..12219.56 rows=23479 width=71) (actual time=65.351..65.355 rows=0 loops=1)
+                                 Sort Key: o.o_totalprice DESC, o.o_orderdate
+                                 Sort Method: quicksort  Memory: 25kB
+                                 ->  HashAggregate  (cost=10970.02..11263.51 rows=23479 width=71) (actual time=65.309..65.313 rows=0 loops=1)
+                                       Group Key: customer.c_custkey
+                                       Batches: 1  Memory Usage: 793kB
+                                       ->  Hash Join  (cost=3564.42..10841.12 rows=25781 width=44) (actual time=65.201..65.204 rows=0 loops=1)
+                                             Hash Cond: (oc.o_custkey = o.o_orderkey)
+                                             ->  Index Only Scan using orders_by_customer_pkey_102109 on orders_by_customer_102109 oc  (cost=0.42..6138.21 rows=234957 width=4) (actual time=0.871..0.871 rows=1 loops=1)
+                                                   Heap Fetches: 0
+                                             ->  Hash  (cost=3242.78..3242.78 rows=25698 width=52) (actual time=64.097..64.100 rows=0 loops=1)
+                                                   Buckets: 32768  Batches: 1  Memory Usage: 256kB
+                                                   ->  Merge Join  (cost=8.74..3242.78 rows=25698 width=52) (actual time=64.096..64.098 rows=0 loops=1)
+                                                         Merge Cond: (o.o_orderkey = customer.c_custkey)
+                                                         ->  Merge Join  (cost=4.84..81399.25 rows=256337 width=29) (actual time=49.501..49.502 rows=1 loops=1)
+                                                               Merge Cond: (o.o_orderkey = lineitem.l_orderkey)
+                                                               ->  Merge Join  (cost=0.84..47746.40 rows=64135 width=20) (actual time=32.827..32.828 rows=1 loops=1)
+                                                                     Merge Cond: (o.o_orderkey = lineitem_1.l_orderkey)
+                                                                     ->  Index Scan using orders_pkey_102077 on orders_102077 o  (cost=0.42..10198.61 rows=234201 width=16) (actual time=1.281..6.681 rows=9811 loops=1)
+                                                                     ->  GroupAggregate  (cost=0.42..36160.60 rows=64135 width=4) (actual time=24.908..24.908 rows=1 loops=1)
+                                                                           Group Key: lineitem_1.l_orderkey
+                                                                           Filter: (sum(lineitem_1.l_quantity) > '300'::numeric)
+                                                                           Rows Removed by Filter: 9810
+                                                                           ->  Index Only Scan using q18i1_102013 on lineitem_102013 lineitem_1  (cost=0.42..28594.22 rows=936061 width=9) (actual time=0.742..9.660 rows=39216 loops=1)
+                                                                                 Heap Fetches: 0
+                                                               ->  Index Only Scan using q18i1_102013 on lineitem_102013 lineitem  (cost=0.42..28594.22 rows=936061 width=9) (actual time=0.028..9.492 rows=39209 loops=1)
+                                                                     Heap Fetches: 0
+                                                         ->  Index Only Scan using q18i3_102141 on customer_102141 customer  (cost=0.29..824.47 rows=23479 width=23) (actual time=0.031..12.337 rows=23479 loops=1)
+                                                               Heap Fetches: 0
+                         Planning Time: 11.923 ms
+                         Execution Time: 66.429 ms
+ Planning Time: 10.325 ms
+ Execution Time: 854.446 ms
+(1130 rows)
+

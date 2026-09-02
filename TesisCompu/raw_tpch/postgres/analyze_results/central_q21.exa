@@ -1,0 +1,57 @@
+                                                                                             QUERY PLAN                                                                                              
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=514042.01..514042.02 rows=1 width=34) (actual time=11116606.590..11116612.127 rows=100 loops=1)
+   ->  Sort  (cost=514042.01..514042.02 rows=1 width=34) (actual time=11115662.205..11115667.730 rows=100 loops=1)
+         Sort Key: (count(*)) DESC, supplier.s_name
+         Sort Method: top-N heapsort  Memory: 36kB
+         ->  GroupAggregate  (cost=514041.98..514042.00 rows=1 width=34) (actual time=11115659.873..11115666.797 rows=411 loops=1)
+               Group Key: supplier.s_name
+               ->  Sort  (cost=514041.98..514041.99 rows=1 width=26) (actual time=11115659.821..11115665.768 rows=4141 loops=1)
+                     Sort Key: supplier.s_name
+                     Sort Method: quicksort  Memory: 354kB
+                     ->  Gather  (cost=478952.50..514041.97 rows=1 width=26) (actual time=11115443.358..11115637.786 rows=4141 loops=1)
+                           Workers Planned: 2
+                           Workers Launched: 2
+                           ->  Parallel Hash Join  (cost=477952.50..513041.87 rows=1 width=26) (actual time=11115392.462..11115581.977 rows=1380 loops=3)
+                                 Hash Cond: (orders.o_orderkey = l1.l_orderkey)
+                                 ->  Parallel Seq Scan on orders  (cost=0.00..33948.50 rows=304229 width=4) (actual time=0.086..131.835 rows=243138 loops=3)
+                                       Filter: (o_orderstatus = 'F'::bpchar)
+                                       Rows Removed by Filter: 256862
+                                 ->  Parallel Hash  (cost=477952.49..477952.49 rows=1 width=34) (actual time=11115391.535..11115392.087 rows=2786 loops=3)
+                                       Buckets: 8192 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 728kB
+                                       ->  Nested Loop Semi Join  (cost=147466.57..477952.49 rows=1 width=34) (actual time=3137.825..3707192.837 rows=2786 loops=3)
+                                             Join Filter: ((l2.l_suppkey <> l1.l_suppkey) AND (l1.l_orderkey = l2.l_orderkey))
+                                             Rows Removed by Join Filter: 19287369058
+                                             ->  Parallel Hash Right Anti Join  (cost=147466.57..294582.67 rows=1 width=34) (actual time=3111.814..3128.562 rows=4620 loops=3)
+                                                   Hash Cond: (l3.l_orderkey = l1.l_orderkey)
+                                                   Join Filter: (l3.l_suppkey <> l1.l_suppkey)
+                                                   Rows Removed by Join Filter: 52258
+                                                   ->  Parallel Seq Scan on lineitem l3  (cost=0.00..143856.49 rows=833506 width=8) (actual time=0.052..674.333 rows=1264432 loops=3)
+                                                         Filter: (l_receiptdate > l_commitdate)
+                                                         Rows Removed by Filter: 735973
+                                                   ->  Parallel Hash  (cost=147405.28..147405.28 rows=4903 width=34) (actual time=2038.887..2038.893 rows=52246 loops=3)
+                                                         Buckets: 262144 (originally 16384)  Batches: 1 (originally 1)  Memory Usage: 15072kB
+                                                         ->  Hash Join  (cost=373.96..147405.28 rows=4903 width=34) (actual time=622.952..1745.824 rows=52246 loops=3)
+                                                               Hash Cond: (l1.l_suppkey = supplier.s_suppkey)
+                                                               ->  Parallel Seq Scan on lineitem l1  (cost=0.00..143856.49 rows=833506 width=8) (actual time=619.399..1416.836 rows=1264432 loops=3)
+                                                                     Filter: (l_receiptdate > l_commitdate)
+                                                                     Rows Removed by Filter: 735973
+                                                               ->  Hash  (cost=373.23..373.23 rows=59 width=30) (actual time=3.463..3.467 rows=411 loops=3)
+                                                                     Buckets: 1024  Batches: 1  Memory Usage: 34kB
+                                                                     ->  Hash Join  (cost=12.14..373.23 rows=59 width=30) (actual time=0.135..3.311 rows=411 loops=3)
+                                                                           Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                                           ->  Seq Scan on supplier  (cost=0.00..323.00 rows=10000 width=34) (actual time=0.043..1.369 rows=10000 loops=3)
+                                                                           ->  Hash  (cost=12.12..12.12 rows=1 width=4) (actual time=0.054..0.055 rows=1 loops=3)
+                                                                                 Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                                 ->  Seq Scan on nation  (cost=0.00..12.12 rows=1 width=4) (actual time=0.039..0.041 rows=1 loops=3)
+                                                                                       Filter: (n_name = 'SAUDI ARABIA'::bpchar)
+                                                                                       Rows Removed by Filter: 24
+                                             ->  Seq Scan on lineitem l2  (cost=0.00..172612.46 rows=6001246 width=8) (actual time=0.001..542.817 rows=4175057 loops=13859)
+ Planning Time: 2.333 ms
+ JIT:
+   Functions: 155
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 19.725 ms, Inlining 525.580 ms, Optimization 1437.490 ms, Emission 839.874 ms, Total 2822.669 ms
+ Execution Time: 11116644.631 ms
+(53 rows)
+

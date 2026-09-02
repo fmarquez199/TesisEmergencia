@@ -1,0 +1,1517 @@
+SET
+                                                                                       QUERY PLAN                                                                                       
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit (actual rows=100 loops=1)
+   ->  Sort (actual rows=100 loops=1)
+         Sort Key: remote_scan.s_acctbal DESC, remote_scan.n_name, remote_scan.s_name, remote_scan.p_partkey
+         Sort Method: top-N heapsort  Memory: 66kB
+         ->  Custom Scan (Citus Adaptive) (actual rows=2337 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 442 kB
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=73 loops=1)
+                           ->  Sort (actual rows=73 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 44kB
+                                 ->  Nested Loop (actual rows=73 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 292
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=73 loops=5)
+                                             ->  Nested Loop (actual rows=73 loops=1)
+                                                   ->  Nested Loop (actual rows=73 loops=1)
+                                                         ->  Seq Scan on part_102183 part (actual rows=118 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31125
+                                                         ->  Index Only Scan using q02i5_102215 on partsupp_102215 partsupp (actual rows=1 loops=118)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=118)
+                                                                       ->  Nested Loop (actual rows=1 loops=118)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=118)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=118)
+                                                                                   ->  Nested Loop (actual rows=4 loops=118)
+                                                                                         ->  Index Only Scan using q09i3_102215 on partsupp_102215 partsupp_1 (actual rows=4 loops=118)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=472)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=472)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 472
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=73)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 11 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=61 loops=1)
+                           ->  Sort (actual rows=61 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 40kB
+                                 ->  Nested Loop (actual rows=61 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 244
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=61 loops=5)
+                                             ->  Nested Loop (actual rows=61 loops=1)
+                                                   ->  Nested Loop (actual rows=61 loops=1)
+                                                         ->  Seq Scan on part_102189 part (actual rows=110 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31263
+                                                         ->  Index Only Scan using q02i5_102221 on partsupp_102221 partsupp (actual rows=1 loops=110)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=110)
+                                                                       ->  Nested Loop (actual rows=1 loops=110)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=110)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=110)
+                                                                                   ->  Nested Loop (actual rows=4 loops=110)
+                                                                                         ->  Index Only Scan using q09i3_102221 on partsupp_102221 partsupp_1 (actual rows=4 loops=110)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=440)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=440)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 440
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=61)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=72 loops=1)
+                           ->  Sort (actual rows=72 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Nested Loop (actual rows=72 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 288
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=72 loops=5)
+                                             ->  Nested Loop (actual rows=72 loops=1)
+                                                   ->  Nested Loop (actual rows=72 loops=1)
+                                                         ->  Seq Scan on part_102186 part (actual rows=125 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31179
+                                                         ->  Index Only Scan using q02i5_102218 on partsupp_102218 partsupp (actual rows=1 loops=125)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=125)
+                                                                       ->  Nested Loop (actual rows=1 loops=125)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=125)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=125)
+                                                                                   ->  Nested Loop (actual rows=4 loops=125)
+                                                                                         ->  Index Only Scan using q09i3_102218 on partsupp_102218 partsupp_1 (actual rows=4 loops=125)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=500)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=500)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 500
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=72)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=72 loops=1)
+                           ->  Sort (actual rows=72 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Nested Loop (actual rows=72 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 288
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=72 loops=5)
+                                             ->  Nested Loop (actual rows=72 loops=1)
+                                                   ->  Nested Loop (actual rows=72 loops=1)
+                                                         ->  Seq Scan on part_102177 part (actual rows=122 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 30623
+                                                         ->  Index Only Scan using q02i5_102209 on partsupp_102209 partsupp (actual rows=1 loops=122)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=122)
+                                                                       ->  Nested Loop (actual rows=1 loops=122)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=122)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=122)
+                                                                                   ->  Nested Loop (actual rows=4 loops=122)
+                                                                                         ->  Index Only Scan using q09i3_102209 on partsupp_102209 partsupp_1 (actual rows=4 loops=122)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=488)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=488)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 488
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=72)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=70 loops=1)
+                           ->  Sort (actual rows=70 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Nested Loop (actual rows=70 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 280
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=70 loops=5)
+                                             ->  Nested Loop (actual rows=70 loops=1)
+                                                   ->  Nested Loop (actual rows=70 loops=1)
+                                                         ->  Seq Scan on part_102185 part (actual rows=126 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31103
+                                                         ->  Index Only Scan using q02i5_102217 on partsupp_102217 partsupp (actual rows=1 loops=126)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=126)
+                                                                       ->  Nested Loop (actual rows=1 loops=126)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=126)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=126)
+                                                                                   ->  Nested Loop (actual rows=4 loops=126)
+                                                                                         ->  Index Only Scan using q09i3_102217 on partsupp_102217 partsupp_1 (actual rows=4 loops=126)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=504)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=504)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 504
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=70)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 15 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=78 loops=1)
+                           ->  Sort (actual rows=78 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Nested Loop (actual rows=78 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 312
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=78 loops=5)
+                                             ->  Nested Loop (actual rows=78 loops=1)
+                                                   ->  Nested Loop (actual rows=78 loops=1)
+                                                         ->  Seq Scan on part_102190 part (actual rows=129 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31060
+                                                         ->  Index Only Scan using q02i5_102222 on partsupp_102222 partsupp (actual rows=1 loops=129)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=129)
+                                                                       ->  Nested Loop (actual rows=1 loops=129)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=129)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=129)
+                                                                                   ->  Nested Loop (actual rows=4 loops=129)
+                                                                                         ->  Index Only Scan using q09i3_102222 on partsupp_102222 partsupp_1 (actual rows=4 loops=129)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=516)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=516)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 516
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=78)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 16 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=85 loops=1)
+                           ->  Sort (actual rows=85 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 47kB
+                                 ->  Nested Loop (actual rows=85 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 340
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=85 loops=5)
+                                             ->  Nested Loop (actual rows=85 loops=1)
+                                                   ->  Nested Loop (actual rows=85 loops=1)
+                                                         ->  Seq Scan on part_102195 part (actual rows=138 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 30896
+                                                         ->  Index Only Scan using q02i5_102227 on partsupp_102227 partsupp (actual rows=1 loops=138)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=138)
+                                                                       ->  Nested Loop (actual rows=1 loops=138)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=138)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=138)
+                                                                                   ->  Nested Loop (actual rows=4 loops=138)
+                                                                                         ->  Index Only Scan using q09i3_102227 on partsupp_102227 partsupp_1 (actual rows=4 loops=138)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=552)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=552)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 552
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=85)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=70 loops=1)
+                           ->  Sort (actual rows=70 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Nested Loop (actual rows=70 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 280
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=70 loops=5)
+                                             ->  Nested Loop (actual rows=70 loops=1)
+                                                   ->  Nested Loop (actual rows=70 loops=1)
+                                                         ->  Seq Scan on part_102197 part (actual rows=114 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31099
+                                                         ->  Index Only Scan using q02i5_102229 on partsupp_102229 partsupp (actual rows=1 loops=114)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=114)
+                                                                       ->  Nested Loop (actual rows=1 loops=114)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=114)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=114)
+                                                                                   ->  Nested Loop (actual rows=4 loops=114)
+                                                                                         ->  Index Only Scan using q09i3_102229 on partsupp_102229 partsupp_1 (actual rows=4 loops=114)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=456)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=456)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 456
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=70)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=75 loops=1)
+                           ->  Sort (actual rows=75 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Nested Loop (actual rows=75 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 300
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=75 loops=5)
+                                             ->  Nested Loop (actual rows=75 loops=1)
+                                                   ->  Nested Loop (actual rows=75 loops=1)
+                                                         ->  Seq Scan on part_102178 part (actual rows=128 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31145
+                                                         ->  Index Only Scan using q02i5_102210 on partsupp_102210 partsupp (actual rows=1 loops=128)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=128)
+                                                                       ->  Nested Loop (actual rows=1 loops=128)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=128)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=128)
+                                                                                   ->  Nested Loop (actual rows=4 loops=128)
+                                                                                         ->  Index Only Scan using q09i3_102210 on partsupp_102210 partsupp_1 (actual rows=4 loops=128)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=512)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=512)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 512
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=75)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 15 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=79 loops=1)
+                           ->  Sort (actual rows=79 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Nested Loop (actual rows=79 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 316
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=79 loops=5)
+                                             ->  Nested Loop (actual rows=79 loops=1)
+                                                   ->  Nested Loop (actual rows=79 loops=1)
+                                                         ->  Seq Scan on part_102182 part (actual rows=134 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31137
+                                                         ->  Index Only Scan using q02i5_102214 on partsupp_102214 partsupp (actual rows=1 loops=134)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=134)
+                                                                       ->  Nested Loop (actual rows=1 loops=134)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=134)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=134)
+                                                                                   ->  Nested Loop (actual rows=4 loops=134)
+                                                                                         ->  Index Only Scan using q09i3_102214 on partsupp_102214 partsupp_1 (actual rows=4 loops=134)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=536)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=536)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 536
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=79)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=63 loops=1)
+                           ->  Sort (actual rows=63 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Nested Loop (actual rows=63 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 252
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=63 loops=5)
+                                             ->  Nested Loop (actual rows=63 loops=1)
+                                                   ->  Nested Loop (actual rows=63 loops=1)
+                                                         ->  Seq Scan on part_102188 part (actual rows=112 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31240
+                                                         ->  Index Only Scan using q02i5_102220 on partsupp_102220 partsupp (actual rows=1 loops=112)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=112)
+                                                                       ->  Nested Loop (actual rows=1 loops=112)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=112)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=112)
+                                                                                   ->  Nested Loop (actual rows=4 loops=112)
+                                                                                         ->  Index Only Scan using q09i3_102220 on partsupp_102220 partsupp_1 (actual rows=4 loops=112)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=448)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=448)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 448
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=63)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 11 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=62 loops=1)
+                           ->  Sort (actual rows=62 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Nested Loop (actual rows=62 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 248
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=62 loops=5)
+                                             ->  Nested Loop (actual rows=62 loops=1)
+                                                   ->  Nested Loop (actual rows=62 loops=1)
+                                                         ->  Seq Scan on part_102187 part (actual rows=116 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31137
+                                                         ->  Index Only Scan using q02i5_102219 on partsupp_102219 partsupp (actual rows=1 loops=116)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=116)
+                                                                       ->  Nested Loop (actual rows=1 loops=116)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=116)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=116)
+                                                                                   ->  Nested Loop (actual rows=4 loops=116)
+                                                                                         ->  Index Only Scan using q09i3_102219 on partsupp_102219 partsupp_1 (actual rows=4 loops=116)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=464)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=464)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 464
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=62)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=69 loops=1)
+                           ->  Sort (actual rows=69 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Nested Loop (actual rows=69 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 276
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=69 loops=5)
+                                             ->  Nested Loop (actual rows=69 loops=1)
+                                                   ->  Nested Loop (actual rows=69 loops=1)
+                                                         ->  Seq Scan on part_102179 part (actual rows=120 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31108
+                                                         ->  Index Only Scan using q02i5_102211 on partsupp_102211 partsupp (actual rows=1 loops=120)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=120)
+                                                                       ->  Nested Loop (actual rows=1 loops=120)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=120)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=120)
+                                                                                   ->  Nested Loop (actual rows=4 loops=120)
+                                                                                         ->  Index Only Scan using q09i3_102211 on partsupp_102211 partsupp_1 (actual rows=4 loops=120)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=480)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=480)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 480
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=69)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=67 loops=1)
+                           ->  Sort (actual rows=67 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 42kB
+                                 ->  Nested Loop (actual rows=67 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 268
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=67 loops=5)
+                                             ->  Nested Loop (actual rows=67 loops=1)
+                                                   ->  Nested Loop (actual rows=67 loops=1)
+                                                         ->  Seq Scan on part_102191 part (actual rows=122 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31168
+                                                         ->  Index Only Scan using q02i5_102223 on partsupp_102223 partsupp (actual rows=1 loops=122)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=122)
+                                                                       ->  Nested Loop (actual rows=1 loops=122)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=122)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=122)
+                                                                                   ->  Nested Loop (actual rows=4 loops=122)
+                                                                                         ->  Index Only Scan using q09i3_102223 on partsupp_102223 partsupp_1 (actual rows=4 loops=122)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=488)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=488)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 488
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=67)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=73 loops=1)
+                           ->  Sort (actual rows=73 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 44kB
+                                 ->  Nested Loop (actual rows=73 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 292
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=73 loops=5)
+                                             ->  Nested Loop (actual rows=73 loops=1)
+                                                   ->  Nested Loop (actual rows=73 loops=1)
+                                                         ->  Seq Scan on part_102181 part (actual rows=125 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31086
+                                                         ->  Index Only Scan using q02i5_102213 on partsupp_102213 partsupp (actual rows=1 loops=125)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=125)
+                                                                       ->  Nested Loop (actual rows=1 loops=125)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=125)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=125)
+                                                                                   ->  Nested Loop (actual rows=4 loops=125)
+                                                                                         ->  Index Only Scan using q09i3_102213 on partsupp_102213 partsupp_1 (actual rows=4 loops=125)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=500)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=500)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 500
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=73)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=73 loops=1)
+                           ->  Sort (actual rows=73 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 44kB
+                                 ->  Nested Loop (actual rows=73 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 292
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=73 loops=5)
+                                             ->  Nested Loop (actual rows=73 loops=1)
+                                                   ->  Nested Loop (actual rows=73 loops=1)
+                                                         ->  Seq Scan on part_102201 part (actual rows=126 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31149
+                                                         ->  Index Only Scan using q02i5_102233 on partsupp_102233 partsupp (actual rows=1 loops=126)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=126)
+                                                                       ->  Nested Loop (actual rows=1 loops=126)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=126)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=126)
+                                                                                   ->  Nested Loop (actual rows=4 loops=126)
+                                                                                         ->  Index Only Scan using q09i3_102233 on partsupp_102233 partsupp_1 (actual rows=4 loops=126)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=504)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=504)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 504
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=73)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=65 loops=1)
+                           ->  Sort (actual rows=65 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 42kB
+                                 ->  Nested Loop (actual rows=65 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 260
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=65 loops=5)
+                                             ->  Nested Loop (actual rows=65 loops=1)
+                                                   ->  Nested Loop (actual rows=65 loops=1)
+                                                         ->  Seq Scan on part_102192 part (actual rows=113 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31139
+                                                         ->  Index Only Scan using q02i5_102224 on partsupp_102224 partsupp (actual rows=1 loops=113)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=113)
+                                                                       ->  Nested Loop (actual rows=1 loops=113)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=113)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=113)
+                                                                                   ->  Nested Loop (actual rows=4 loops=113)
+                                                                                         ->  Index Only Scan using q09i3_102224 on partsupp_102224 partsupp_1 (actual rows=4 loops=113)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=452)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=452)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 452
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=65)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 19 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=100 loops=1)
+                           ->  Sort (actual rows=100 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 52kB
+                                 ->  Nested Loop (actual rows=105 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 420
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=105 loops=5)
+                                             ->  Nested Loop (actual rows=105 loops=1)
+                                                   ->  Nested Loop (actual rows=105 loops=1)
+                                                         ->  Seq Scan on part_102193 part (actual rows=160 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31156
+                                                         ->  Index Only Scan using q02i5_102225 on partsupp_102225 partsupp (actual rows=1 loops=160)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=160)
+                                                                       ->  Nested Loop (actual rows=1 loops=160)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=160)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=160)
+                                                                                   ->  Nested Loop (actual rows=4 loops=160)
+                                                                                         ->  Index Only Scan using q09i3_102225 on partsupp_102225 partsupp_1 (actual rows=4 loops=160)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=640)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=640)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 640
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=105)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=76 loops=1)
+                           ->  Sort (actual rows=76 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 44kB
+                                 ->  Nested Loop (actual rows=76 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 304
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=76 loops=5)
+                                             ->  Nested Loop (actual rows=76 loops=1)
+                                                   ->  Nested Loop (actual rows=76 loops=1)
+                                                         ->  Seq Scan on part_102172 part (actual rows=124 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31261
+                                                         ->  Index Only Scan using q02i5_102204 on partsupp_102204 partsupp (actual rows=1 loops=124)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=124)
+                                                                       ->  Nested Loop (actual rows=1 loops=124)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=124)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=124)
+                                                                                   ->  Nested Loop (actual rows=4 loops=124)
+                                                                                         ->  Index Only Scan using q09i3_102204 on partsupp_102204 partsupp_1 (actual rows=4 loops=124)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=496)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=496)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 496
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=76)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 15 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=77 loops=1)
+                           ->  Sort (actual rows=77 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Nested Loop (actual rows=77 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 308
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=77 loops=5)
+                                             ->  Nested Loop (actual rows=77 loops=1)
+                                                   ->  Nested Loop (actual rows=77 loops=1)
+                                                         ->  Seq Scan on part_102196 part (actual rows=123 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31315
+                                                         ->  Index Only Scan using q02i5_102228 on partsupp_102228 partsupp (actual rows=1 loops=123)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=123)
+                                                                       ->  Nested Loop (actual rows=1 loops=123)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=123)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=123)
+                                                                                   ->  Nested Loop (actual rows=4 loops=123)
+                                                                                         ->  Index Only Scan using q09i3_102228 on partsupp_102228 partsupp_1 (actual rows=4 loops=123)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=492)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=492)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 492
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=77)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 17 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=88 loops=1)
+                           ->  Sort (actual rows=88 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 47kB
+                                 ->  Nested Loop (actual rows=88 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 352
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=88 loops=5)
+                                             ->  Nested Loop (actual rows=88 loops=1)
+                                                   ->  Nested Loop (actual rows=88 loops=1)
+                                                         ->  Seq Scan on part_102184 part (actual rows=132 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31094
+                                                         ->  Index Only Scan using q02i5_102216 on partsupp_102216 partsupp (actual rows=1 loops=132)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=132)
+                                                                       ->  Nested Loop (actual rows=1 loops=132)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=132)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=132)
+                                                                                   ->  Nested Loop (actual rows=4 loops=132)
+                                                                                         ->  Index Only Scan using q09i3_102216 on partsupp_102216 partsupp_1 (actual rows=4 loops=132)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=528)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=528)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 528
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=88)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=63 loops=1)
+                           ->  Sort (actual rows=63 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Nested Loop (actual rows=63 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 252
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=63 loops=5)
+                                             ->  Nested Loop (actual rows=63 loops=1)
+                                                   ->  Nested Loop (actual rows=63 loops=1)
+                                                         ->  Seq Scan on part_102199 part (actual rows=115 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31144
+                                                         ->  Index Only Scan using q02i5_102231 on partsupp_102231 partsupp (actual rows=1 loops=115)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=115)
+                                                                       ->  Nested Loop (actual rows=1 loops=115)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=115)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=115)
+                                                                                   ->  Nested Loop (actual rows=4 loops=115)
+                                                                                         ->  Index Only Scan using q09i3_102231 on partsupp_102231 partsupp_1 (actual rows=4 loops=115)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=460)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=460)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 460
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=63)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=63 loops=1)
+                           ->  Sort (actual rows=63 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Nested Loop (actual rows=63 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 252
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=63 loops=5)
+                                             ->  Nested Loop (actual rows=63 loops=1)
+                                                   ->  Nested Loop (actual rows=63 loops=1)
+                                                         ->  Seq Scan on part_102200 part (actual rows=116 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 30937
+                                                         ->  Index Only Scan using q02i5_102232 on partsupp_102232 partsupp (actual rows=1 loops=116)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=116)
+                                                                       ->  Nested Loop (actual rows=1 loops=116)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=116)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=116)
+                                                                                   ->  Nested Loop (actual rows=4 loops=116)
+                                                                                         ->  Index Only Scan using q09i3_102232 on partsupp_102232 partsupp_1 (actual rows=4 loops=116)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=464)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=464)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 464
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=63)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=70 loops=1)
+                           ->  Sort (actual rows=70 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Nested Loop (actual rows=70 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 280
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=70 loops=5)
+                                             ->  Nested Loop (actual rows=70 loops=1)
+                                                   ->  Nested Loop (actual rows=70 loops=1)
+                                                         ->  Seq Scan on part_102198 part (actual rows=113 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 30903
+                                                         ->  Index Only Scan using q02i5_102230 on partsupp_102230 partsupp (actual rows=1 loops=113)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=113)
+                                                                       ->  Nested Loop (actual rows=1 loops=113)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=113)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=113)
+                                                                                   ->  Nested Loop (actual rows=4 loops=113)
+                                                                                         ->  Index Only Scan using q09i3_102230 on partsupp_102230 partsupp_1 (actual rows=4 loops=113)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=452)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=452)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 452
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=70)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 15 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=77 loops=1)
+                           ->  Sort (actual rows=77 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Nested Loop (actual rows=77 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 308
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=77 loops=5)
+                                             ->  Nested Loop (actual rows=77 loops=1)
+                                                   ->  Nested Loop (actual rows=77 loops=1)
+                                                         ->  Seq Scan on part_102202 part (actual rows=125 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31238
+                                                         ->  Index Only Scan using q02i5_102234 on partsupp_102234 partsupp (actual rows=1 loops=125)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=125)
+                                                                       ->  Nested Loop (actual rows=1 loops=125)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=125)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=125)
+                                                                                   ->  Nested Loop (actual rows=4 loops=125)
+                                                                                         ->  Index Only Scan using q09i3_102234 on partsupp_102234 partsupp_1 (actual rows=4 loops=125)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=500)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=500)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 500
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=77)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=63 loops=1)
+                           ->  Sort (actual rows=63 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Nested Loop (actual rows=63 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 252
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=63 loops=5)
+                                             ->  Nested Loop (actual rows=63 loops=1)
+                                                   ->  Nested Loop (actual rows=63 loops=1)
+                                                         ->  Seq Scan on part_102180 part (actual rows=115 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31045
+                                                         ->  Index Only Scan using q02i5_102212 on partsupp_102212 partsupp (actual rows=1 loops=115)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=115)
+                                                                       ->  Nested Loop (actual rows=1 loops=115)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=115)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=115)
+                                                                                   ->  Nested Loop (actual rows=4 loops=115)
+                                                                                         ->  Index Only Scan using q09i3_102212 on partsupp_102212 partsupp_1 (actual rows=4 loops=115)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=460)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=460)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 460
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=63)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=70 loops=1)
+                           ->  Sort (actual rows=70 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Nested Loop (actual rows=70 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 280
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=70 loops=5)
+                                             ->  Nested Loop (actual rows=70 loops=1)
+                                                   ->  Nested Loop (actual rows=70 loops=1)
+                                                         ->  Seq Scan on part_102171 part (actual rows=132 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31418
+                                                         ->  Index Only Scan using q02i5_102203 on partsupp_102203 partsupp (actual rows=1 loops=132)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=132)
+                                                                       ->  Nested Loop (actual rows=1 loops=132)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=132)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=132)
+                                                                                   ->  Nested Loop (actual rows=4 loops=132)
+                                                                                         ->  Index Only Scan using q09i3_102203 on partsupp_102203 partsupp_1 (actual rows=4 loops=132)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=528)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=528)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 528
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=70)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 18 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=95 loops=1)
+                           ->  Sort (actual rows=95 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 49kB
+                                 ->  Nested Loop (actual rows=95 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 380
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=95 loops=5)
+                                             ->  Nested Loop (actual rows=95 loops=1)
+                                                   ->  Nested Loop (actual rows=95 loops=1)
+                                                         ->  Seq Scan on part_102194 part (actual rows=150 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31103
+                                                         ->  Index Only Scan using q02i5_102226 on partsupp_102226 partsupp (actual rows=1 loops=150)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=150)
+                                                                       ->  Nested Loop (actual rows=1 loops=150)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=150)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=150)
+                                                                                   ->  Nested Loop (actual rows=4 loops=150)
+                                                                                         ->  Index Only Scan using q09i3_102226 on partsupp_102226 partsupp_1 (actual rows=4 loops=150)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=600)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=600)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 600
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=95)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=74 loops=1)
+                           ->  Sort (actual rows=74 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Nested Loop (actual rows=74 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 296
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=74 loops=5)
+                                             ->  Nested Loop (actual rows=74 loops=1)
+                                                   ->  Nested Loop (actual rows=74 loops=1)
+                                                         ->  Seq Scan on part_102176 part (actual rows=127 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31263
+                                                         ->  Index Only Scan using q02i5_102208 on partsupp_102208 partsupp (actual rows=1 loops=127)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=127)
+                                                                       ->  Nested Loop (actual rows=1 loops=127)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=127)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=127)
+                                                                                   ->  Nested Loop (actual rows=4 loops=127)
+                                                                                         ->  Index Only Scan using q09i3_102208 on partsupp_102208 partsupp_1 (actual rows=4 loops=127)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=508)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=508)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 508
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=74)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=67 loops=1)
+                           ->  Sort (actual rows=67 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 42kB
+                                 ->  Nested Loop (actual rows=67 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 268
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=67 loops=5)
+                                             ->  Nested Loop (actual rows=67 loops=1)
+                                                   ->  Nested Loop (actual rows=67 loops=1)
+                                                         ->  Seq Scan on part_102173 part (actual rows=120 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31172
+                                                         ->  Index Only Scan using q02i5_102205 on partsupp_102205 partsupp (actual rows=1 loops=120)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=120)
+                                                                       ->  Nested Loop (actual rows=1 loops=120)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=120)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=120)
+                                                                                   ->  Nested Loop (actual rows=4 loops=120)
+                                                                                         ->  Index Only Scan using q09i3_102205 on partsupp_102205 partsupp_1 (actual rows=4 loops=120)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=480)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=480)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 480
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=67)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 16 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=84 loops=1)
+                           ->  Sort (actual rows=84 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 46kB
+                                 ->  Nested Loop (actual rows=84 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 336
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=84 loops=5)
+                                             ->  Nested Loop (actual rows=84 loops=1)
+                                                   ->  Nested Loop (actual rows=84 loops=1)
+                                                         ->  Seq Scan on part_102174 part (actual rows=129 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31091
+                                                         ->  Index Only Scan using q02i5_102206 on partsupp_102206 partsupp (actual rows=1 loops=129)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=129)
+                                                                       ->  Nested Loop (actual rows=1 loops=129)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=129)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=129)
+                                                                                   ->  Nested Loop (actual rows=4 loops=129)
+                                                                                         ->  Index Only Scan using q09i3_102206 on partsupp_102206 partsupp_1 (actual rows=4 loops=129)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=516)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=516)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 516
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=84)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=63 loops=1)
+                           ->  Sort (actual rows=63 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Nested Loop (actual rows=63 loops=1)
+                                       Join Filter: (supplier.s_nationkey = nation.n_nationkey)
+                                       Rows Removed by Join Filter: 252
+                                       ->  Nested Loop (actual rows=5 loops=1)
+                                             Join Filter: (nation.n_regionkey = region.r_regionkey)
+                                             Rows Removed by Join Filter: 20
+                                             ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                   Rows Removed by Filter: 4
+                                             ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                       ->  Materialize (actual rows=63 loops=5)
+                                             ->  Nested Loop (actual rows=63 loops=1)
+                                                   ->  Nested Loop (actual rows=63 loops=1)
+                                                         ->  Seq Scan on part_102175 part (actual rows=115 loops=1)
+                                                               Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                               Rows Removed by Filter: 31229
+                                                         ->  Index Only Scan using q02i5_102207 on partsupp_102207 partsupp (actual rows=1 loops=115)
+                                                               Index Cond: ((ps_partkey = part.p_partkey) AND (ps_supplycost = (SubPlan 1)))
+                                                               Heap Fetches: 0
+                                                               SubPlan 1
+                                                                 ->  Aggregate (actual rows=1 loops=115)
+                                                                       ->  Nested Loop (actual rows=1 loops=115)
+                                                                             Join Filter: (nation_1.n_regionkey = region_1.r_regionkey)
+                                                                             Rows Removed by Join Filter: 3
+                                                                             ->  Seq Scan on region_102009 region_1 (actual rows=1 loops=115)
+                                                                                   Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                   Rows Removed by Filter: 4
+                                                                             ->  Nested Loop (actual rows=4 loops=115)
+                                                                                   ->  Nested Loop (actual rows=4 loops=115)
+                                                                                         ->  Index Only Scan using q09i3_102207 on partsupp_102207 partsupp_1 (actual rows=4 loops=115)
+                                                                                               Index Cond: (ps_partkey = part.p_partkey)
+                                                                                               Heap Fetches: 0
+                                                                                         ->  Index Only Scan using q05i4_102010 on supplier_102010 supplier_1 (actual rows=1 loops=460)
+                                                                                               Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                                               Heap Fetches: 0
+                                                                                   ->  Index Only Scan using q05i5_102008 on nation_102008 nation_1 (actual rows=1 loops=460)
+                                                                                         Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                                                         Heap Fetches: 460
+                                                   ->  Index Scan using q05i4_102010 on supplier_102010 supplier (actual rows=1 loops=63)
+                                                         Index Cond: (s_suppkey = partsupp.ps_suppkey)
+(1512 rows)
+

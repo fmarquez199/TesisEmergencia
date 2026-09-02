@@ -1,0 +1,44 @@
+                                                                                QUERY PLAN                                                                                 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=0 width=0) (actual time=8.408..8.409 rows=2 loops=1)
+   ->  Distributed Subplan 1_1
+         Subplan Duration: 5261.69 ms
+         Intermediate Data Size: 159 kB
+         Result destination: Write locally
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=168) (actual time=1058.521..1058.640 rows=2603 loops=1)
+               Task Count: 16
+               Tuple data received from nodes: 124 kB
+               Tasks Shown: None, not supported for re-partition queries
+               ->  MapMergeJob
+                     Map Task Count: 16
+                     Merge Task Count: 16
+                     ->  MapMergeJob
+                           Map Task Count: 32
+                           Merge Task Count: 16
+                     ->  MapMergeJob
+                           Map Task Count: 32
+                           Merge Task Count: 16
+               ->  MapMergeJob
+                     Map Task Count: 32
+                     Merge Task Count: 16
+         Planning Time: 0.000 ms
+         Execution Time: 1059.975 ms
+   Task Count: 1
+   Tuple data received from nodes: 56 bytes
+   Tasks Shown: All
+   ->  Task
+         Tuple data received from node: 56 bytes
+         Node: host=localhost port=5432 dbname=raw_tpch
+         ->  Sort  (cost=46.77..47.27 rows=200 width=64) (actual time=1.804..1.805 rows=2 loops=1)
+               Sort Key: intermediate_result.o_year
+               Sort Method: quicksort  Memory: 25kB
+               ->  HashAggregate  (cost=35.62..39.12 rows=200 width=64) (actual time=1.785..1.786 rows=2 loops=1)
+                     Group Key: intermediate_result.o_year
+                     Batches: 1  Memory Usage: 40kB
+                     ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..26.65 rows=897 width=168) (actual time=0.984..1.070 rows=2603 loops=1)
+             Planning Time: 0.110 ms
+             Execution Time: 1.873 ms
+ Planning Time: 17.237 ms
+ Execution Time: 5270.126 ms
+(40 filas)
+

@@ -1,0 +1,35 @@
+                                                                                         QUERY PLAN                                                                                         
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=511.14..511.64 rows=200 width=16) (actual time=109.504..109.506 rows=42 loops=1)
+   Sort Key: (COALESCE((pg_catalog.sum(remote_scan.custdist))::bigint, '0'::bigint)) DESC, remote_scan.c_count DESC
+   Sort Method: quicksort  Memory: 26kB
+   ->  HashAggregate  (cost=500.00..503.50 rows=200 width=16) (actual time=109.467..109.475 rows=42 loops=1)
+         Group Key: remote_scan.c_count
+         Batches: 1  Memory Usage: 40kB
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=16) (actual time=109.303..109.338 rows=1144 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 18 kB
+               Tasks Shown: One of 32
+               ->  Task
+                     Tuple data received from node: 528 bytes
+                     Node: host=159.90.9.11 port=5432 dbname=raw_tpch
+                     ->  HashAggregate  (cost=2631.40..2633.40 rows=200 width=16) (actual time=56.871..56.879 rows=33 loops=1)
+                           Group Key: count(orders_by_customer.o_orderkey)
+                           Batches: 1  Memory Usage: 40kB
+                           ->  HashAggregate  (cost=2514.15..2561.05 rows=4690 width=12) (actual time=55.163..55.984 rows=4690 loops=1)
+                                 Group Key: customer.c_custkey
+                                 Batches: 1  Memory Usage: 721kB
+                                 ->  Hash Right Join  (cost=218.53..2281.26 rows=46578 width=8) (actual time=2.847..43.502 rows=47699 loops=1)
+                                       Hash Cond: (orders_by_customer.o_custkey = customer.c_custkey)
+                                       ->  Seq Scan on orders_by_customer_102475 orders_by_customer  (cost=0.00..1422.29 rows=46578 width=8) (actual time=0.013..27.423 rows=46096 loops=1)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 487
+                                       ->  Hash  (cost=159.90..159.90 rows=4690 width=4) (actual time=2.773..2.773 rows=4690 loops=1)
+                                             Buckets: 8192  Batches: 1  Memory Usage: 229kB
+                                             ->  Seq Scan on customer_102571 customer  (cost=0.00..159.90 rows=4690 width=4) (actual time=0.028..1.618 rows=4690 loops=1)
+                         Planning Time: 0.708 ms
+                         Execution Time: 57.195 ms
+ Planning Time: 2.830 ms
+ Execution Time: 109.595 ms
+(31 filas)
+

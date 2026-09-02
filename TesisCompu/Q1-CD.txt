@@ -1,0 +1,583 @@
+SET
+                                                         QUERY PLAN                                                         
+----------------------------------------------------------------------------------------------------------------------------
+ Sort (actual rows=4 loops=1)
+   Sort Key: remote_scan.l_returnflag, remote_scan.l_linestatus
+   Sort Method: quicksort  Memory: 25kB
+   ->  HashAggregate (actual rows=4 loops=1)
+         Group Key: remote_scan.l_returnflag, remote_scan.l_linestatus
+         Batches: 1  Memory Usage: 48kB
+         ->  Custom Scan (Citus Adaptive) (actual rows=128 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 12 kB
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102022 lineitem (actual rows=925212 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13586
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102030 lineitem (actual rows=920133 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13612
+               ->  Task
+                     Tuple data received from node: 388 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102020 lineitem (actual rows=928012 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13383
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102034 lineitem (actual rows=926146 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13619
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102018 lineitem (actual rows=924396 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13342
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102032 lineitem (actual rows=924827 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13670
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102026 lineitem (actual rows=924308 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13573
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102024 lineitem (actual rows=922651 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13599
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102036 lineitem (actual rows=924654 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13849
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102038 lineitem (actual rows=921822 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13350
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102042 lineitem (actual rows=922789 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13007
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102028 lineitem (actual rows=924183 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13200
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102040 lineitem (actual rows=924295 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13018
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102017 lineitem (actual rows=923291 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13547
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102029 lineitem (actual rows=924051 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13203
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102027 lineitem (actual rows=925441 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13355
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102023 lineitem (actual rows=927105 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13248
+               ->  Task
+                     Tuple data received from node: 388 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102031 lineitem (actual rows=925224 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13624
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102035 lineitem (actual rows=925742 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13790
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102019 lineitem (actual rows=921957 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13458
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102033 lineitem (actual rows=923026 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13728
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102037 lineitem (actual rows=924760 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13470
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102021 lineitem (actual rows=925956 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13457
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102039 lineitem (actual rows=922360 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13580
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102025 lineitem (actual rows=920475 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13321
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=4 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Sort (actual rows=4 loops=1)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=1)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102041 lineitem (actual rows=922273 loops=1)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 13564
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=12 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Sort (actual rows=4 loops=3)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       Worker 0:  Sort Method: quicksort  Memory: 26kB
+                                       Worker 1:  Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=3)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             Worker 0:  Batches: 1  Memory Usage: 24kB
+                                             Worker 1:  Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102016 lineitem (actual rows=308789 loops=3)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 4544
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=12 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Sort (actual rows=4 loops=3)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       Worker 0:  Sort Method: quicksort  Memory: 26kB
+                                       Worker 1:  Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=3)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             Worker 0:  Batches: 1  Memory Usage: 24kB
+                                             Worker 1:  Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102014 lineitem (actual rows=307401 loops=3)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 4550
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=12 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Sort (actual rows=4 loops=3)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       Worker 0:  Sort Method: quicksort  Memory: 26kB
+                                       Worker 1:  Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=3)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             Worker 0:  Batches: 1  Memory Usage: 24kB
+                                             Worker 1:  Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102012 lineitem (actual rows=308497 loops=3)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 4522
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=12 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Sort (actual rows=4 loops=3)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       Worker 0:  Sort Method: quicksort  Memory: 26kB
+                                       Worker 1:  Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=3)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             Worker 0:  Batches: 1  Memory Usage: 24kB
+                                             Worker 1:  Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102013 lineitem (actual rows=307521 loops=3)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 4500
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=12 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Sort (actual rows=4 loops=3)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       Worker 0:  Sort Method: quicksort  Memory: 26kB
+                                       Worker 1:  Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=3)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             Worker 0:  Batches: 1  Memory Usage: 24kB
+                                             Worker 1:  Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102015 lineitem (actual rows=308317 loops=3)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 4519
+               ->  Task
+                     Tuple data received from node: 392 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Finalize GroupAggregate (actual rows=4 loops=1)
+                           Group Key: l_returnflag, l_linestatus
+                           ->  Gather Merge (actual rows=12 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 2
+                                 ->  Sort (actual rows=4 loops=3)
+                                       Sort Key: l_returnflag, l_linestatus
+                                       Sort Method: quicksort  Memory: 26kB
+                                       Worker 0:  Sort Method: quicksort  Memory: 26kB
+                                       Worker 1:  Sort Method: quicksort  Memory: 26kB
+                                       ->  Partial HashAggregate (actual rows=4 loops=3)
+                                             Group Key: l_returnflag, l_linestatus
+                                             Batches: 1  Memory Usage: 24kB
+                                             Worker 0:  Batches: 1  Memory Usage: 24kB
+                                             Worker 1:  Batches: 1  Memory Usage: 24kB
+                                             ->  Parallel Seq Scan on lineitem_102011 lineitem (actual rows=307200 loops=3)
+                                                   Filter: (l_shipdate <= '1998-09-01'::date)
+                                                   Rows Removed by Filter: 4492
+(578 rows)
+

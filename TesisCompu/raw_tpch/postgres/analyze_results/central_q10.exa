@@ -1,0 +1,46 @@
+                                                                                        QUERY PLAN                                                                                         
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=205472.12..205472.17 rows=20 width=280) (actual time=1121.033..1136.214 rows=20 loops=1)
+   ->  Sort  (cost=205472.12..205611.19 rows=55626 width=280) (actual time=1089.620..1104.799 rows=20 loops=1)
+         Sort Key: (sum((lineitem.l_extendedprice * ('1'::numeric - lineitem.l_discount)))) DESC
+         Sort Method: top-N heapsort  Memory: 33kB
+         ->  Finalize GroupAggregate  (cost=195975.85..203991.93 rows=55626 width=280) (actual time=975.459..1089.524 rows=37967 loops=1)
+               Group Key: customer.c_custkey, customer.c_name, customer.c_acctbal, customer.c_phone, nation.n_name, customer.c_address, customer.c_comment
+               ->  Gather Merge  (cost=195975.85..202253.60 rows=46356 width=280) (actual time=975.444..1042.251 rows=44628 loops=1)
+                     Workers Planned: 2
+                     Workers Launched: 2
+                     ->  Partial GroupAggregate  (cost=194975.82..195902.94 rows=23178 width=280) (actual time=948.707..1012.774 rows=14876 loops=3)
+                           Group Key: customer.c_custkey, customer.c_name, customer.c_acctbal, customer.c_phone, nation.n_name, customer.c_address, customer.c_comment
+                           ->  Sort  (cost=194975.82..195033.77 rows=23178 width=260) (actual time=948.654..959.037 rows=38235 loops=3)
+                                 Sort Key: customer.c_custkey, customer.c_name, customer.c_acctbal, customer.c_phone, nation.n_name, customer.c_address, customer.c_comment
+                                 Sort Method: external merge  Disk: 5880kB
+                                 Worker 0:  Sort Method: external merge  Disk: 5968kB
+                                 Worker 1:  Sort Method: external merge  Disk: 10056kB
+                                 ->  Hash Join  (cost=43889.07..190442.86 rows=23178 width=260) (actual time=257.567..885.747 rows=38235 loops=3)
+                                       Hash Cond: (customer.c_nationkey = nation.n_nationkey)
+                                       ->  Parallel Hash Join  (cost=43875.25..190110.34 rows=23178 width=160) (actual time=230.075..845.704 rows=38235 loops=3)
+                                             Hash Cond: (lineitem.l_orderkey = orders.o_orderkey)
+                                             ->  Parallel Seq Scan on lineitem  (cost=0.00..143856.49 rows=608543 width=16) (actual time=0.071..498.818 rows=492957 loops=3)
+                                                   Filter: (l_returnflag = 'R'::bpchar)
+                                                   Rows Removed by Filter: 1507448
+                                             ->  Parallel Hash  (cost=43577.69..43577.69 rows=23804 width=152) (actual time=229.705..229.708 rows=19023 loops=3)
+                                                   Buckets: 65536  Batches: 1  Memory Usage: 11136kB
+                                                   ->  Parallel Hash Join  (cost=6349.25..43577.69 rows=23804 width=152) (actual time=183.280..205.538 rows=19023 loops=3)
+                                                         Hash Cond: (orders.o_custkey = customer.c_custkey)
+                                                         ->  Parallel Seq Scan on orders  (cost=0.00..35511.00 rows=23804 width=8) (actual time=0.088..110.302 rows=19023 loops=3)
+                                                               Filter: ((o_orderdate >= '1993-10-01'::date) AND (o_orderdate < '1994-01-01'::date))
+                                                               Rows Removed by Filter: 480977
+                                                         ->  Parallel Hash  (cost=4225.00..4225.00 rows=62500 width=148) (actual time=47.397..47.397 rows=50000 loops=3)
+                                                               Buckets: 65536  Batches: 4  Memory Usage: 7392kB
+                                                               ->  Parallel Seq Scan on customer  (cost=0.00..4225.00 rows=62500 width=148) (actual time=0.032..15.586 rows=50000 loops=3)
+                                       ->  Hash  (cost=11.70..11.70 rows=170 width=108) (actual time=27.454..27.454 rows=25 loops=3)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                                             ->  Seq Scan on nation  (cost=0.00..11.70 rows=170 width=108) (actual time=27.420..27.426 rows=25 loops=3)
+ Planning Time: 0.964 ms
+ JIT:
+   Functions: 112
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+   Timing: Generation 9.243 ms, Inlining 0.000 ms, Optimization 4.564 ms, Emission 109.459 ms, Total 123.266 ms
+ Execution Time: 1157.181 ms
+(42 rows)
+

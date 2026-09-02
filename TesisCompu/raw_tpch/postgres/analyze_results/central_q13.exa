@@ -1,0 +1,39 @@
+                                                                               QUERY PLAN                                                                               
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=141256.49..141256.99 rows=200 width=16) (actual time=1095.991..1103.401 rows=42 loops=1)
+   Sort Key: (count(*)) DESC, (count(orders.o_orderkey)) DESC
+   Sort Method: quicksort  Memory: 26kB
+   ->  HashAggregate  (cost=141246.84..141248.84 rows=200 width=16) (actual time=1095.930..1103.346 rows=42 loops=1)
+         Group Key: count(orders.o_orderkey)
+         Batches: 1  Memory Usage: 40kB
+         ->  Finalize GroupAggregate  (cost=100994.40..138996.84 rows=150000 width=12) (actual time=941.400..1079.411 rows=150000 loops=1)
+               Group Key: customer.c_custkey
+               ->  Gather Merge  (cost=100994.40..135996.84 rows=300000 width=12) (actual time=941.363..1020.600 rows=342967 loops=1)
+                     Workers Planned: 2
+                     Workers Launched: 2
+                     ->  Sort  (cost=99994.37..100369.37 rows=150000 width=12) (actual time=870.372..886.723 rows=114322 loops=3)
+                           Sort Key: customer.c_custkey
+                           Sort Method: external merge  Disk: 2472kB
+                           Worker 0:  Sort Method: external merge  Disk: 3744kB
+                           Worker 1:  Sort Method: external merge  Disk: 2536kB
+                           ->  Partial HashAggregate  (cost=78248.75..84532.92 rows=150000 width=12) (actual time=768.662..821.546 rows=114322 loops=3)
+                                 Group Key: customer.c_custkey
+                                 Planned Partitions: 4  Batches: 5  Memory Usage: 8241kB  Disk Usage: 1672kB
+                                 Worker 0:  Batches: 5  Memory Usage: 8241kB  Disk Usage: 3488kB
+                                 Worker 1:  Batches: 5  Memory Usage: 8241kB  Disk Usage: 3480kB
+                                 ->  Parallel Hash Right Join  (cost=5006.25..43802.71 rows=612374 width=8) (actual time=46.672..555.242 rows=511308 loops=3)
+                                       Hash Cond: (orders.o_custkey = customer.c_custkey)
+                                       ->  Parallel Seq Scan on orders  (cost=0.00..33948.50 rows=612374 width=8) (actual time=0.099..257.474 rows=494639 loops=3)
+                                             Filter: ((o_comment)::text !~~ '%special%requests%'::text)
+                                             Rows Removed by Filter: 5361
+                                       ->  Parallel Hash  (cost=4225.00..4225.00 rows=62500 width=4) (actual time=45.717..45.718 rows=50000 loops=3)
+                                             Buckets: 262144  Batches: 1  Memory Usage: 8000kB
+                                             ->  Parallel Seq Scan on customer  (cost=0.00..4225.00 rows=62500 width=4) (actual time=17.652..29.439 rows=50000 loops=3)
+ Planning Time: 0.602 ms
+ JIT:
+   Functions: 67
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+   Timing: Generation 4.712 ms, Inlining 0.000 ms, Optimization 3.121 ms, Emission 63.930 ms, Total 71.762 ms
+ Execution Time: 1124.010 ms
+(35 rows)
+

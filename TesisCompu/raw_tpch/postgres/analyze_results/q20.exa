@@ -1,0 +1,68 @@
+                                                                                                  QUERY PLAN                                                                                                  
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=0 width=0) (actual time=5.260..5.265 rows=186 loops=1)
+   ->  Distributed Subplan 1_1
+         Subplan Duration: 684706.00 ms
+         Intermediate Data Size: 57 kB
+         Result destination: Send to 4 nodes
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=4) (actual time=698510.496..698511.389 rows=5833 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 23 kB
+               Tasks Shown: One of 32
+               ->  Task
+                     Tuple data received from node: 620 bytes
+                     Node: host=159.90.9.11 port=5432 dbname=raw_tpch
+                     ->  Nested Loop Semi Join  (cost=0.00..188499778.82 rows=1 width=4) (actual time=5582.539..698503.017 rows=155 loops=1)
+                           Join Filter: (partsupp.ps_partkey = part.p_partkey)
+                           Rows Removed by Join Filter: 971240
+                           ->  Seq Scan on partsupp_102519 partsupp  (cost=0.00..188499441.15 rows=8479 width=8) (actual time=154.400..698371.509 rows=17120 loops=1)
+                                 Filter: ((ps_availqty)::numeric > (SubPlan 1))
+                                 Rows Removed by Filter: 8316
+                                 SubPlan 1
+                                   ->  Aggregate  (cost=7410.68..7410.70 rows=1 width=32) (actual time=27.446..27.446 rows=1 loops=25436)
+                                         ->  Seq Scan on lineitem_by_part_102423 lineitem_by_part  (cost=0.00..7410.68 rows=1 width=5) (actual time=16.466..27.437 rows=1 loops=25436)
+                                               Filter: ((l_shipdate >= '1994-01-01'::date) AND (l_shipdate < '1995-01-01'::date) AND (l_partkey = partsupp.ps_partkey) AND (l_suppkey = partsupp.ps_suppkey))
+                                               Rows Removed by Filter: 190733
+                           ->  Materialize  (cost=0.00..210.49 rows=1 width=4) (actual time=0.001..0.003 rows=57 loops=17120)
+                                 ->  Seq Scan on part_102551 part  (cost=0.00..210.49 rows=1 width=4) (actual time=0.023..1.218 rows=57 loops=1)
+                                       Filter: ((p_name)::text ~~ 'forest%'::text)
+                                       Rows Removed by Filter: 6302
+                         Planning Time: 0.162 ms
+                         JIT:
+                           Functions: 20
+                           Options: Inlining true, Optimization true, Expressions true, Deforming true
+                           Timing: Generation 1.044 ms, Inlining 17.219 ms, Optimization 61.594 ms, Emission 44.029 ms, Total 123.885 ms
+                         Execution Time: 698504.378 ms
+         Planning Time: 0.000 ms
+         Execution Time: 698512.184 ms
+   Task Count: 1
+   Tuple data received from nodes: 9311 bytes
+   Tasks Shown: All
+   ->  Task
+         Tuple data received from node: 9311 bytes
+         Node: host=159.90.9.10 port=5432 dbname=raw_tpch
+         ->  Sort  (cost=402.23..402.24 rows=6 width=51) (actual time=3.812..3.819 rows=186 loops=1)
+               Sort Key: supplier.s_name
+               Sort Method: quicksort  Memory: 39kB
+               ->  Hash Join  (cost=40.84..402.15 rows=6 width=51) (actual time=2.201..3.720 rows=186 loops=1)
+                     Hash Cond: (supplier.s_suppkey = intermediate_result.ps_suppkey)
+                     ->  Hash Join  (cost=12.14..373.23 rows=59 width=55) (actual time=0.019..1.498 rows=412 loops=1)
+                           Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                           ->  Seq Scan on supplier_102333 supplier  (cost=0.00..323.00 rows=10000 width=59) (actual time=0.006..0.878 rows=10000 loops=1)
+                           ->  Hash  (cost=12.12..12.12 rows=1 width=4) (actual time=0.009..0.009 rows=1 loops=1)
+                                 Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                 ->  Seq Scan on nation_102331 nation  (cost=0.00..12.12 rows=1 width=4) (actual time=0.006..0.008 rows=1 loops=1)
+                                       Filter: (n_name = 'CANADA'::bpchar)
+                                       Rows Removed by Filter: 24
+                     ->  Hash  (cost=26.20..26.20 rows=200 width=4) (actual time=2.178..2.179 rows=4397 loops=1)
+                           Buckets: 8192 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 219kB
+                           ->  HashAggregate  (cost=24.20..26.20 rows=200 width=4) (actual time=1.534..1.833 rows=4397 loops=1)
+                                 Group Key: intermediate_result.ps_suppkey
+                                 Batches: 1  Memory Usage: 481kB
+                                 ->  Function Scan on read_intermediate_result intermediate_result  (cost=0.00..21.70 rows=5833 width=4) (actual time=0.479..0.665 rows=5833 loops=1)
+             Planning Time: 0.234 ms
+             Execution Time: 3.878 ms
+ Planning Time: 3.560 ms
+ Execution Time: 684711.303 ms
+(64 filas)
+

@@ -1,0 +1,621 @@
+SET
+                                                                                   QUERY PLAN                                                                                   
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=511.14..511.64 rows=200 width=72) (actual time=662.045..662.047 rows=5 loops=1)
+   Sort Key: remote_scan.o_orderpriority
+   Sort Method: quicksort  Memory: 25kB
+   ->  HashAggregate  (cost=500.00..503.50 rows=200 width=72) (actual time=662.006..662.009 rows=5 loops=1)
+         Group Key: remote_scan.o_orderpriority
+         Batches: 1  Memory Usage: 40kB
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=72) (actual time=661.934..661.947 rows=160 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 3680 bytes
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8275.08..8275.13 rows=5 width=24) (actual time=493.134..493.137 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6652.11..8267.54 rows=1508 width=16) (actual time=466.357..492.416 rows=1628 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102084 orders  (cost=0.00..1541.16 rows=1793 width=20) (actual time=0.017..25.108 rows=1797 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 44947
+                                 ->  Hash  (cost=5872.09..5872.09 rows=62402 width=4) (actual time=465.938..465.939 rows=118475 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5190kB
+                                       ->  Seq Scan on lineitem_102020 lineitem  (cost=0.00..5872.09 rows=62402 width=4) (actual time=0.012..353.552 rows=118475 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 68732
+                         Planning Time: 6.546 ms
+                         Execution Time: 493.412 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8364.56..8375.55 rows=5 width=24) (actual time=458.601..458.921 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8364.56..8368.21 rows=1459 width=16) (actual time=458.513..458.648 rows=1680 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 88kB
+                                 ->  Hash Semi Join  (cost=6670.36..8287.88 rows=1459 width=16) (actual time=410.707..457.870 rows=1680 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102082 orders  (cost=0.00..1545.69 rows=1727 width=20) (actual time=0.017..46.204 rows=1822 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 45224
+                                       ->  Hash  (cost=5885.77..5885.77 rows=62767 width=4) (actual time=410.274..410.276 rows=119174 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5214kB
+                                             ->  Seq Scan on lineitem_102018 lineitem  (cost=0.00..5885.77 rows=62767 width=4) (actual time=0.015..280.035 rows=119174 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 69128
+                         Planning Time: 3.181 ms
+                         Execution Time: 462.618 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8265.89..8265.94 rows=5 width=24) (actual time=452.166..452.169 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6643.11..8258.16 rows=1545 width=16) (actual time=437.811..451.477 rows=1675 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102090 orders  (cost=0.00..1538.92 rows=1853 width=20) (actual time=0.013..12.759 rows=1834 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 44761
+                                 ->  Hash  (cost=5865.34..5865.34 rows=62222 width=4) (actual time=428.413..428.414 rows=117817 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5167kB
+                                       ->  Seq Scan on lineitem_102026 lineitem  (cost=0.00..5865.34 rows=62222 width=4) (actual time=0.019..318.653 rows=117817 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 68850
+                         Planning Time: 1.337 ms
+                         Execution Time: 452.421 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8294.73..8305.37 rows=5 width=24) (actual time=450.083..450.423 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8294.73..8298.26 rows=1412 width=16) (actual time=449.997..450.129 rows=1614 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 86kB
+                                 ->  Hash Semi Join  (cost=6652.49..8220.86 rows=1412 width=16) (actual time=432.867..449.390 rows=1614 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102088 orders  (cost=0.00..1542.94 rows=1685 width=20) (actual time=0.015..15.625 rows=1748 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 45115
+                                       ->  Hash  (cost=5872.36..5872.36 rows=62410 width=4) (actual time=426.204..426.205 rows=118427 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5188kB
+                                             ->  Seq Scan on lineitem_102024 lineitem  (cost=0.00..5872.36 rows=62410 width=4) (actual time=0.020..251.645 rows=118427 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 68802
+                         Planning Time: 1.228 ms
+                         Execution Time: 452.108 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8364.66..8375.89 rows=5 width=24) (actual time=417.337..417.651 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8364.66..8368.38 rows=1491 width=16) (actual time=417.262..417.379 rows=1602 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 86kB
+                                 ->  Hash Semi Join  (cost=6658.80..8286.06 rows=1491 width=16) (actual time=387.385..416.621 rows=1602 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102096 orders  (cost=0.00..1544.53 rows=1767 width=20) (actual time=0.016..28.299 rows=1737 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 45232
+                                       ->  Hash  (cost=5877.10..5877.10 rows=62536 width=4) (actual time=387.003..387.003 rows=118882 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5204kB
+                                             ->  Seq Scan on lineitem_102032 lineitem  (cost=0.00..5877.10 rows=62536 width=4) (actual time=0.011..290.215 rows=118882 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 68726
+                         Planning Time: 1.485 ms
+                         Execution Time: 418.843 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8313.65..8324.59 rows=5 width=24) (actual time=413.810..414.145 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8313.65..8317.28 rows=1452 width=16) (actual time=413.720..413.855 rows=1636 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 87kB
+                                 ->  Hash Semi Join  (cost=6665.96..8237.39 rows=1452 width=16) (actual time=381.195..410.237 rows=1636 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102093 orders  (cost=0.00..1545.28 rows=1730 width=20) (actual time=0.014..25.060 rows=1796 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 45223
+                                       ->  Hash  (cost=5882.48..5882.48 rows=62679 width=4) (actual time=371.830..371.831 rows=118944 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5206kB
+                                             ->  Seq Scan on lineitem_102029 lineitem  (cost=0.00..5882.48 rows=62679 width=4) (actual time=0.020..279.260 rows=118944 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 69094
+                         Planning Time: 1.474 ms
+                         Execution Time: 415.843 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8243.08..8243.13 rows=5 width=24) (actual time=413.378..413.382 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6665.76..8235.47 rows=1522 width=16) (actual time=369.435..406.649 rows=1631 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102091 orders  (cost=0.00..1542.33 rows=1806 width=20) (actual time=0.017..28.262 rows=1768 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 45054
+                                 ->  Hash  (cost=5882.33..5882.33 rows=62675 width=4) (actual time=360.042..360.043 rows=118618 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5195kB
+                                       ->  Seq Scan on lineitem_102027 lineitem  (cost=0.00..5882.33 rows=62675 width=4) (actual time=0.020..277.474 rows=118618 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 69408
+                         Planning Time: 1.469 ms
+                         Execution Time: 413.664 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8356.21..8367.17 rows=5 width=24) (actual time=401.890..402.193 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8356.21..8359.85 rows=1455 width=16) (actual time=401.815..401.936 rows=1580 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 86kB
+                                 ->  Hash Semi Join  (cost=6663.11..8279.78 rows=1455 width=16) (actual time=370.528..401.203 rows=1580 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102094 orders  (cost=0.00..1545.01 rows=1728 width=20) (actual time=0.009..29.765 rows=1733 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 45268
+                                       ->  Hash  (cost=5880.34..5880.34 rows=62622 width=4) (actual time=370.152..370.153 rows=118714 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5198kB
+                                             ->  Seq Scan on lineitem_102030 lineitem  (cost=0.00..5880.34 rows=62622 width=4) (actual time=0.011..270.195 rows=118714 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 69153
+                         Planning Time: 9.285 ms
+                         Execution Time: 410.931 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8351.18..8361.69 rows=5 width=24) (actual time=403.883..404.181 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8351.18..8354.67 rows=1395 width=16) (actual time=403.800..403.920 rows=1498 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 84kB
+                                 ->  Hash Semi Join  (cost=6657.85..8278.32 rows=1395 width=16) (actual time=389.706..403.219 rows=1498 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102092 orders  (cost=0.00..1543.08 rows=1647 width=20) (actual time=0.033..12.701 rows=1654 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 45218
+                                       ->  Hash  (cost=5876.39..5876.39 rows=62517 width=4) (actual time=389.330..389.331 rows=118590 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5194kB
+                                             ->  Seq Scan on lineitem_102028 lineitem  (cost=0.00..5876.39 rows=62517 width=4) (actual time=0.011..321.750 rows=118590 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 68961
+                         Planning Time: 1.206 ms
+                         Execution Time: 405.890 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8338.70..8349.67 rows=5 width=24) (actual time=393.768..394.101 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8338.70..8342.34 rows=1456 width=16) (actual time=393.675..393.810 rows=1640 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 87kB
+                                 ->  Hash Semi Join  (cost=6650.65..8262.21 rows=1456 width=16) (actual time=358.783..393.048 rows=1640 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102089 orders  (cost=0.00..1539.86 rows=1731 width=20) (actual time=0.039..33.397 rows=1769 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 44888
+                                       ->  Hash  (cost=5870.99..5870.99 rows=62373 width=4) (actual time=348.333..348.334 rows=118761 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5200kB
+                                             ->  Seq Scan on lineitem_102025 lineitem  (cost=0.00..5870.99 rows=62373 width=4) (actual time=0.020..263.769 rows=118761 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 68358
+                         Planning Time: 1.314 ms
+                         Execution Time: 398.826 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8366.37..8366.42 rows=5 width=24) (actual time=397.865..397.869 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6737.86..8358.72 rows=1530 width=16) (actual time=381.854..397.158 rows=1616 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102100 orders  (cost=0.00..1545.51 rows=1819 width=20) (actual time=0.032..14.360 rows=1770 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 45264
+                                 ->  Hash  (cost=5952.40..5952.40 rows=62837 width=4) (actual time=375.085..375.086 rows=119192 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5215kB
+                                       ->  Seq Scan on lineitem_102036 lineitem  (cost=0.00..5952.40 rows=62837 width=4) (actual time=0.024..274.034 rows=119192 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 69320
+                         Planning Time: 1.213 ms
+                         Execution Time: 398.112 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8287.64..8287.69 rows=5 width=24) (actual time=395.996..395.999 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6661.54..8280.14 rows=1501 width=16) (actual time=366.499..395.325 rows=1640 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102086 orders  (cost=0.00..1544.62 rows=1807 width=20) (actual time=0.022..24.930 rows=1809 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 45166
+                                 ->  Hash  (cost=5879.15..5879.15 rows=62591 width=4) (actual time=366.104..366.105 rows=118647 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5196kB
+                                       ->  Seq Scan on lineitem_102022 lineitem  (cost=0.00..5879.15 rows=62591 width=4) (actual time=0.017..257.292 rows=118647 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 69125
+                         Planning Time: 4.591 ms
+                         Execution Time: 396.272 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8354.46..8365.66 rows=5 width=24) (actual time=392.183..392.540 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8354.46..8358.18 rows=1487 width=16) (actual time=392.100..392.247 rows=1659 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 87kB
+                                 ->  Hash Semi Join  (cost=6661.30..8276.11 rows=1487 width=16) (actual time=377.584..391.448 rows=1659 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102098 orders  (cost=0.00..1541.58 rows=1767 width=20) (actual time=0.014..12.873 rows=1813 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 44959
+                                       ->  Hash  (cost=5878.98..5878.98 rows=62586 width=4) (actual time=377.181..377.182 rows=118726 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5198kB
+                                             ->  Seq Scan on lineitem_102034 lineitem  (cost=0.00..5878.98 rows=62586 width=4) (actual time=0.014..275.425 rows=118726 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 69032
+                         Planning Time: 1.291 ms
+                         Execution Time: 394.220 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8237.66..8237.71 rows=5 width=24) (actual time=388.041..388.044 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6660.30..8230.14 rows=1505 width=16) (actual time=342.627..387.370 rows=1630 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102081 orders  (cost=0.00..1542.75 rows=1790 width=20) (actual time=0.015..43.846 rows=1790 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 45060
+                                 ->  Hash  (cost=5878.23..5878.23 rows=62566 width=4) (actual time=342.251..342.252 rows=118816 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5202kB
+                                       ->  Seq Scan on lineitem_102017 lineitem  (cost=0.00..5878.23 rows=62566 width=4) (actual time=0.011..249.105 rows=118816 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 68882
+                         Planning Time: 7.774 ms
+                         Execution Time: 388.294 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8381.44..8392.50 rows=5 width=24) (actual time=373.683..382.034 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8381.44..8385.11 rows=1468 width=16) (actual time=373.593..381.739 rows=1661 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 87kB
+                                 ->  Hash Semi Join  (cost=6733.60..8304.23 rows=1468 width=16) (actual time=331.220..372.957 rows=1661 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102083 orders  (cost=0.00..1544.24 rows=1735 width=20) (actual time=0.015..40.842 rows=1774 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 45175
+                                       ->  Hash  (cost=5949.20..5949.20 rows=62752 width=4) (actual time=330.852..330.853 rows=118815 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5202kB
+                                             ->  Seq Scan on lineitem_102019 lineitem  (cost=0.00..5949.20 rows=62752 width=4) (actual time=0.010..220.340 rows=118815 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 69441
+                         Planning Time: 1.230 ms
+                         Execution Time: 383.803 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8231.91..8231.96 rows=5 width=24) (actual time=375.836..375.840 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6655.45..8224.42 rows=1497 width=16) (actual time=319.181..375.148 rows=1603 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102078 orders  (cost=0.00..1542.03 rows=1780 width=20) (actual time=0.044..55.079 rows=1759 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 45043
+                                 ->  Hash  (cost=5874.59..5874.59 rows=62469 width=4) (actual time=318.077..318.077 rows=118663 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5196kB
+                                       ->  Seq Scan on lineitem_102014 lineitem  (cost=0.00..5874.59 rows=62469 width=4) (actual time=0.040..240.349 rows=118663 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 68744
+                         Planning Time: 4.905 ms
+                         Execution Time: 376.271 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8283.20..8283.25 rows=5 width=24) (actual time=373.145..373.148 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6656.40..8275.35 rows=1569 width=16) (actual time=365.733..372.788 rows=1677 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102106 orders  (cost=0.00..1541.73 rows=1848 width=20) (actual time=0.018..6.549 rows=1824 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 44958
+                                 ->  Hash  (cost=5875.30..5875.30 rows=62488 width=4) (actual time=365.370..365.371 rows=118244 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5182kB
+                                       ->  Seq Scan on lineitem_102042 lineitem  (cost=0.00..5875.30 rows=62488 width=4) (actual time=0.013..289.549 rows=118244 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 69220
+                         Planning Time: 1.277 ms
+                         Execution Time: 373.361 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8332.46..8343.38 rows=5 width=24) (actual time=367.178..367.320 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8332.46..8336.08 rows=1449 width=16) (actual time=367.134..367.195 rows=1610 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 86kB
+                                 ->  Hash Semi Join  (cost=6643.51..8256.38 rows=1449 width=16) (actual time=355.057..366.712 rows=1610 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102097 orders  (cost=0.00..1541.44 rows=1748 width=20) (actual time=0.024..10.861 rows=1763 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 45000
+                                       ->  Hash  (cost=5865.64..5865.64 rows=62230 width=4) (actual time=344.129..344.130 rows=117834 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5167kB
+                                             ->  Seq Scan on lineitem_102033 lineitem  (cost=0.00..5865.64 rows=62230 width=4) (actual time=0.028..214.834 rows=117834 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 68857
+                         Planning Time: 1.330 ms
+                         Execution Time: 368.456 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8325.08..8325.13 rows=5 width=24) (actual time=360.700..360.704 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6742.64..8317.48 rows=1521 width=16) (actual time=346.388..359.995 rows=1697 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102103 orders  (cost=0.00..1547.49 rows=1800 width=20) (actual time=0.012..12.694 rows=1826 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 45340
+                                 ->  Hash  (cost=5955.98..5955.98 rows=62933 width=4) (actual time=346.010..346.011 rows=119089 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5211kB
+                                       ->  Seq Scan on lineitem_102039 lineitem  (cost=0.00..5955.98 rows=62933 width=4) (actual time=0.013..250.834 rows=119089 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 69709
+                         Planning Time: 1.297 ms
+                         Execution Time: 360.937 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8284.82..8284.87 rows=5 width=24) (actual time=357.317..357.320 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6654.05..8277.05 rows=1553 width=16) (actual time=327.373..353.586 rows=1717 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102095 orders  (cost=0.00..1546.61 rows=1815 width=20) (actual time=0.040..25.251 rows=1868 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 45239
+                                 ->  Hash  (cost=5873.54..5873.54 rows=62441 width=4) (actual time=317.957..317.958 rows=118523 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5191kB
+                                       ->  Seq Scan on lineitem_102031 lineitem  (cost=0.00..5873.54 rows=62441 width=4) (actual time=0.025..255.494 rows=118523 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 68800
+                         Planning Time: 1.403 ms
+                         Execution Time: 357.600 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8327.92..8327.97 rows=5 width=24) (actual time=351.878..351.881 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6744.25..8320.31 rows=1523 width=16) (actual time=337.530..351.203 rows=1654 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102099 orders  (cost=0.00..1548.64 rows=1812 width=20) (actual time=0.027..12.739 rows=1804 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 45439
+                                 ->  Hash  (cost=5957.19..5957.19 rows=62965 width=4) (actual time=337.154..337.155 rows=119128 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5213kB
+                                       ->  Seq Scan on lineitem_102035 lineitem  (cost=0.00..5957.19 rows=62965 width=4) (actual time=8.594..246.790 rows=119128 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 69767
+                         Planning Time: 1.329 ms
+                         Execution Time: 352.147 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8397.83..8409.04 rows=5 width=24) (actual time=350.005..350.171 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8397.83..8401.55 rows=1489 width=16) (actual time=349.963..350.028 rows=1632 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 87kB
+                                 ->  Hash Semi Join  (cost=6744.55..8319.35 rows=1489 width=16) (actual time=327.912..349.467 rows=1632 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102105 orders  (cost=0.00..1547.99 rows=1779 width=20) (actual time=0.012..20.650 rows=1772 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 45427
+                                       ->  Hash  (cost=5957.41..5957.41 rows=62971 width=4) (actual time=327.526..327.526 rows=119505 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5226kB
+                                             ->  Seq Scan on lineitem_102041 lineitem  (cost=0.00..5957.41 rows=62971 width=4) (actual time=0.019..239.286 rows=119505 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 69408
+                         Planning Time: 1.250 ms
+                         Execution Time: 351.538 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8363.02..8363.07 rows=5 width=24) (actual time=344.477..344.481 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6734.20..8355.42 rows=1521 width=16) (actual time=309.013..343.739 rows=1695 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102087 orders  (cost=0.00..1546.28 rows=1823 width=20) (actual time=0.015..27.765 rows=1853 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 45232
+                                 ->  Hash  (cost=5949.65..5949.65 rows=62764 width=4) (actual time=308.647..308.648 rows=119015 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5209kB
+                                       ->  Seq Scan on lineitem_102023 lineitem  (cost=0.00..5949.65 rows=62764 width=4) (actual time=0.011..240.024 rows=119015 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 69277
+                         Planning Time: 1.256 ms
+                         Execution Time: 344.736 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8309.41..8320.42 rows=5 width=24) (actual time=342.560..342.874 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8309.41..8313.06 rows=1462 width=16) (actual time=342.469..342.601 rows=1608 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 86kB
+                                 ->  Hash Semi Join  (cost=6661.39..8232.55 rows=1462 width=16) (actual time=328.377..341.828 rows=1608 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102080 orders  (cost=0.00..1544.89 rows=1722 width=20) (actual time=0.047..12.599 rows=1743 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 45250
+                                       ->  Hash  (cost=5879.04..5879.04 rows=62588 width=4) (actual time=327.617..327.618 rows=118620 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5195kB
+                                             ->  Seq Scan on lineitem_102016 lineitem  (cost=0.00..5879.04 rows=62588 width=4) (actual time=0.021..211.756 rows=118620 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 69143
+                         Planning Time: 6.503 ms
+                         Execution Time: 344.614 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8203.05..8203.10 rows=5 width=24) (actual time=343.151..343.155 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6630.55..8195.59 rows=1493 width=16) (actual time=322.974..342.467 rows=1607 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102102 orders  (cost=0.00..1538.17 rows=1773 width=20) (actual time=0.017..18.626 rows=1752 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 44793
+                                 ->  Hash  (cost=5855.91..5855.91 rows=61971 width=4) (actual time=322.591..322.592 rows=117325 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5149kB
+                                       ->  Seq Scan on lineitem_102038 lineitem  (cost=0.00..5855.91 rows=61971 width=4) (actual time=0.011..228.427 rows=117325 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 68588
+                         Planning Time: 1.237 ms
+                         Execution Time: 343.407 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8269.06..8269.11 rows=5 width=24) (actual time=341.487..341.491 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6644.44..8261.46 rows=1519 width=16) (actual time=314.586..340.779 rows=1695 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102101 orders  (cost=0.00..1542.16 rows=1827 width=20) (actual time=0.016..19.200 rows=1850 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 44961
+                                 ->  Hash  (cost=5866.33..5866.33 rows=62249 width=4) (actual time=314.531..314.532 rows=117809 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5166kB
+                                       ->  Seq Scan on lineitem_102037 lineitem  (cost=0.00..5866.33 rows=62249 width=4) (actual time=0.009..228.039 rows=117809 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 68937
+                         Planning Time: 0.600 ms
+                         Execution Time: 341.561 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8275.66..8275.71 rows=5 width=24) (actual time=331.847..331.851 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6647.86..8267.80 rows=1572 width=16) (actual time=287.925..331.132 rows=1665 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102077 orders  (cost=0.00..1542.53 rows=1867 width=20) (actual time=0.059..42.351 rows=1809 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 45026
+                                 ->  Hash  (cost=5868.90..5868.90 rows=62317 width=4) (actual time=286.594..286.595 rows=118222 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5181kB
+                                       ->  Seq Scan on lineitem_102013 lineitem  (cost=0.00..5868.90 rows=62317 width=4) (actual time=0.049..205.993 rows=118222 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 68730
+                         Planning Time: 4.531 ms
+                         Execution Time: 332.321 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8316.49..8327.69 rows=5 width=24) (actual time=316.208..316.527 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8316.49..8320.21 rows=1487 width=16) (actual time=316.110..316.240 rows=1617 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 86kB
+                                 ->  Hash Semi Join  (cost=6622.15..8238.14 rows=1487 width=16) (actual time=273.519..315.493 rows=1617 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102085 orders  (cost=0.00..1535.32 rows=1767 width=20) (actual time=0.017..41.095 rows=1741 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 44614
+                                       ->  Hash  (cost=5849.61..5849.61 rows=61803 width=4) (actual time=273.153..273.154 rows=117245 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5146kB
+                                             ->  Seq Scan on lineitem_102021 lineitem  (cost=0.00..5849.61 rows=61803 width=4) (actual time=0.010..213.877 rows=117245 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 68164
+                         Planning Time: 1.355 ms
+                         Execution Time: 318.170 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  GroupAggregate  (cost=8315.83..8327.02 rows=5 width=24) (actual time=294.107..294.423 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           ->  Sort  (cost=8315.83..8319.54 rows=1486 width=16) (actual time=293.997..294.141 rows=1711 loops=1)
+                                 Sort Key: orders.o_orderpriority
+                                 Sort Method: quicksort  Memory: 89kB
+                                 ->  Hash Semi Join  (cost=6667.15..8237.54 rows=1486 width=16) (actual time=255.892..293.319 rows=1711 loops=1)
+                                       Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                       ->  Seq Scan on orders_102104 orders  (cost=0.00..1543.63 rows=1770 width=20) (actual time=0.012..36.507 rows=1845 loops=1)
+                                             Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                             Rows Removed by Filter: 45064
+                                       ->  Hash  (cost=5883.36..5883.36 rows=62703 width=4) (actual time=255.525..255.525 rows=119135 loops=1)
+                                             Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5213kB
+                                             ->  Seq Scan on lineitem_102040 lineitem  (cost=0.00..5883.36 rows=62703 width=4) (actual time=0.011..195.914 rows=119135 loops=1)
+                                                   Filter: (l_commitdate < l_receiptdate)
+                                                   Rows Removed by Filter: 68974
+                         Planning Time: 1.251 ms
+                         Execution Time: 296.192 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8223.89..8223.94 rows=5 width=24) (actual time=292.384..292.388 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6647.69..8216.12 rows=1555 width=16) (actual time=214.359..291.679 rows=1650 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102076 orders  (cost=0.00..1540.47 rows=1839 width=20) (actual time=0.051..67.410 rows=1814 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 44884
+                                 ->  Hash  (cost=5868.76..5868.76 rows=62314 width=4) (actual time=212.878..212.879 rows=118098 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5176kB
+                                       ->  Seq Scan on lineitem_102012 lineitem  (cost=0.00..5868.76 rows=62314 width=4) (actual time=0.043..135.897 rows=118098 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 68843
+                         Planning Time: 5.127 ms
+                         Execution Time: 292.866 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8232.27..8232.32 rows=5 width=24) (actual time=250.180..250.184 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6653.70..8224.73 rows=1509 width=16) (actual time=205.328..249.449 rows=1687 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102079 orders  (cost=0.00..1543.90 rows=1781 width=20) (actual time=0.047..43.247 rows=1826 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 45101
+                                 ->  Hash  (cost=5873.27..5873.27 rows=62434 width=4) (actual time=204.319..204.320 rows=118083 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5176kB
+                                       ->  Seq Scan on lineitem_102015 lineitem  (cost=0.00..5873.27 rows=62434 width=4) (actual time=0.030..152.674 rows=118083 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 69219
+                         Planning Time: 3.725 ms
+                         Execution Time: 250.606 ms
+               ->  Task
+                     Tuple data received from node: 115 bytes
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  HashAggregate  (cost=8265.88..8265.93 rows=5 width=24) (actual time=216.043..216.047 rows=5 loops=1)
+                           Group Key: orders.o_orderpriority
+                           Batches: 1  Memory Usage: 24kB
+                           ->  Hash Semi Join  (cost=6643.45..8258.21 rows=1535 width=16) (actual time=184.912..215.343 rows=1608 loops=1)
+                                 Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                                 ->  Seq Scan on orders_102075 orders  (cost=0.00..1539.18 rows=1819 width=20) (actual time=0.046..29.559 rows=1755 loops=1)
+                                       Filter: ((o_orderdate >= '1993-07-01'::date) AND (o_orderdate < '1993-10-01'::date))
+                                       Rows Removed by Filter: 44857
+                                 ->  Hash  (cost=5865.59..5865.59 rows=62229 width=4) (actual time=183.870..183.871 rows=118160 loops=1)
+                                       Buckets: 131072 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 5179kB
+                                       ->  Seq Scan on lineitem_102011 lineitem  (cost=0.00..5865.59 rows=62229 width=4) (actual time=0.037..135.230 rows=118160 loops=1)
+                                             Filter: (l_commitdate < l_receiptdate)
+                                             Rows Removed by Filter: 68527
+                         Planning Time: 3.340 ms
+                         Execution Time: 216.434 ms
+ Planning Time: 4.007 ms
+ Execution Time: 662.177 ms
+(616 rows)
+

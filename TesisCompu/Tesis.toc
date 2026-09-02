@@ -1,0 +1,97 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {chapter}{\textbf {DEDICATORIA}}{3}{}%
+\contentsline {chapter}{\textbf {AGRADECIMIENTOS}}{4}{}%
+\contentsline {chapter}{\textbf {Índice general}}{7}{}%
+\contentsline {chapter}{\textbf {Introducción}}{8}{}%
+\contentsline {chapter}{\numberline {I}El problema}{10}{}%
+\contentsline {section}{\numberline {1.1}Planteamiento del problema}{10}{}%
+\contentsline {section}{\numberline {1.2}Antecedentes}{12}{}%
+\contentsline {subsection}{\numberline {1.2.1}Eficiencia de las consultas}{13}{}%
+\contentsline {subsection}{\numberline {1.2.2}Herramientas de medición de consumo}{14}{}%
+\contentsline {section}{\numberline {1.3}Objetivos}{15}{}%
+\contentsline {subsection}{\numberline {1.3.1}Objetivo general}{15}{}%
+\contentsline {subsection}{\numberline {1.3.2}Objetivos específicos}{15}{}%
+\contentsline {chapter}{\numberline {II}Marco teórico}{17}{}%
+\contentsline {section}{\numberline {2.1}\textit {Benchmark} TPC-H}{17}{}%
+\contentsline {subsection}{\numberline {2.1.1}Diseño conceptual de la base de datos}{17}{}%
+\contentsline {subsection}{\numberline {2.1.2}Consultas}{18}{}%
+\contentsline {section}{\numberline {2.2}Medición del consumo energético}{20}{}%
+\contentsline {subsection}{\numberline {2.2.1}Potencia eléctrica}{20}{}%
+\contentsline {subsection}{\numberline {2.2.2}Consumo energético}{20}{}%
+\contentsline {section}{\numberline {2.3}Diseño físico de bases de datos}{21}{}%
+\contentsline {subsection}{\numberline {2.3.1}Índices}{21}{}%
+\contentsline {subsection}{\numberline {2.3.2}Reescritura de consultas}{22}{}%
+\contentsline {subsection}{\numberline {2.3.3}Expresiones de tabla común (CTE)}{22}{}%
+\contentsline {subsubsection}{Materialización}{22}{}%
+\contentsline {section}{\numberline {2.4}Gestión de memoria}{23}{}%
+\contentsline {subsection}{\numberline {2.4.1}Jerarquía de memoria y administración del \textit {buffer pool}}{23}{}%
+\contentsline {subsection}{\numberline {2.4.2}Tormenta de accesos aleatorios}{24}{}%
+\contentsline {subsection}{\numberline {2.4.3}Mecanismos de paginación y fallos de página}{24}{}%
+\contentsline {section}{\numberline {2.5}Pruebas estadísticas}{25}{}%
+\contentsline {subsection}{\numberline {2.5.1}Prueba de Shapiro-Wilk}{25}{}%
+\contentsline {subsection}{\numberline {2.5.2}Pruebas no paramétricas: Spearman y Kendall}{26}{}%
+\contentsline {chapter}{\numberline {III}Marco tecnológico}{28}{}%
+\contentsline {section}{\numberline {3.1}Ambiente distribuido}{28}{}%
+\contentsline {subsection}{\numberline {3.1.1}PSQL}{28}{}%
+\contentsline {subsection}{\numberline {3.1.2}Citus}{28}{}%
+\contentsline {subsection}{\numberline {3.1.3}DBGen}{29}{}%
+\contentsline {section}{\numberline {3.2}Consumo}{29}{}%
+\contentsline {subsection}{\numberline {3.2.1}RAPL y Scaphandre}{29}{}%
+\contentsline {subsection}{\numberline {3.2.2}Prometheus}{30}{}%
+\contentsline {section}{\numberline {3.3}Herramientas suplementarias}{30}{}%
+\contentsline {subsection}{\numberline {3.3.1}Coreutils}{30}{}%
+\contentsline {subsection}{\numberline {3.3.2}Sed}{31}{}%
+\contentsline {subsection}{\numberline {3.3.3}Jq}{31}{}%
+\contentsline {subsection}{\numberline {3.3.4}Python}{31}{}%
+\contentsline {subsection}{\numberline {3.3.5}R y R Studio}{31}{}%
+\contentsline {subsection}{\numberline {3.3.6}Wget}{31}{}%
+\contentsline {chapter}{\numberline {IV}Estudio experimental}{32}{}%
+\contentsline {section}{\numberline {4.1}Arquitectura}{32}{}%
+\contentsline {section}{\numberline {4.2}Metodología experimental}{32}{}%
+\contentsline {subsection}{\numberline {4.2.1}Carga de datos}{32}{}%
+\contentsline {subsection}{\numberline {4.2.2}Diseño físico}{33}{}%
+\contentsline {subsubsection}{Indexación asistida por inteligencia artificial}{33}{}%
+\contentsline {subsubsection}{Reescritura lógica mediante CTE}{33}{}%
+\contentsline {subsubsection}{Optimización de arquitectura por co-locación de tablas}{33}{}%
+\contentsline {subsection}{\numberline {4.2.3}Medidas}{34}{}%
+\contentsline {subsection}{\numberline {4.2.4}Consumo energético}{34}{}%
+\contentsline {subsection}{\numberline {4.2.5}Tratamiento de los datos}{35}{}%
+\contentsline {chapter}{\numberline {V}Resultados y discusión}{36}{}%
+\contentsline {section}{\numberline {5.1}Tamaño de la base de datos}{36}{}%
+\contentsline {section}{\numberline {5.2}Tiempos de ejecución}{37}{}%
+\contentsline {subsection}{\numberline {5.2.1}Resumen de tiempos}{38}{}%
+\contentsline {subsection}{\numberline {5.2.2}Gráficos de barras: comparación por volumen de datos}{38}{}%
+\contentsline {subsection}{\numberline {5.2.3}Resumen del impacto de la estrategia de diseño}{44}{}%
+\contentsline {section}{\numberline {5.3}Consumo energético neto}{47}{}%
+\contentsline {subsection}{\numberline {5.3.1}Resumen de consumo neto}{48}{}%
+\contentsline {subsection}{\numberline {5.3.2}Gráficos de barras: consumo contra volumen de datos}{49}{}%
+\contentsline {subsection}{\numberline {5.3.3}Consumo del nodo coordinador}{54}{}%
+\contentsline {section}{\numberline {5.4}Revisión estadística}{56}{}%
+\contentsline {subsection}{\numberline {5.4.1}Normalidad (Shapiro-Wilk)}{56}{}%
+\contentsline {subsection}{\numberline {5.4.2}Correlaciones no paramétricas: Kendall y Spearman}{57}{}%
+\contentsline {chapter}{\textbf {Conclusiones}}{60}{}%
+\contentsline {chapter}{\textbf {Referencias}}{61}{}%
+\contentsline {chapter}{\numberline {A}TPC-H}{72}{}%
+\contentsline {section}{\numberline {A.1}Diseño lógico de la base de datos}{72}{}%
+\contentsline {section}{\numberline {A.2}Consultas}{72}{}%
+\contentsline {chapter}{\numberline {B}Instalación de herramientas}{80}{}%
+\contentsline {section}{\numberline {B.1}Scaphandre}{80}{}%
+\contentsline {section}{\numberline {B.2}Prometheus}{80}{}%
+\contentsline {section}{\numberline {B.3}Jq}{81}{}%
+\contentsline {section}{\numberline {B.4}Dbgen de TPC-H}{81}{}%
+\contentsline {section}{\numberline {B.5}Configuración de clústeres}{81}{}%
+\contentsline {chapter}{\numberline {C}Medias y desviaciones estándar del consumo energético por nodos}{83}{}%
+\contentsline {section}{\numberline {C.1}Consumo nodo coordinador}{83}{}%
+\contentsline {section}{\numberline {C.2}Consumo nodo trabajador 1}{85}{}%
+\contentsline {section}{\numberline {C.3}Consumo nodo trabajador 2}{87}{}%
+\contentsline {chapter}{\numberline {D}Consumo nodos trabajadores}{89}{}%
+\contentsline {chapter}{\numberline {E}Gráficos de dispersión sin diseño}{93}{}%
+\contentsline {section}{\numberline {E.1}Consumo neto}{93}{}%
+\contentsline {section}{\numberline {E.2}Consumo trabajador 1}{95}{}%
+\contentsline {section}{\numberline {E.3}Consumo trabajador 2}{96}{}%
+\contentsline {section}{\numberline {E.4}Consumo coordinador}{98}{}%
+\contentsline {chapter}{\numberline {F}Gráficos de dispersión con diseño}{100}{}%
+\contentsline {section}{\numberline {F.1}Consumo neto}{100}{}%
+\contentsline {section}{\numberline {F.2}Consumo trabajador 1}{102}{}%
+\contentsline {section}{\numberline {F.3}Consumo trabajador 2}{103}{}%
+\contentsline {section}{\numberline {F.4}Consumo coordinador}{105}{}%

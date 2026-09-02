@@ -1,0 +1,30 @@
+                                                                                                                               QUERY PLAN                                                                                                                               
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize GroupAggregate  (cost=216474.01..216700.71 rows=7 width=27) (actual time=798.014..802.087 rows=2 loops=1)
+   Group Key: lineitem.l_shipmode
+   ->  Gather Merge  (cost=216474.01..216700.54 rows=14 width=27) (actual time=795.507..802.020 rows=6 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         ->  Partial GroupAggregate  (cost=215473.99..215698.90 rows=7 width=27) (actual time=773.856..775.752 rows=2 loops=3)
+               Group Key: lineitem.l_shipmode
+               ->  Sort  (cost=215473.99..215502.10 rows=11242 width=27) (actual time=771.414..772.181 rows=10329 loops=3)
+                     Sort Key: lineitem.l_shipmode
+                     Sort Method: quicksort  Memory: 855kB
+                     Worker 0:  Sort Method: quicksort  Memory: 854kB
+                     Worker 1:  Sort Method: quicksort  Memory: 1139kB
+                     ->  Parallel Hash Join  (cost=175253.50..214717.59 rows=11242 width=27) (actual time=580.515..767.116 rows=10329 loops=3)
+                           Hash Cond: (orders.o_orderkey = lineitem.l_orderkey)
+                           ->  Parallel Seq Scan on orders  (cost=0.00..32386.00 rows=625000 width=20) (actual time=0.044..77.467 rows=500000 loops=3)
+                           ->  Parallel Hash  (cost=175112.98..175112.98 rows=11242 width=15) (actual time=580.067..580.068 rows=10329 loops=3)
+                                 Buckets: 32768  Batches: 1  Memory Usage: 1760kB
+                                 ->  Parallel Seq Scan on lineitem  (cost=0.00..175112.98 rows=11242 width=15) (actual time=27.414..574.365 rows=10329 loops=3)
+                                       Filter: ((l_commitdate < l_receiptdate) AND (l_shipdate < l_commitdate) AND (l_receiptdate >= '1994-01-01'::date) AND (l_receiptdate < '1995-01-01'::date) AND ((l_shipmode = 'MAIL'::bpchar) OR (l_shipmode = 'SHIP'::bpchar)))
+                                       Rows Removed by Filter: 1990076
+ Planning Time: 0.530 ms
+ JIT:
+   Functions: 57
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+   Timing: Generation 5.595 ms, Inlining 0.000 ms, Optimization 2.937 ms, Emission 78.624 ms, Total 87.157 ms
+ Execution Time: 821.213 ms
+(26 rows)
+

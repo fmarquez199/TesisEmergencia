@@ -1,0 +1,1517 @@
+SET
+                                                                                QUERY PLAN                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit (actual rows=100 loops=1)
+   ->  Sort (actual rows=100 loops=1)
+         Sort Key: remote_scan.s_acctbal DESC, remote_scan.n_name, remote_scan.s_name, remote_scan.p_partkey
+         Sort Method: top-N heapsort  Memory: 63kB
+         ->  Custom Scan (Citus Adaptive) (actual rows=2337 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 442 kB
+               Tasks Shown: All
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=72 loops=1)
+                           ->  Sort (actual rows=72 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Hash Join (actual rows=72 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24845 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102218 partsupp (actual rows=125216 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=72 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102186 part (actual rows=125 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31179
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=197)
+                                                     ->  Nested Loop (actual rows=1 loops=197)
+                                                           ->  Nested Loop (actual rows=4 loops=197)
+                                                                 ->  Nested Loop (actual rows=4 loops=197)
+                                                                       ->  Index Scan using partsupp_pkey_102218 on partsupp_102218 partsupp_1 (actual rows=4 loops=197)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=788)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=788)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=788)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 15 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=79 loops=1)
+                           ->  Sort (actual rows=79 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Hash Join (actual rows=79 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25217 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102214 partsupp (actual rows=125084 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=79 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102182 part (actual rows=134 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31137
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=213)
+                                                     ->  Nested Loop (actual rows=1 loops=213)
+                                                           ->  Nested Loop (actual rows=4 loops=213)
+                                                                 ->  Nested Loop (actual rows=4 loops=213)
+                                                                       ->  Index Scan using partsupp_pkey_102214 on partsupp_102214 partsupp_1 (actual rows=4 loops=213)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=852)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=852)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=852)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=63 loops=1)
+                           ->  Sort (actual rows=63 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Hash Join (actual rows=63 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25084 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102220 partsupp (actual rows=125408 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=63 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                             ->  Seq Scan on part_102188 part (actual rows=112 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31240
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=175)
+                                                     ->  Nested Loop (actual rows=1 loops=175)
+                                                           ->  Nested Loop (actual rows=4 loops=175)
+                                                                 ->  Nested Loop (actual rows=4 loops=175)
+                                                                       ->  Index Scan using partsupp_pkey_102220 on partsupp_102220 partsupp_1 (actual rows=4 loops=175)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=700)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=700)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=700)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 17 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=88 loops=1)
+                           ->  Sort (actual rows=88 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 47kB
+                                 ->  Hash Join (actual rows=88 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24954 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102216 partsupp (actual rows=124904 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=88 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 14kB
+                                             ->  Seq Scan on part_102184 part (actual rows=132 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31094
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=220)
+                                                     ->  Nested Loop (actual rows=1 loops=220)
+                                                           ->  Nested Loop (actual rows=4 loops=220)
+                                                                 ->  Nested Loop (actual rows=4 loops=220)
+                                                                       ->  Index Scan using partsupp_pkey_102216 on partsupp_102216 partsupp_1 (actual rows=4 loops=220)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=880)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=880)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=880)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 15 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=77 loops=1)
+                           ->  Sort (actual rows=77 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Hash Join (actual rows=77 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25025 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102234 partsupp (actual rows=125452 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=77 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102202 part (actual rows=125 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31238
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=202)
+                                                     ->  Nested Loop (actual rows=1 loops=202)
+                                                           ->  Nested Loop (actual rows=4 loops=202)
+                                                                 ->  Nested Loop (actual rows=4 loops=202)
+                                                                       ->  Index Scan using partsupp_pkey_102234 on partsupp_102234 partsupp_1 (actual rows=4 loops=202)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=808)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=808)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=808)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=75 loops=1)
+                           ->  Sort (actual rows=75 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Hash Join (actual rows=75 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25109 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102210 partsupp (actual rows=125092 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=75 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102178 part (actual rows=128 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31145
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=203)
+                                                     ->  Nested Loop (actual rows=1 loops=203)
+                                                           ->  Nested Loop (actual rows=4 loops=203)
+                                                                 ->  Nested Loop (actual rows=4 loops=203)
+                                                                       ->  Index Scan using partsupp_pkey_102210 on partsupp_102210 partsupp_1 (actual rows=4 loops=203)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=812)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=812)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=812)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 15 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=78 loops=1)
+                           ->  Sort (actual rows=78 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Hash Join (actual rows=78 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24904 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102222 partsupp (actual rows=124756 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=78 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102190 part (actual rows=129 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31060
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=207)
+                                                     ->  Nested Loop (actual rows=1 loops=207)
+                                                           ->  Nested Loop (actual rows=4 loops=207)
+                                                                 ->  Nested Loop (actual rows=4 loops=207)
+                                                                       ->  Index Scan using partsupp_pkey_102222 on partsupp_102222 partsupp_1 (actual rows=4 loops=207)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=828)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=828)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=828)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=74 loops=1)
+                           ->  Sort (actual rows=74 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Hash Join (actual rows=74 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25164 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102208 partsupp (actual rows=125560 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=74 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102176 part (actual rows=127 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31263
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=201)
+                                                     ->  Nested Loop (actual rows=1 loops=201)
+                                                           ->  Nested Loop (actual rows=4 loops=201)
+                                                                 ->  Nested Loop (actual rows=4 loops=201)
+                                                                       ->  Index Scan using partsupp_pkey_102208 on partsupp_102208 partsupp_1 (actual rows=4 loops=201)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=804)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=804)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=804)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 18 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=95 loops=1)
+                           ->  Sort (actual rows=95 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 49kB
+                                 ->  Hash Join (actual rows=95 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25149 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102226 partsupp (actual rows=125012 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=95 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 14kB
+                                             ->  Seq Scan on part_102194 part (actual rows=150 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31103
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=245)
+                                                     ->  Nested Loop (actual rows=1 loops=245)
+                                                           ->  Nested Loop (actual rows=4 loops=245)
+                                                                 ->  Nested Loop (actual rows=4 loops=245)
+                                                                       ->  Index Scan using partsupp_pkey_102226 on partsupp_102226 partsupp_1 (actual rows=4 loops=245)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=980)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=980)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=980)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 15 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=77 loops=1)
+                           ->  Sort (actual rows=77 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 45kB
+                                 ->  Hash Join (actual rows=77 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25077 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102228 partsupp (actual rows=125752 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=77 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102196 part (actual rows=123 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31315
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=200)
+                                                     ->  Nested Loop (actual rows=1 loops=200)
+                                                           ->  Nested Loop (actual rows=4 loops=200)
+                                                                 ->  Nested Loop (actual rows=4 loops=200)
+                                                                       ->  Index Scan using partsupp_pkey_102228 on partsupp_102228 partsupp_1 (actual rows=4 loops=200)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=800)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=800)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=800)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=63 loops=1)
+                           ->  Sort (actual rows=63 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Hash Join (actual rows=63 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24888 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102232 partsupp (actual rows=124212 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=63 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                             ->  Seq Scan on part_102200 part (actual rows=116 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 30937
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=179)
+                                                     ->  Nested Loop (actual rows=1 loops=179)
+                                                           ->  Nested Loop (actual rows=4 loops=179)
+                                                                 ->  Nested Loop (actual rows=4 loops=179)
+                                                                       ->  Index Scan using partsupp_pkey_102232 on partsupp_102232 partsupp_1 (actual rows=4 loops=179)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=716)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=716)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=716)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=70 loops=1)
+                           ->  Sort (actual rows=70 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Hash Join (actual rows=70 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24745 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102230 partsupp (actual rows=124064 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=70 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102198 part (actual rows=113 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 30903
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=183)
+                                                     ->  Nested Loop (actual rows=1 loops=183)
+                                                           ->  Nested Loop (actual rows=4 loops=183)
+                                                                 ->  Nested Loop (actual rows=4 loops=183)
+                                                                       ->  Index Scan using partsupp_pkey_102230 on partsupp_102230 partsupp_1 (actual rows=4 loops=183)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=732)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=732)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=732)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=63 loops=1)
+                           ->  Sort (actual rows=63 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Hash Join (actual rows=63 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24981 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102212 partsupp (actual rows=124640 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=63 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                             ->  Seq Scan on part_102180 part (actual rows=115 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31045
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=178)
+                                                     ->  Nested Loop (actual rows=1 loops=178)
+                                                           ->  Nested Loop (actual rows=4 loops=178)
+                                                                 ->  Nested Loop (actual rows=4 loops=178)
+                                                                       ->  Index Scan using partsupp_pkey_102212 on partsupp_102212 partsupp_1 (actual rows=4 loops=178)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=712)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=712)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=712)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 16 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=84 loops=1)
+                           ->  Sort (actual rows=84 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 46kB
+                                 ->  Hash Join (actual rows=84 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24970 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102206 partsupp (actual rows=124880 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=84 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 14kB
+                                             ->  Seq Scan on part_102174 part (actual rows=129 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31091
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=213)
+                                                     ->  Nested Loop (actual rows=1 loops=213)
+                                                           ->  Nested Loop (actual rows=4 loops=213)
+                                                                 ->  Nested Loop (actual rows=4 loops=213)
+                                                                       ->  Index Scan using partsupp_pkey_102206 on partsupp_102206 partsupp_1 (actual rows=4 loops=213)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=852)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=852)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=852)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=65 loops=1)
+                           ->  Sort (actual rows=65 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 42kB
+                                 ->  Hash Join (actual rows=65 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25036 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102224 partsupp (actual rows=125008 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=65 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                             ->  Seq Scan on part_102192 part (actual rows=113 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31139
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=178)
+                                                     ->  Nested Loop (actual rows=1 loops=178)
+                                                           ->  Nested Loop (actual rows=4 loops=178)
+                                                                 ->  Nested Loop (actual rows=4 loops=178)
+                                                                       ->  Index Scan using partsupp_pkey_102224 on partsupp_102224 partsupp_1 (actual rows=4 loops=178)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=712)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=712)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=712)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.58 port=5432 dbname=tpch
+                     ->  Limit (actual rows=76 loops=1)
+                           ->  Sort (actual rows=76 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 44kB
+                                 ->  Hash Join (actual rows=76 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24905 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102204 partsupp (actual rows=125540 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=76 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102172 part (actual rows=124 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31261
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=200)
+                                                     ->  Nested Loop (actual rows=1 loops=200)
+                                                           ->  Nested Loop (actual rows=4 loops=200)
+                                                                 ->  Nested Loop (actual rows=4 loops=200)
+                                                                       ->  Index Scan using partsupp_pkey_102204 on partsupp_102204 partsupp_1 (actual rows=4 loops=200)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=800)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=800)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=800)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=73 loops=1)
+                           ->  Sort (actual rows=73 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 44kB
+                                 ->  Hash Join (actual rows=73 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24831 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102213 partsupp (actual rows=124844 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=73 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102181 part (actual rows=125 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31086
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=198)
+                                                     ->  Nested Loop (actual rows=1 loops=198)
+                                                           ->  Nested Loop (actual rows=4 loops=198)
+                                                                 ->  Nested Loop (actual rows=4 loops=198)
+                                                                       ->  Index Scan using partsupp_pkey_102213 on partsupp_102213 partsupp_1 (actual rows=4 loops=198)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=792)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=792)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=792)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=70 loops=1)
+                           ->  Sort (actual rows=70 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Hash Join (actual rows=70 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24901 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102217 partsupp (actual rows=124916 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=70 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102185 part (actual rows=126 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31103
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=196)
+                                                     ->  Nested Loop (actual rows=1 loops=196)
+                                                           ->  Nested Loop (actual rows=4 loops=196)
+                                                                 ->  Nested Loop (actual rows=4 loops=196)
+                                                                       ->  Index Scan using partsupp_pkey_102217 on partsupp_102217 partsupp_1 (actual rows=4 loops=196)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=784)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=784)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=784)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=67 loops=1)
+                           ->  Sort (actual rows=67 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 42kB
+                                 ->  Hash Join (actual rows=67 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25077 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102223 partsupp (actual rows=125160 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=67 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102191 part (actual rows=122 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31168
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=189)
+                                                     ->  Nested Loop (actual rows=1 loops=189)
+                                                           ->  Nested Loop (actual rows=4 loops=189)
+                                                                 ->  Nested Loop (actual rows=4 loops=189)
+                                                                       ->  Index Scan using partsupp_pkey_102223 on partsupp_102223 partsupp_1 (actual rows=4 loops=189)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=756)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=756)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=756)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=70 loops=1)
+                           ->  Sort (actual rows=70 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Hash Join (actual rows=70 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25044 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102229 partsupp (actual rows=124852 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=70 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102197 part (actual rows=114 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31099
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=184)
+                                                     ->  Nested Loop (actual rows=1 loops=184)
+                                                           ->  Nested Loop (actual rows=4 loops=184)
+                                                                 ->  Nested Loop (actual rows=4 loops=184)
+                                                                       ->  Index Scan using partsupp_pkey_102229 on partsupp_102229 partsupp_1 (actual rows=4 loops=184)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=736)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=736)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=736)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=63 loops=1)
+                           ->  Sort (actual rows=63 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Hash Join (actual rows=63 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24968 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102231 partsupp (actual rows=125036 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=63 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                             ->  Seq Scan on part_102199 part (actual rows=115 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31144
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=178)
+                                                     ->  Nested Loop (actual rows=1 loops=178)
+                                                           ->  Nested Loop (actual rows=4 loops=178)
+                                                                 ->  Nested Loop (actual rows=4 loops=178)
+                                                                       ->  Index Scan using partsupp_pkey_102231 on partsupp_102231 partsupp_1 (actual rows=4 loops=178)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=712)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=712)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=712)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 19 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=100 loops=1)
+                           ->  Sort (actual rows=100 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 52kB
+                                 ->  Hash Join (actual rows=105 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24890 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102225 partsupp (actual rows=125264 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=105 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 15kB
+                                             ->  Seq Scan on part_102193 part (actual rows=160 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31156
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=265)
+                                                     ->  Nested Loop (actual rows=1 loops=265)
+                                                           ->  Nested Loop (actual rows=4 loops=265)
+                                                                 ->  Nested Loop (actual rows=4 loops=265)
+                                                                       ->  Index Scan using partsupp_pkey_102225 on partsupp_102225 partsupp_1 (actual rows=4 loops=265)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=1060)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=1060)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=1060)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 16 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=85 loops=1)
+                           ->  Sort (actual rows=85 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 47kB
+                                 ->  Hash Join (actual rows=85 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25038 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102227 partsupp (actual rows=124136 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=85 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 14kB
+                                             ->  Seq Scan on part_102195 part (actual rows=138 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 30896
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=223)
+                                                     ->  Nested Loop (actual rows=1 loops=223)
+                                                           ->  Nested Loop (actual rows=4 loops=223)
+                                                                 ->  Nested Loop (actual rows=4 loops=223)
+                                                                       ->  Index Scan using partsupp_pkey_102227 on partsupp_102227 partsupp_1 (actual rows=4 loops=223)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=892)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=892)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=892)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 11 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=61 loops=1)
+                           ->  Sort (actual rows=61 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 40kB
+                                 ->  Hash Join (actual rows=61 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25047 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102221 partsupp (actual rows=125492 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=61 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                             ->  Seq Scan on part_102189 part (actual rows=110 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31263
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=171)
+                                                     ->  Nested Loop (actual rows=1 loops=171)
+                                                           ->  Nested Loop (actual rows=4 loops=171)
+                                                                 ->  Nested Loop (actual rows=4 loops=171)
+                                                                       ->  Index Scan using partsupp_pkey_102221 on partsupp_102221 partsupp_1 (actual rows=4 loops=171)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=684)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=684)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=684)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=73 loops=1)
+                           ->  Sort (actual rows=73 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 44kB
+                                 ->  Hash Join (actual rows=73 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24945 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102233 partsupp (actual rows=125100 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=73 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102201 part (actual rows=126 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31149
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=199)
+                                                     ->  Nested Loop (actual rows=1 loops=199)
+                                                           ->  Nested Loop (actual rows=4 loops=199)
+                                                                 ->  Nested Loop (actual rows=4 loops=199)
+                                                                       ->  Index Scan using partsupp_pkey_102233 on partsupp_102233 partsupp_1 (actual rows=4 loops=199)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=796)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=796)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=796)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=73 loops=1)
+                           ->  Sort (actual rows=73 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 44kB
+                                 ->  Hash Join (actual rows=73 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25216 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102215 partsupp (actual rows=124972 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=73 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102183 part (actual rows=118 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31125
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=191)
+                                                     ->  Nested Loop (actual rows=1 loops=191)
+                                                           ->  Nested Loop (actual rows=4 loops=191)
+                                                                 ->  Nested Loop (actual rows=4 loops=191)
+                                                                       ->  Index Scan using partsupp_pkey_102215 on partsupp_102215 partsupp_1 (actual rows=4 loops=191)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=764)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=764)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=764)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 11 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=62 loops=1)
+                           ->  Sort (actual rows=62 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Hash Join (actual rows=62 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25069 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102219 partsupp (actual rows=125012 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=62 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                             ->  Seq Scan on part_102187 part (actual rows=116 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31137
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=178)
+                                                     ->  Nested Loop (actual rows=1 loops=178)
+                                                           ->  Nested Loop (actual rows=4 loops=178)
+                                                                 ->  Nested Loop (actual rows=4 loops=178)
+                                                                       ->  Index Scan using partsupp_pkey_102219 on partsupp_102219 partsupp_1 (actual rows=4 loops=178)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=712)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=712)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=712)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=69 loops=1)
+                           ->  Sort (actual rows=69 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Hash Join (actual rows=69 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24849 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102211 partsupp (actual rows=124912 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=69 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102179 part (actual rows=120 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31108
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=189)
+                                                     ->  Nested Loop (actual rows=1 loops=189)
+                                                           ->  Nested Loop (actual rows=4 loops=189)
+                                                                 ->  Nested Loop (actual rows=4 loops=189)
+                                                                       ->  Index Scan using partsupp_pkey_102211 on partsupp_102211 partsupp_1 (actual rows=4 loops=189)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=756)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=756)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=756)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 14 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=72 loops=1)
+                           ->  Sort (actual rows=72 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Hash Join (actual rows=72 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24540 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102209 partsupp (actual rows=122980 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=72 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102177 part (actual rows=122 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 30623
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=194)
+                                                     ->  Nested Loop (actual rows=1 loops=194)
+                                                           ->  Nested Loop (actual rows=4 loops=194)
+                                                                 ->  Nested Loop (actual rows=4 loops=194)
+                                                                       ->  Index Scan using partsupp_pkey_102209 on partsupp_102209 partsupp_1 (actual rows=4 loops=194)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=776)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=776)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=776)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=67 loops=1)
+                           ->  Sort (actual rows=67 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 42kB
+                                 ->  Hash Join (actual rows=67 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=24926 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102205 partsupp (actual rows=125168 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=67 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102173 part (actual rows=120 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31172
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=187)
+                                                     ->  Nested Loop (actual rows=1 loops=187)
+                                                           ->  Nested Loop (actual rows=4 loops=187)
+                                                                 ->  Nested Loop (actual rows=4 loops=187)
+                                                                       ->  Index Scan using partsupp_pkey_102205 on partsupp_102205 partsupp_1 (actual rows=4 loops=187)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=748)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=748)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=748)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 12 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=63 loops=1)
+                           ->  Sort (actual rows=63 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 41kB
+                                 ->  Hash Join (actual rows=63 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25110 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102207 partsupp (actual rows=125376 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=63 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                             ->  Seq Scan on part_102175 part (actual rows=115 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31229
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=178)
+                                                     ->  Nested Loop (actual rows=1 loops=178)
+                                                           ->  Nested Loop (actual rows=4 loops=178)
+                                                                 ->  Nested Loop (actual rows=4 loops=178)
+                                                                       ->  Index Scan using partsupp_pkey_102207 on partsupp_102207 partsupp_1 (actual rows=4 loops=178)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=712)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=712)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=712)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+               ->  Task
+                     Tuple data received from node: 13 kB
+                     Node: host=192.168.1.19 port=5432 dbname=tpch
+                     ->  Limit (actual rows=70 loops=1)
+                           ->  Sort (actual rows=70 loops=1)
+                                 Sort Key: supplier.s_acctbal DESC, nation.n_name, supplier.s_name, part.p_partkey
+                                 Sort Method: quicksort  Memory: 43kB
+                                 ->  Hash Join (actual rows=70 loops=1)
+                                       Hash Cond: ((partsupp.ps_partkey = part.p_partkey) AND (partsupp.ps_supplycost = (SubPlan 1)))
+                                       ->  Hash Join (actual rows=25336 loops=1)
+                                             Hash Cond: (partsupp.ps_suppkey = supplier.s_suppkey)
+                                             ->  Seq Scan on partsupp_102203 partsupp (actual rows=126200 loops=1)
+                                             ->  Hash (actual rows=9998 loops=1)
+                                                   Buckets: 16384 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 2100kB
+                                                   ->  Hash Join (actual rows=9998 loops=1)
+                                                         Hash Cond: (supplier.s_nationkey = nation.n_nationkey)
+                                                         ->  Seq Scan on supplier_102010 supplier (actual rows=50000 loops=1)
+                                                         ->  Hash (actual rows=5 loops=1)
+                                                               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                               ->  Hash Join (actual rows=5 loops=1)
+                                                                     Hash Cond: (nation.n_regionkey = region.r_regionkey)
+                                                                     ->  Seq Scan on nation_102008 nation (actual rows=25 loops=1)
+                                                                     ->  Hash (actual rows=1 loops=1)
+                                                                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                           ->  Seq Scan on region_102009 region (actual rows=1 loops=1)
+                                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                                 Rows Removed by Filter: 4
+                                       ->  Hash (actual rows=70 loops=1)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                             ->  Seq Scan on part_102171 part (actual rows=132 loops=1)
+                                                   Filter: (((p_type)::text ~~ '%BRASS'::text) AND (p_size = 15))
+                                                   Rows Removed by Filter: 31418
+                                             SubPlan 1
+                                               ->  Aggregate (actual rows=1 loops=202)
+                                                     ->  Nested Loop (actual rows=1 loops=202)
+                                                           ->  Nested Loop (actual rows=4 loops=202)
+                                                                 ->  Nested Loop (actual rows=4 loops=202)
+                                                                       ->  Index Scan using partsupp_pkey_102203 on partsupp_102203 partsupp_1 (actual rows=4 loops=202)
+                                                                             Index Cond: (ps_partkey = part.p_partkey)
+                                                                       ->  Index Scan using supplier_pkey_102010 on supplier_102010 supplier_1 (actual rows=1 loops=808)
+                                                                             Index Cond: (s_suppkey = partsupp_1.ps_suppkey)
+                                                                 ->  Index Scan using nation_pkey_102008 on nation_102008 nation_1 (actual rows=1 loops=808)
+                                                                       Index Cond: (n_nationkey = supplier_1.s_nationkey)
+                                                           ->  Index Scan using region_pkey_102009 on region_102009 region_1 (actual rows=0 loops=808)
+                                                                 Index Cond: (r_regionkey = nation_1.n_regionkey)
+                                                                 Filter: (r_name = 'EUROPE'::bpchar)
+                                                                 Rows Removed by Filter: 1
+(1512 rows)
+

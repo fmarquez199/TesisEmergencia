@@ -1,0 +1,20 @@
+                                                             QUERY PLAN                                                              
+-------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=2660.96..2661.01 rows=20 width=640) (actual time=1322.387..1322.389 rows=20 loops=1)
+   ->  Sort  (cost=2660.96..2910.96 rows=100000 width=640) (actual time=1322.386..1322.387 rows=20 loops=1)
+         Sort Key: remote_scan.revenue DESC
+         Sort Method: top-N heapsort  Memory: 32kB
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=640) (actual time=1322.285..1322.296 rows=320 loops=1)
+               Task Count: 16
+               Tuple data received from nodes: 58 kB
+               Tasks Shown: None, not supported for re-partition queries
+               ->  MapMergeJob
+                     Map Task Count: 32
+                     Merge Task Count: 16
+               ->  MapMergeJob
+                     Map Task Count: 32
+                     Merge Task Count: 16
+ Planning Time: 8.775 ms
+ Execution Time: 1322.671 ms
+(16 filas)
+

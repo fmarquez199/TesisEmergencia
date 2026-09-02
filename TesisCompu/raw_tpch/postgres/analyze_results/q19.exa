@@ -1,0 +1,17 @@
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=250.00..250.01 rows=1 width=32) (actual time=986.922..986.923 rows=1 loops=1)
+   ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=32) (actual time=986.912..986.914 rows=16 loops=1)
+         Task Count: 16
+         Tuple data received from nodes: 224 bytes
+         Tasks Shown: None, not supported for re-partition queries
+         ->  MapMergeJob
+               Map Task Count: 32
+               Merge Task Count: 16
+         ->  MapMergeJob
+               Map Task Count: 32
+               Merge Task Count: 16
+ Planning Time: 8.112 ms
+ Execution Time: 987.235 ms
+(13 filas)
+

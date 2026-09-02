@@ -1,0 +1,11 @@
+\babel@toc {spanish}{}\relax 
+\beamer@sectionintoc {1}{El problema}{3}{0}{1}
+\beamer@sectionintoc {2}{Marco teórico}{9}{0}{2}
+\beamer@sectionintoc {3}{Marco Tecnológico y Metodología Experimental}{18}{0}{3}
+\beamer@sectionintoc {4}{Resultados}{21}{0}{4}
+\beamer@subsectionintoc {4}{1}{Tamaño de la base de datos}{22}{0}{4}
+\beamer@subsectionintoc {4}{2}{Rendimiento}{23}{0}{4}
+\beamer@subsectionintoc {4}{3}{Consumo neto}{33}{0}{4}
+\beamer@subsectionintoc {4}{4}{Consumo del coordinador}{42}{0}{4}
+\beamer@subsectionintoc {4}{5}{Pruebas estadísticas}{45}{0}{4}
+\beamer@sectionintoc {5}{Conclusiones y recomendaciones}{48}{0}{5}

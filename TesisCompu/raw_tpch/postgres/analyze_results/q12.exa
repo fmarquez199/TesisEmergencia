@@ -1,0 +1,39 @@
+                                                                                                                                        QUERY PLAN                                                                                                                                        
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=761.64..762.14 rows=200 width=60) (actual time=147.951..147.952 rows=2 loops=1)
+   Sort Key: remote_scan.l_shipmode
+   Sort Method: quicksort  Memory: 25kB
+   ->  HashAggregate  (cost=750.00..754.00 rows=200 width=60) (actual time=147.927..147.929 rows=2 loops=1)
+         Group Key: remote_scan.l_shipmode
+         Batches: 1  Memory Usage: 40kB
+         ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=60) (actual time=147.905..147.909 rows=64 loops=1)
+               Task Count: 32
+               Tuple data received from nodes: 1664 bytes
+               Tasks Shown: One of 32
+               ->  Task
+                     Tuple data received from node: 52 bytes
+                     Node: host=159.90.9.13 port=5432 dbname=raw_tpch
+                     ->  Finalize GroupAggregate  (cost=8400.06..8409.00 rows=7 width=27) (actual time=70.150..70.194 rows=2 loops=1)
+                           Group Key: lineitem.l_shipmode
+                           ->  Gather Merge  (cost=8400.06..8408.83 rows=14 width=27) (actual time=70.044..70.190 rows=2 loops=1)
+                                 Workers Planned: 2
+                                 Workers Launched: 0
+                                 ->  Partial GroupAggregate  (cost=7400.04..7407.19 rows=7 width=27) (actual time=69.371..69.475 rows=2 loops=1)
+                                       Group Key: lineitem.l_shipmode
+                                       ->  Sort  (cost=7400.04..7400.92 rows=354 width=27) (actual time=69.259..69.289 rows=1025 loops=1)
+                                             Sort Key: lineitem.l_shipmode
+                                             Sort Method: quicksort  Memory: 105kB
+                                             ->  Hash Join  (cost=1892.37..7385.05 rows=354 width=27) (actual time=25.695..68.908 rows=1025 loops=1)
+                                                   Hash Cond: (lineitem.l_orderkey = orders.o_orderkey)
+                                                   ->  Parallel Seq Scan on lineitem_102357 lineitem  (cost=0.00..5487.81 rows=354 width=15) (actual time=0.048..42.650 rows=1025 loops=1)
+                                                         Filter: ((l_commitdate < l_receiptdate) AND (l_shipdate < l_commitdate) AND (l_receiptdate >= '1994-01-01'::date) AND (l_receiptdate < '1995-01-01'::date) AND ((l_shipmode = 'MAIL'::bpchar) OR (l_shipmode = 'SHIP'::bpchar)))
+                                                         Rows Removed by Filter: 186733
+                                                   ->  Hash  (cost=1307.72..1307.72 rows=46772 width=20) (actual time=25.358..25.358 rows=46772 loops=1)
+                                                         Buckets: 65536  Batches: 1  Memory Usage: 2888kB
+                                                         ->  Seq Scan on orders_102453 orders  (cost=0.00..1307.72 rows=46772 width=20) (actual time=0.013..12.487 rows=46772 loops=1)
+                         Planning Time: 0.844 ms
+                         Execution Time: 70.854 ms
+ Planning Time: 3.118 ms
+ Execution Time: 148.049 ms
+(35 filas)
+

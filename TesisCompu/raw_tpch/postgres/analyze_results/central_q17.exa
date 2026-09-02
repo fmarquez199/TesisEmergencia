@@ -1,0 +1,29 @@
+                                                                  QUERY PLAN                                                                  
+----------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=1109197821.48..1109197821.49 rows=1 width=32) (actual time=4935590.834..4935590.979 rows=1 loops=1)
+   ->  Hash Join  (cost=6400.16..1109197816.55 rows=1970 width=8) (actual time=3600.356..4935590.206 rows=587 loops=1)
+         Hash Cond: (lineitem.l_partkey = part.p_partkey)
+         Join Filter: (lineitem.l_quantity < (SubPlan 1))
+         Rows Removed by Join Filter: 5501
+         ->  Seq Scan on lineitem  (cost=0.00..172612.46 rows=6001246 width=17) (actual time=0.025..1030.573 rows=6001215 loops=1)
+         ->  Hash  (cost=6397.70..6397.70 rows=197 width=4) (actual time=447.563..447.703 rows=204 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 16kB
+               ->  Gather  (cost=1000.00..6397.70 rows=197 width=4) (actual time=447.497..447.656 rows=204 loops=1)
+                     Workers Planned: 2
+                     Workers Launched: 2
+                     ->  Parallel Seq Scan on part  (cost=0.00..5378.00 rows=82 width=4) (actual time=289.506..305.117 rows=68 loops=3)
+                           Filter: ((p_brand = 'Brand#23'::bpchar) AND (p_container = 'MED BOX'::bpchar))
+                           Rows Removed by Filter: 66599
+         SubPlan 1
+           ->  Aggregate  (cost=187615.66..187615.67 rows=1 width=32) (actual time=810.322..810.322 rows=1 loops=6088)
+                 ->  Seq Scan on lineitem lineitem_1  (cost=0.00..187615.58 rows=32 width=5) (actual time=27.748..810.244 rows=31 loops=6088)
+                       Filter: (l_partkey = part.p_partkey)
+                       Rows Removed by Filter: 6001184
+ Planning Time: 0.740 ms
+ JIT:
+   Functions: 32
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 2.444 ms, Inlining 494.010 ms, Optimization 239.743 ms, Emission 133.800 ms, Total 869.996 ms
+ Execution Time: 4935610.355 ms
+(25 rows)
+

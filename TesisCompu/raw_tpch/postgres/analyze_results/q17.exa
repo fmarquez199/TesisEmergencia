@@ -1,0 +1,36 @@
+                                                                                    QUERY PLAN                                                                                    
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=250.00..250.01 rows=1 width=32) (actual time=5627.013..5627.015 rows=1 loops=1)
+   ->  Custom Scan (Citus Adaptive)  (cost=0.00..0.00 rows=100000 width=32) (actual time=5626.966..5626.977 rows=32 loops=1)
+         Task Count: 32
+         Tuple data received from nodes: 446 bytes
+         Tasks Shown: One of 32
+         ->  Task
+               Tuple data received from node: 14 bytes
+               Node: host=159.90.9.11 port=5432 dbname=raw_tpch
+               ->  Aggregate  (cost=1060649.16..1060649.17 rows=1 width=32) (actual time=5535.013..5535.015 rows=1 loops=1)
+                     ->  Hash Join  (cost=219.94..1060649.01 rows=60 width=8) (actual time=287.994..5534.965 rows=24 loops=1)
+                           Hash Cond: (lineitem_by_part.l_partkey = part.p_partkey)
+                           Join Filter: (lineitem_by_part.l_quantity < (SubPlan 1))
+                           Rows Removed by Join Filter: 288
+                           ->  Seq Scan on lineitem_by_part_102427 lineitem_by_part  (cost=0.00..5392.27 rows=186027 width=17) (actual time=0.027..17.632 rows=186027 loops=1)
+                           ->  Hash  (cost=219.87..219.87 rows=6 width=4) (actual time=255.438..255.439 rows=10 loops=1)
+                                 Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                 ->  Seq Scan on part_102555 part  (cost=0.00..219.87 rows=6 width=4) (actual time=254.083..255.424 rows=10 loops=1)
+                                       Filter: ((p_brand = 'Brand#23'::bpchar) AND (p_container = 'MED BOX'::bpchar))
+                                       Rows Removed by Filter: 6181
+                           SubPlan 1
+                             ->  Aggregate  (cost=5857.41..5857.43 rows=1 width=32) (actual time=16.810..16.811 rows=1 loops=312)
+                                   ->  Seq Scan on lineitem_by_part_102427 lineitem_by_part_1  (cost=0.00..5857.34 rows=30 width=5) (actual time=0.445..16.782 rows=32 loops=312)
+                                         Filter: (l_partkey = part.p_partkey)
+                                         Rows Removed by Filter: 185995
+                   Planning Time: 1.052 ms
+                   JIT:
+                     Functions: 24
+                     Options: Inlining true, Optimization true, Expressions true, Deforming true
+                     Timing: Generation 1.155 ms, Inlining 89.938 ms, Optimization 96.051 ms, Emission 68.047 ms, Total 255.190 ms
+                   Execution Time: 5558.108 ms
+ Planning Time: 2.749 ms
+ Execution Time: 5627.273 ms
+(32 filas)
+

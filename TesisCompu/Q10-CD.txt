@@ -1,0 +1,19 @@
+SET
+                               QUERY PLAN                                
+-------------------------------------------------------------------------
+ Limit (actual rows=20 loops=1)
+   ->  Sort (actual rows=20 loops=1)
+         Sort Key: remote_scan.revenue DESC
+         Sort Method: top-N heapsort  Memory: 32kB
+         ->  Custom Scan (Citus Adaptive) (actual rows=240 loops=1)
+               Task Count: 12
+               Tuple data received from nodes: 44 kB
+               Tasks Shown: None, not supported for re-partition queries
+               ->  MapMergeJob
+                     Map Task Count: 32
+                     Merge Task Count: 12
+               ->  MapMergeJob
+                     Map Task Count: 32
+                     Merge Task Count: 12
+(14 rows)
+
